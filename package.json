@@ -1,0 +1,46 @@
+{
+  "name": "irisql",
+  "version": "1.0.0",
+  "description": "GraphQL Schema prototyping tool",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "NODE_ENV=production webpack",
+    "dev": "NODE_ENV=development concurrently \"nodemon server/server.js\" \"webpack-dev-server --open\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oslabs-beta/irisql.git"
+  },
+  "author": "Alex Kim, Binish Ali, Liam McBride, Ronnie Zhang, Stefan Pougatchev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/irisql/issues"
+  },
+  "homepage": "https://github.com/oslabs-beta/irisql#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "concurrently": "^5.3.0",
+    "css-loader": "^4.3.0",
+    "nodemon": "^2.0.4",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
