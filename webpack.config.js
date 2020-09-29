@@ -29,8 +29,12 @@ module.exports = {
           'css-loader',
           'sass-loader'
           ]
-      }
-    ]
+      }, 
+      {
+        test: /.(png|jpg|woff|woff2|eot|ttf|svg|gif)$/,
+        loader: 'url-loader?limit=1024000',
+      },
+    ],
   },
   devServer: {
     publicPath: '/build/',
