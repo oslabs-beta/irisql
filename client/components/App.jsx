@@ -1,16 +1,33 @@
-import React, { Component } from 'react'
-import Button from 'react-bootstrap/Button'
-import HeaderNav from './NavBar'
+import React, { Component } from 'react';
+import HeaderNav from './HeaderNav';
+import LandingPage from './LandingPage';
+import PrototyperPage from './PrototyperPage';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 
 export default class App extends Component {
   render() {
     return (
-      <div>
-        <HeaderNav />
-      </div>
+      <BrowserRouter>
+        <div className='main-container'>
+          <header>
+            <HeaderNav />
+          </header>  
+          <main>
+            <Switch>
+              <Route exact path='/'>
+                <LandingPage />
+              </Route>
+              <Route path='/prototyper'>
+                <PrototyperPage />
+              </Route>
+            </Switch>
+          </main>
+        </div>
+      </BrowserRouter>
+      
     )
   }
 }
 
-// export default App
+
