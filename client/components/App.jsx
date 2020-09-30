@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
 import HeaderNav from './HeaderNav';
 import LandingPage from './LandingPage';
 import PrototyperPage from './PrototyperPage';
