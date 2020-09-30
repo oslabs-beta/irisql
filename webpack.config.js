@@ -9,6 +9,16 @@ module.exports = {
     // allows you to specify the base path for all the assets within our application
     publicPath: '/'
   },
+  devServer: {
+    publicPath: '/build/',
+    hot: true,
+    contentBase: path.resolve(__dirname, './client'),
+    // redirect 404s to /index.html.
+    historyApiFallback: true,
+    proxy: {
+      '/': 'http://localhost:3000/',
+    },
+  },
   module: {
     rules: [
       {
@@ -35,18 +45,6 @@ module.exports = {
         loader: 'url-loader?limit=1024000',
       },
     ],
-  },
-  devServer: {
-    publicPath: '/build/',
-    contentBase: path.join(__dirname, './client'),
-    // redirect 404s to /index.html.
-    historyApiFallback: true,
-    proxy: {
-      '/': {
-        target: 'http://localhost:3000/',
-        secure: false,
-      },
-    },
   },
   resolve: {
     extensions: ['.js', '.jsx']
