@@ -2,12 +2,12 @@
 
 // function to generate code for requiring the GraphQL module
 const requireGraphQL = () => {
-    return `const graphql = require('graphql')`
-  }
-  
-  // function to generate code for destructing GraphQLSchema and GraphQL types
-  const requireGraphQLProps = () => {
-    return `\n
+  return `const graphql = require('graphql')`;
+};
+
+// function to generate code for destructing GraphQLSchema and GraphQL types
+const requireGraphQLProps = () => {
+  return `\n
   const { 
     GraphQLSchema, 
     GraphQLObjectType,
@@ -18,17 +18,30 @@ const requireGraphQL = () => {
     GraphQLBoolean,
     GraphQLList,
     GraphQLNonNull, 
-  } = graphql;`
-  }
+  } = graphql;`;
+};
+
+const objectType = () => {
+  let string = `\n 
+const objectType = new GraphQLObjectType({
+  name: '',
+  fields: {
   
-  // function to generate code for root query
-  const rootQuery = () => {
-    let string = `\n
+  }
+})`;
+  return string;
+};
+
+// function to generate code for root query
+const rootQuery = () => {
+  let string = `\n
   const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
   
     }
-  }) `
-    return string;
-  }
+  }) `;
+  return string;
+};
+
+
