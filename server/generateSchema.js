@@ -1,15 +1,5 @@
 // define functions for generating a GraphQL schema
-const {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLID,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLFloat,
-  GraphQLBoolean,
-  GraphQLList,
-  GraphQLNonNull,
-} = "graphql";
+
 // function to generate code for requiring the GraphQL module
 const requireGraphQL = () => {
   return `const graphql = require('graphql')`;
@@ -54,17 +44,4 @@ const rootQuery = () => {
   return string;
 };
 
-const setUp = () => {
-  let string = ``;
-  string += requireGraphQL();
-  string += requireGraphQLProps();
-  string += rootQuery();
-  return string;
-};
 
-module.exports = {
-  requireGraphQL,
-  requireGraphQLProps,
-  rootQuery,
-  setUp,
-};
