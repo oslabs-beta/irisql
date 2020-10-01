@@ -1,0 +1,28 @@
+$light-grey: #fafafa;
+$salmon: #ed938f;
+$blue: #0e5679;
+
+.toolbar {
+  flex-direction: column;
+  display: inline-flex;
+  background-color: darken($light-grey, 10%);
+  height: 100%;
+}
+
+.main-container {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+
+header {
+  flex: 0 1 auto;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+.wrapper {
+  height: 100%;
+}

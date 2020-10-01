@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import ToolBar from "./ToolBar";
 
 export default function PrototyperPage() {
   return (
-    <div>
-      This is the PrototyperPage
+    <div className='wrapper'>
+      <ToolBar />
     </div>
-  )
+  );
 }
