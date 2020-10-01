@@ -1,13 +1,24 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: './client/index.js',
+  entry: "./client/index.js",
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "build"),
+    filename: "bundle.js",
     // allows you to specify the base path for all the assets within our application
-    publicPath: '/'
+    publicPath: "/",
+  },
+  devServer: {
+    publicPath: "/build/",
+    // watchContentBase: true,
+    // contentBase: path.resolve(__dirname, './client'),
+    // redirect 404s to /index.html.
+    // historyApiFallback: true,
+    hot: true,
+    proxy: {
+      "/": "http://localhost:3000/",
+    },
   },
   module: {
     rules: [
@@ -15,40 +26,24 @@ module.exports = {
         test: /\.jsx?/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
       },
       {
         test: /\.s[ac]ss$/i,
         exclude: /node_modules/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-          ]
-      }, 
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
       {
         test: /.(png|jpg|woff|woff2|eot|ttf|svg|gif)$/,
-        loader: 'url-loader?limit=1024000',
+        loader: "url-loader?limit=1024000",
       },
     ],
   },
-  devServer: {
-    publicPath: '/build/',
-    contentBase: path.join(__dirname, './client'),
-    // redirect 404s to /index.html.
-    historyApiFallback: true,
-    proxy: {
-      '/': {
-        target: 'http://localhost:3000/',
-        secure: false,
-      },
-    },
-  },
   resolve: {
-    extensions: ['.js', '.jsx']
-  }
-}
+    extensions: [".js", ".jsx"],
+  },
+};
