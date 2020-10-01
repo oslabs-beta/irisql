@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import HeaderNav from './HeaderNav';
-import LandingPage from './LandingPage';
-import PrototyperPage from './PrototyperPage';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-
+import React, { Component } from "react";
+import HeaderNav from "./HeaderNav";
+import LandingPage from "./LandingPage";
+import PrototyperPage from "./PrototyperPage";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import "../styles.scss";
 
 export default class App extends Component {
   render() {
@@ -12,7 +12,7 @@ export default class App extends Component {
         <div className='main-container'>
           <header>
             <HeaderNav />
-          </header>  
+          </header>
           <main>
             <Switch>
               <Route exact path='/'>
@@ -25,9 +25,6 @@ export default class App extends Component {
           </main>
         </div>
       </BrowserRouter>
-      
-    )
+    );
   }
 }
-
-
