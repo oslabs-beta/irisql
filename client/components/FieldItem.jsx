@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { Form, Col, Button, InputGroup, FormControl } from 'react-bootstrap';
 
-function FieldForm (props) {
-
-  const [newField, setNewField] = useState({fieldName:'',fieldType:'String'}); 
-
+const FieldItem  = (props) => {
+  const fieldName = props.info.fieldName;
   return (
     <Form>
   <Form.Row className="align-items-center">
@@ -14,8 +12,8 @@ function FieldForm (props) {
         id="inlineFormInput"
         placeholder="Field Name"
         size="sm"
-        value={newField.fieldName}
-        onChange={(e) => setNewField({...newField,fieldName:e.target.value})}
+        defaultValue={fieldName}
+        onChange={(e) => {props.update(e.target.value)}}
       />
     </Col>
     <Col xs="auto" >
@@ -24,8 +22,7 @@ function FieldForm (props) {
         className="mb-2"
         id="inlineFormCustomSelect"
         size="sm"
-        value={newField.fieldType}
-        onChange={(e) => setNewField({...newField,fieldType:e.target.value})}
+        value={props.info.fieldType}
         custom
       >
         <option value="String">String</option>
@@ -35,11 +32,8 @@ function FieldForm (props) {
       </Form.Control>
     </Col>
     <Col xs="auto">
-      <Button type="submit" className="mb-2" size="sm" onClick={(e) => {
-        props.addField(newField, e)
-        setNewField({fieldName:'',fieldType:'String'})
-        }}>
-        +
+      <Button type="submit" className="mb-2 btn-danger" size="sm">
+        - 
       </Button>
     </Col>
   </Form.Row>
@@ -47,4 +41,4 @@ function FieldForm (props) {
   );
 }
  
-export default FieldForm;
+export default FieldItem;

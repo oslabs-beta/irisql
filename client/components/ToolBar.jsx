@@ -10,15 +10,6 @@ export default function ToolBar() {
     <div className='toolbar'>
       <Nav className='flex-column'>
         <ObjectTypeForm />
-        <Nav.Link>
-          <img src={blue} style={{ height: 50 }} alt='Object type node'></img>
-        </Nav.Link>
-        <Nav.Link eventKey='link-1'>
-          <img src={salmon} style={{ height: 50 }} alt='Field type node'></img>
-        </Nav.Link>
-        <Nav.Link eventKey='link-2'>
-          <img src={arrow} style={{ width: 50 }} alt='Field type node'></img>
-        </Nav.Link>
       </Nav>
     </div>
   );
