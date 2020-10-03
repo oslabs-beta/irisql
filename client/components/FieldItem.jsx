@@ -13,7 +13,7 @@ const FieldItem  = (props) => {
         placeholder="Field Name"
         size="sm"
         defaultValue={fieldName}
-        onChange={(e) => {props.update(e.target.value)}}
+        onChange={(e) => {props.updateFieldName(e.target.value, props.ind)}}
       />
     </Col>
     <Col xs="auto" >
@@ -23,6 +23,7 @@ const FieldItem  = (props) => {
         id="inlineFormCustomSelect"
         size="sm"
         value={props.info.fieldType}
+        onChange={(e) => {props.updateFieldType(e.target.value, props.ind)}}
         custom
       >
         <option value="String">String</option>
