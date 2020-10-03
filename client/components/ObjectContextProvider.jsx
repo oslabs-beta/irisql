@@ -31,16 +31,16 @@ export const ObjectContextProvider = (props) => {
       });
       feed.push(newObj);
     });
-    // console.log(feed);
+    console.log(feed);
 
-    fetch('/api', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(feed)
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+    // fetch('/api', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(feed)
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data))
+    //   .catch((err) => console.log(err));
   });
 
   return (
