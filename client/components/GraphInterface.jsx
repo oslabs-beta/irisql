@@ -101,8 +101,7 @@ export default function GraphInterface(props) {
       strokeColor: 'none',
       strokeWidth: 1.5,
       svg: '',
-      symbolType: 'circle',
-      onClickNode: { onClickNode }
+      symbolType: 'circle'
     },
     link: {
       color: 'lightgray',
@@ -125,17 +124,6 @@ export default function GraphInterface(props) {
     console.log(`Clicked node ${nodeId}`);
   };
 
-  const onDragMove = function (ev, index, nodeList) {
-    console.log(`Triggered event ${ev}`);
-  };
-
-  const onDragStart = function () {
-    console.log(`Drag started`);
-  };
-
-  const onDragEnd = function () {
-    console.log(`Drag ended`);
-  };
   // const onDoubleClickNode = function (nodeId) {
   //   window.alert(`Double clicked node ${nodeId}`);
   // };
@@ -180,9 +168,6 @@ export default function GraphInterface(props) {
       data={data}
       config={myConfig}
       onClickNode={onClickNode}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-      // onDragMove={onDragMove}
       // onDoubleClickNode={onDoubleClickNode}
       // onRightClickNode={onRightClickNode}
       // onClickGraph={onClickGraph}
