@@ -1,4 +1,7 @@
 // define functions for generating a GraphQL schema
+const generateSchema = (input) => {
+
+}
 
 // function to generate code for requiring the GraphQL module
 const requireGraphQL = () => {
@@ -21,19 +24,45 @@ const requireGraphQLProps = () => {
   } = graphql;`;
 };
 
-const objectType = () => {
-  let string = `\n 
-const objectType = new GraphQLObjectType({
-  name: '',
-  fields: {
   
+const createObjectType = (arrOfObj) => {
+
+  return arrOfObj.reduce((acc, curr) => {
+
+  acc += `const ${curr.objectName}Type = new GraphQLObjectType({\n`
+  acc += `  name: '${curr.objectName}',\n`
+  acc += '  fields: () => ({\n'
+
+  for (let key in curr.fields) {
+
+    if (key !== Object.keys(curr.fields)[0]) {
+      acc += `,\n`
+    }
+
+    acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`
+
+    if (curr.fields[key].hasRelation === true) {
+    acc += `,\n` 
+    acc +=`    ${curr.fields[key].relatedObjectName}: {\n`
+    acc +=`      type: ${curr.fields[key].relatedObjectName}Type,\n`
+    acc +='      resolve(parent, args) {\n'
+    acc +=`        return ${curr.fields[key].relatedObjectName}.findById(parent.${curr.fields[key].relatedObjectField});\n`
+    acc +=`      }`
+    acc +=`\n    }`
+    }
   }
-})`;
-  return string;
-};
+  acc +=`\n  })`
+  acc += `  \n});\n\n`
+  
+  return acc;
+
+  }, '')
+
+}
+
 
 // function to generate code for root query
-const rootQuery = () => {
+const createRootQuery = () => {
   let string = `\n
   const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -43,5 +72,4 @@ const rootQuery = () => {
   }) `;
   return string;
 };
-
 
