@@ -3,7 +3,7 @@ import { Graph } from 'react-d3-graph';
 import { ObjectContext } from './ObjectContextProvider';
 
 export default function GraphInterface(props) {
-  const [objectListState, setObjectList] = useContext(ObjectContext);
+  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
   // graph payload (with minimalist structure)
   const data = {
     nodes: objectListState.objects
@@ -66,7 +66,7 @@ export default function GraphInterface(props) {
     directed: true,
     focusAnimationDuration: 0.75,
     focusZoom: 1,
-    height: 400,
+    height: 500,
     highlightDegree: 2,
     highlightOpacity: 0.2,
     linkHighlightBehavior: true,
@@ -76,7 +76,7 @@ export default function GraphInterface(props) {
     panAndZoom: false,
     staticGraph: false,
     staticGraphWithDragAndDrop: false,
-    width: 600,
+    width: 1200,
     d3: {
       alphaTarget: 0.05,
       gravity: -250,
@@ -120,8 +120,13 @@ export default function GraphInterface(props) {
   //   window.alert(`Clicked the graph background`);
   // };
 
+  // Onclick, generate a new objectTypeForm with current Node's objectName and fields
   const onClickNode = function (nodeId) {
-    console.log(`Clicked node ${nodeId}`);
+    // Grab object with state corresponding to node clicked
+    const currentObj = objectListState.objects.filter(obj => obj.objectName === nodeId);
+    console.log('current object:', currentObj);
+    // Changes current node object in global state
+    setNodeObj(currentObj[0]);
   };
 
   // const onDoubleClickNode = function (nodeId) {

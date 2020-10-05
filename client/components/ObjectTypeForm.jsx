@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import FieldForm from './FieldForm';
 import FieldItem from './FieldItem';
@@ -6,7 +6,14 @@ import { ObjectContext } from './ObjectContextProvider';
 
 function ObjectTypeForm() {
   // Gives us access to global state
-  const [objectListState, setObjectList] = useContext(ObjectContext);
+  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
+  console.log('node object:', nodeObj);
+  // Fields is an array of objects with fieldName and fieldType properties
+  const [fields, setFields] = useState([]);
+  // if (nodeObj.objectName) {
+  //   setFields(nodeObj.fields)
+  // }
+  // Adds new object to global state
   const addObject = (e) => {
     e.preventDefault();
     // Get object name from input field
@@ -16,9 +23,11 @@ function ObjectTypeForm() {
     // Add new object list to the objects property of our object list global state
     const stateObject = { objects: newObjectList };
     setObjectList(stateObject);
+    // Clear out local state fields
+    setFields([]);
+    // clear out objectType input 
+    document.getElementById('object-name').value = '';
   };
-  // Fields is an array of objects with fieldName and fieldType properties
-  const [fields, setFields] = useState([]);
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
@@ -51,7 +60,7 @@ function ObjectTypeForm() {
   return (
     <div className='object-form'>
       <Form>
-        <Form.Group controlId='ObjectInfo'>
+        <Form.Group>
           <Form.Row className='row justify-content-center'>
             <Form.Label>Create Object</Form.Label>
           </Form.Row>
@@ -63,6 +72,7 @@ function ObjectTypeForm() {
                 placeholder='Name'
                 id='object-name'
                 style={{ width: 'auto' }}
+                defaultValue={nodeObj.objectName ? nodeObj.objectName : ''}
               />
             </Col>
             <Col xs='auto'>
@@ -81,6 +91,7 @@ function ObjectTypeForm() {
       </Form>
     </div>
   );
+  
 }
 
 export default ObjectTypeForm;

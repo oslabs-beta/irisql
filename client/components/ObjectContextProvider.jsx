@@ -11,7 +11,8 @@ export const ObjectContextProvider = (props) => {
   };
   // objectList will include list of objects with objectNames and a fields array
   const [objectListState, setObjectList] = useState(defaultObjectList);
-
+  // This state only gets changed when a node is clicked, so we can keep track of the current node clicked
+  const [nodeObj, setNodeObj] = useState({});
   useEffect(() => {
     // Creating an array of objects for query creation
     const feed = [];
@@ -31,7 +32,7 @@ export const ObjectContextProvider = (props) => {
       });
       feed.push(newObj);
     });
-    console.log(feed);
+    // console.log(feed);
 
     // fetch('/api', {
     //   method: 'POST',
@@ -44,7 +45,7 @@ export const ObjectContextProvider = (props) => {
   });
 
   return (
-    <ObjectContext.Provider value={[objectListState, setObjectList]}>
+    <ObjectContext.Provider value={[objectListState, setObjectList, nodeObj, setNodeObj]}>
       {props.children}
     </ObjectContext.Provider>
   );
