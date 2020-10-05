@@ -10,14 +10,15 @@ function ObjectTypeForm() {
   console.log('node object:', nodeObj);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
+  // objectName keeps track of current object type name in form
+  const [objectName, setObjectName] = useState('');
   // if (nodeObj.objectName) {
   //   setFields(nodeObj.fields)
   // }
   // Adds new object to global state
   const addObject = (e) => {
     e.preventDefault();
-    // Get object name from input field
-    const objectName = document.getElementById('object-name').value;
+    // Get object name from local state
     // Push new object to object list
     const newObjectList = [...objectListState.objects, { objectName, fields }];
     // Add new object list to the objects property of our object list global state
@@ -26,8 +27,14 @@ function ObjectTypeForm() {
     // Clear out local state fields
     setFields([]);
     // clear out objectType input 
+    setObjectName('');
     document.getElementById('object-name').value = '';
   };
+  // Updates currently clicked Node
+  const updateObject = (e) => {
+    console.log("updating object");
+    
+  }
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
@@ -39,6 +46,19 @@ function ObjectTypeForm() {
     newFields[index].fieldType = inputType;
     setFields([...newFields]);
   };
+  
+  // Allows users to add new field
+  const addField = (fieldItemInput, e) => {
+    setFields([...fields, fieldItemInput]);
+    e.preventDefault();
+    //e.target.value = '';
+  };
+
+  const initInputValue = () => {
+    let objectTypeValue = nodeObj.objectName ? nodeObj.objectName : 'Name';
+    setObjectName(objectTypeValue);
+  }
+  
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
     <FieldItem
@@ -49,13 +69,6 @@ function ObjectTypeForm() {
       updateFieldType={updateFieldType}
     />
   ));
-
-  // Allows users to add new field
-  const addField = (fieldItemInput, e) => {
-    setFields([...fields, fieldItemInput]);
-    e.preventDefault();
-    //e.target.value = '';
-  };
 
   return (
     <div className='object-form'>
@@ -72,7 +85,9 @@ function ObjectTypeForm() {
                 placeholder='Name'
                 id='object-name'
                 style={{ width: 'auto' }}
-                defaultValue={nodeObj.objectName ? nodeObj.objectName : ''}
+                value={objectName}
+                // onChange={(e) => setObjectName(e.target.value)}
+                onChange={initInputValue}
               />
             </Col>
             <Col xs='auto'>
@@ -80,8 +95,8 @@ function ObjectTypeForm() {
                 size='sm'
                 variant='primary'
                 type='submit'
-                onClick={addObject}>
-                Create Object
+                onClick={nodeObj.objectName ? updateObject : addObject }>
+                {nodeObj.objectName ? 'Update Object': 'Create Object'}
               </Button>
             </Col>
           </Form.Row>

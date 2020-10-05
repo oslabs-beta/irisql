@@ -10,14 +10,14 @@ export default function GraphInterface(props) {
       .map((objType) => {
         return { id: objType.objectName };
       })
-      .concat([{ id: 'Harry' }, { id: 'Sally' }, { id: 'Alice' }]),
+      .concat([{ id: 'Harry' }, { id: 'Greg' }, { id: 'Alice' }]),
 
     links: objectListState.objects
       .map((objType) => {
         return { source: 'Harry', target: objType.objectName };
       })
       .concat([
-        { source: 'Harry', target: 'Sally' },
+        { source: 'Harry', target: 'Greg' },
         { source: 'Harry', target: 'Alice' }
       ])
 
