@@ -1,8 +1,9 @@
 // define functions for generating a GraphQL schema
+
 const generateSchema = (input) => {
 
-}
-
+  return createObjectType(input);
+};
 // function to generate code for requiring the GraphQL module
 const requireGraphQL = () => {
   return `const graphql = require('graphql')`;
@@ -24,7 +25,6 @@ const requireGraphQLProps = () => {
   } = graphql;`;
 };
 
-  
 const createObjectType = (arrOfObj) => {
   // set up for MongoDB 
   return arrOfObj.reduce((acc, curr) => {
@@ -39,31 +39,34 @@ const createObjectType = (arrOfObj) => {
   for (let key in curr.fields) {
     // name related object 
     const relatedObjectNamewithType = curr.fields[key].relatedObjectName + 'Type';
-
+    
     if (key !== Object.keys(curr.fields)[0]) {
-      acc += `,\n`
-    }
+      acc += `,\n`;
+    }   
+    
+    acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
 
-    acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`
+    acc += `const ${curr.objectName}Type = new GraphQLObjectType({\n`;
+    acc += `  name: '${curr.objectName}',\n`;
+    acc += "  fields: () => ({\n";
 
     if (curr.fields[key].hasRelation === true) {
-    acc += `,\n` 
-    acc +=`    ${curr.fields[key].relatedObjectName}: {\n`
-    acc +=`      type: ${relatedObjectNamewithType},\n`
-    acc +='      resolve(parent, args) {\n'
-    acc +=`        return ${curr.fields[key].relatedObjectName}.findById(parent.${curr.fields[key].relatedObjectField});\n`
-    acc +=`      }`
-    acc +=`\n    }`
+      acc += `,\n`;
+      acc += `    ${curr.fields[key].relatedObjectName}: {\n`;
+      acc += `      type: ${curr.fields[key].relatedObjectName}Type,\n`;
+      acc += "      resolve(parent, args) {\n";
+      acc += `        return ${curr.fields[key].relatedObjectName}.findById(parent.${curr.fields[key].relatedObjectField});\n`;
+      acc += `      }`;
+      acc += `\n    }`;
     }
   }
-  acc +=`\n  })`
-  acc += `  \n});\n\n`
-  
+  acc += `\n  })`;
+  acc += `  \n});\n\n`;
+
   return acc;
-
-  }, '')
-
-}
+    
+  }, "")
+};
 
 
 // function to generate code for root query
@@ -195,4 +198,9 @@ const createMutation = (arrOfObj) => {
   
   return string;
 
-}
+
+module.exports = { 
+  generateSchema,
+  createObjectType
+};
+ 
