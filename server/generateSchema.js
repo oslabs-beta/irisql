@@ -198,7 +198,7 @@ const createMutation = (arrOfObj) => {
   
   return string;
 
-
+}
 module.exports = { 
   generateSchema,
   createObjectType
