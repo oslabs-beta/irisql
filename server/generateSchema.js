@@ -1,9 +1,8 @@
 // define functions for generating a GraphQL schema
-
 const generateSchema = (input) => {
-
   return createObjectType(input);
 };
+
 // function to generate code for requiring the GraphQL module
 const requireGraphQL = () => {
   return `const graphql = require('graphql')`;
@@ -68,7 +67,6 @@ const createObjectType = (arrOfObj) => {
   }, "")
 };
 
-
 // function to generate code for root query
 const createRootQuery = (arrOfObj) => {
 
@@ -115,7 +113,6 @@ const createRootQuery = (arrOfObj) => {
     return string;
 
 };
-
 
 // function to generate code for mutation
 const createMutation = (arrOfObj) => {
@@ -197,8 +194,24 @@ const createMutation = (arrOfObj) => {
   string += `\n});\n\n`
   
   return string;
+}
+
+
+// function to generate code for module exports
+const createModuleExports = () => {
+  let string = '';
+
+  string += `module.exports = new GraphQLSchema({\n`;
+  string += `  query: RootQuery,\n`;
+  string += `  mutation: Mutation\n`;  
+  string += `});`
+
+  return string;
+}
+
 
 }
+
 module.exports = { 
   generateSchema,
   createObjectType
