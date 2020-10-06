@@ -25,5 +25,8 @@ main {
 
 .wrapper {
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 7fr;
 }
+
+

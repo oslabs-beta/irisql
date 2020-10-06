@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Col, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 const FieldItem  = (props) => {
-  const fieldName = props.info.fieldName;
+  // const fieldName = props.info.fieldName;
   return (
     <Form>
   <Form.Row className="align-items-center">
@@ -12,7 +12,7 @@ const FieldItem  = (props) => {
         id="inlineFormInput"
         placeholder="Field Name"
         size="sm"
-        defaultValue={fieldName}
+        value={props.info.fieldName}
         onChange={(e) => {props.updateFieldName(e.target.value, props.ind)}}
       />
     </Col>
@@ -33,7 +33,7 @@ const FieldItem  = (props) => {
       </Form.Control>
     </Col>
     <Col xs="auto">
-      <Button type="submit" className="mb-2 btn-danger" size="sm">
+      <Button type="submit" className="mb-2 btn-danger" size="sm" onClick={(e) => props.deleteField(props.ind, e)}>
         - 
       </Button>
     </Col>
