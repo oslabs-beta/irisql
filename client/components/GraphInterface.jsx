@@ -6,61 +6,55 @@ export default function GraphInterface(props) {
   const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
   // graph payload (with minimalist structure)
   const data = {
-    nodes: objectListState.objects
-      .map((objType) => {
-        return { id: objType.objectName };
-      })
-      .concat([{ id: 'Harry' }, { id: 'Greg' }, { id: 'Alice' }]),
+    nodes: objectListState.objects[0] ? getNodes() : []
+    // objectListState.objects
+    //   .map((objType) => {
+    //     objType.fields.map()
+    //     return { id: objType.objectName };
+    //   })
+      // .concat([{ id: 'Harry' }, { id: 'Greg' }, { id: 'Alice' }])
+      ,
 
-    links: objectListState.objects
-      .map((objType) => {
-        return { source: 'Harry', target: objType.objectName };
-      })
-      .concat([
-        { source: 'Harry', target: 'Greg' },
-        { source: 'Harry', target: 'Alice' }
-      ])
+    links: objectListState.objects[0] ? getLinks() : []
+    // objectListState.objects[0].fields
+    //   .map((field) => {
+    //     return { source: objectListState.objects[0].objectName, target: field.fieldName };
+    //   }) : []
+      // .concat([
+      //   { source: 'Harry', target: 'Greg' },
+      //   { source: 'Harry', target: 'Alice' }
+      // ])
 
-    /*
-      nodes: objectListState.objects
-        .map((objType) => {
-          const objFields = objType.fields.map((field) => {
-            return { id: field.fieldName };
-          });
-          return [{ id: objType.objectName }, ...objFields];
-        })
-        .concat([{ id: 'Harry' }, { id: 'Sally' }, { id: 'Alice' }]),
-      links: objectListState.objects
-        .map((objType) => {
-          const objLinks = objType.fields.map((field) => {
-            return { source: objType.objectName, target: field.fieldName };
-          });
-          return [{ source: 'Harry', target: objType.objectName }, ...objLinks];
-        })
-        .concat([
-          { source: 'Harry', target: 'Sally' },
-          { source: 'Harry', target: 'Alice' }
-        ])
-      */
   };
+  // const data = {
+  //   nodes: [],
+  //   links: []
+  // }
+
+  function getNodes() {
+    const nodes = [];
+    for (let i = 0; i < objectListState.objects.length; i += 1) {
+      nodes.push({id: objectListState.objects[i].objectName, size: 400, color: 'blue', symbolType: 'square'});
+      for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
+        nodes.push({id: objectListState.objects[i].fields[j].fieldName})
+      }
+    }
+    return nodes;
+  }
+
+  function getLinks() {
+    const links = [];
+    for (let i = 0; i < objectListState.objects.length; i += 1) {
+      for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
+        links.push({source: objectListState.objects[i].objectName, target: objectListState.objects[i].fields[j].fieldName})
+      }
+    }
+    return links;
+  }
 
   // the graph configuration, you only need to pass down properties
   // that you want to override, otherwise default ones will be used
   const myConfig = {
-    // nodeHighlightBehavior: true,
-    // node: {
-    //   color: 'lightgreen',
-    //   size: 120,
-    //   highlightStrokeColor: 'blue'
-    // },
-    // link: {
-    //   highlightColor: 'lightblue'
-    // },
-    // directed: true,
-    // staticGraph: false,
-    // panAndZoom: false,
-    // staticGraphWithDragAndDrop: false
-
     automaticRearrangeAfterDropNode: true,
     collapsible: true,
     directed: true,
@@ -122,6 +116,7 @@ export default function GraphInterface(props) {
 
   // Onclick, generate a new objectTypeForm with current Node's objectName and fields
   const onClickNode = function (nodeId) {
+    // setNodeObj({});
     // Grab object with state corresponding to node clicked
     const currentObj = objectListState.objects.filter(obj => obj.objectName === nodeId);
     console.log('current object:', currentObj);
@@ -167,22 +162,29 @@ export default function GraphInterface(props) {
     );
   };
 
-  return (
-    <Graph
-      id='graph-id' // id is mandatory, if no id is defined rd3g will throw an error
-      data={data}
-      config={myConfig}
-      onClickNode={onClickNode}
-      // onDoubleClickNode={onDoubleClickNode}
-      // onRightClickNode={onRightClickNode}
-      // onClickGraph={onClickGraph}
-      // onClickLink={onClickLink}
-      // onRightClickLink={onRightClickLink}
-      // onMouseOverNode={onMouseOverNode}
-      // onMouseOutNode={onMouseOutNode}
-      // onMouseOverLink={onMouseOverLink}
-      // onMouseOutLink={onMouseOutLink}
-      onNodePositionChange={onNodePositionChange}
-    />
-  );
+  // If we haven't added any object types yet, dont render the graph
+  if (objectListState.objects[0]) {
+    return (
+      <Graph
+        id='graph-id' // id is mandatory, if no id is defined rd3g will throw an error
+        data={data}
+        config={myConfig}
+        onClickNode={onClickNode}
+        // onDoubleClickNode={onDoubleClickNode}
+        // onRightClickNode={onRightClickNode}
+        // onClickGraph={onClickGraph}
+        // onClickLink={onClickLink}
+        // onRightClickLink={onRightClickLink}
+        // onMouseOverNode={onMouseOverNode}
+        // onMouseOutNode={onMouseOutNode}
+        // onMouseOverLink={onMouseOverLink}
+        // onMouseOutLink={onMouseOutLink}
+        onNodePositionChange={onNodePositionChange}
+      />
+    );
+  } else {
+    return (
+      <div>Get Started</div>
+    )
+  }
 }
