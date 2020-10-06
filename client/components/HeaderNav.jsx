@@ -14,7 +14,7 @@ const HeaderNav = (props) => {
     </Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link>
-        <Link to='/prototyper'>Features</Link>
+        Features
       </Nav.Link>
       <Nav.Link>Contact</Nav.Link>
     </Nav>

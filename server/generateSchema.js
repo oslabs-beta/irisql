@@ -196,6 +196,7 @@ const createMutation = (arrOfObj) => {
   return string;
 }
 
+
 // function to generate code for module exports
 const createModuleExports = () => {
   let string = '';
@@ -206,6 +207,9 @@ const createModuleExports = () => {
   string += `});`
 
   return string;
+}
+
+
 }
 
 module.exports = { 
