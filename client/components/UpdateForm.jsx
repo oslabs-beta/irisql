@@ -29,7 +29,7 @@ function UpdateForm() {
         obj.objectName = objectName;
         obj.fields = fields;
         return obj;
-      } 
+      }
       // Else, push to the array
       return obj;
     });
@@ -43,6 +43,23 @@ function UpdateForm() {
     // Reset current node object to change form back to objectTypeForm
     setNodeObj({});
   };
+
+  const deleteObject = (e) => {
+    // Prevent the page from reloading
+    e.preventDefault();
+    // Initialize empty array to hold copy of state
+    let updatedListState = {};
+    updatedListState.objects = objectListState.objects.filter(obj => obj.objectName !== nodeObj.objectName);
+    // Set global object list state to edited version
+    setObjectList(updatedListState);
+    // Clear out local state fields
+    setFields([]);
+    // clear out objectType input 
+    setObjectName('');
+    // Reset current node object to change form back to objectTypeForm
+    setNodeObj({});
+  }
+
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
@@ -55,7 +72,7 @@ function UpdateForm() {
     newFields[index].fieldType = inputType;
     setFields([...newFields]);
   };
-  
+
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
     setFields([...fields, fieldItemInput]);
@@ -69,7 +86,7 @@ function UpdateForm() {
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
   }
-  
+
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
     <FieldItem
@@ -115,6 +132,15 @@ function UpdateForm() {
         </Button>
         <Button
           size='sm'
+          variant='danger'
+          type='submit'
+          onClick={deleteObject}
+          className='ml-2'
+        >
+          Delete Object
+        </Button>
+        <Button
+          size='sm'
           variant='secondary'
           type='submit'
           onClick={() => setNodeObj({})}
@@ -125,7 +151,7 @@ function UpdateForm() {
       </Form.Row>
     </div>
   );
-  
+
 }
 
 export default UpdateForm;
