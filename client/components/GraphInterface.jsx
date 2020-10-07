@@ -3,149 +3,30 @@ import { Graph } from 'react-d3-graph';
 import { ObjectContext } from './ObjectContextProvider';
 
 export default function GraphInterface(props) {
-  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
+  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(
+    ObjectContext
+  );
   // graph payload (with minimalist structure)
   const data = {
     nodes: objectListState.objects[0] ? getNodes() : [],
     links: objectListState.objects[0] ? getLinks() : []
   };
-//   const data = {
-//     nodes: [{
-//       id: "Marvel",
-//       svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/marvel.png",
-//       size: 500,
-//       fontSize: 18
-//   },
-//   {
-//       id: "Heroes",
-//       symbolType: "circle",
-//       color: "red",
-//       size: 300
-//   },
-//   {
-//       id: "Villains",
-//       symbolType: "circle",
-//       color: "red",
-//       size: 300
-//   },
-//   {
-//       id: "Teams",
-//       symbolType: "circle",
-//       color: "red",
-//       size: 300
-//   },  
-//   {
-//     id: "Spider-Man",
-//     name: "Peter Benjamin Parker",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
-//     size: 400
-// },
-// {
-//     id: "CAPTAIN MARVEL",
-//     name: "Carol Danvers",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_captainmarvel.png",
-//     size: 400
-// },
-// {
-//     id: "HULK",
-//     name: "Robert Bruce Banner",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_hulk.png",
-//     size: 400
-// },
-// {
-//     id: "Black Widow",
-//     name: "Natasha Alianovna Romanova",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_blackwidow.png",
-//     size: 400
-// },
-// {
-//     id: "Daredevil",
-//     name: "Matthew Michael Murdock",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png",
-//     size: 400
-// },
-// {
-//     id: "Wolverine",
-//     name: "James Howlett",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_wolverine.png",
-//     size: 400
-// },
-// {
-//     id: "Captain America",
-//     name: "Steven Rogers",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_captainamerica.png",
-//     size: 400
-// },
-// {
-//     id: "Iron Man",
-//     name: "Tony Stark",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_ironman.png",
-//     size: 400
-// },
-// {
-//     id: "THOR",
-//     name: "Thor Odinson",
-//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_thor.png",
-//     size: 400
-// }],
-//     links: [{
-//       source: "Marvel",
-//       target: "Heroes"
-//   },
-//   {
-//       source: "Marvel",
-//       target: "Villains"
-//   },
-//   {
-//       source: "Marvel",
-//       target: "Teams"
-//   },
-//   {
-//     source: "Heroes",
-//     target: "Spider-Man"
-// },
-// {
-//     source: "Heroes",
-//     target: "CAPTAIN MARVEL"
-// },
-// {
-//     source: "Heroes",
-//     target: "HULK"
-// },
-// {
-//     source: "Heroes",
-//     target: "Black Widow"
-// },
-// {
-//     source: "Heroes",
-//     target: "Daredevil"
-// },
-// {
-//     source: "Heroes",
-//     target: "Wolverine"
-// },
-// {
-//     source: "Heroes",
-//     target: "Captain America"
-// },
-// {
-//     source: "Heroes",
-//     target: "Iron Man"
-// },
-// {
-//     source: "Heroes",
-//     target: "THOR"
-// }]
-//   }
-  console.log("this is our data", data)
 
+  // console.log("this is our data", data)
 
   function getNodes() {
     const nodes = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
-      nodes.push({id: objectListState.objects[i].objectName});
+      nodes.push({
+        id: objectListState.objects[i].objectName,
+        size: 400,
+        color: '#0e5679'
+      });
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        nodes.push({id: objectListState.objects[i].fields[j].fieldName})
+        nodes.push({
+          id: objectListState.objects[i].fields[j].fieldName,
+          color: '#ed938f'
+        });
       }
     }
     return nodes;
@@ -155,7 +36,10 @@ export default function GraphInterface(props) {
     const links = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        links.push({source: objectListState.objects[i].objectName, target: objectListState.objects[i].fields[j].fieldName,})
+        links.push({
+          source: objectListState.objects[i].objectName,
+          target: objectListState.objects[i].fields[j].fieldName
+        });
       }
     }
     return links;
@@ -166,7 +50,7 @@ export default function GraphInterface(props) {
   const myConfig = {
     directed: true,
     automaticRearrangeAfterDropNode: true,
-    collapsible: true,
+    collapsible: false,
     height: 400,
     highlightDegree: 2,
     highlightOpacity: 0.2,
@@ -178,39 +62,39 @@ export default function GraphInterface(props) {
     staticGraph: false,
     width: 800,
     d3: {
-        alphaTarget: 0.05,
-        gravity: -250,
-        linkLength: 120,
-        linkStrength: 2,
+      alphaTarget: 0.05,
+      gravity: -250,
+      linkLength: 120,
+      linkStrength: 2
     },
     node: {
-        color: "#d3d3d3",
-        fontColor: "black",
-        fontSize: 10,
-        fontWeight: "normal",
-        highlightColor: "red",
-        highlightFontSize: 14,
-        highlightFontWeight: "bold",
-        highlightStrokeColor: "red",
-        highlightStrokeWidth: 1.5,
-        mouseCursor: "crosshair",
-        opacity: 0.9,
-        renderLabel: true,
-        size: 200,
-        strokeColor: "none",
-        strokeWidth: 1.5,
-        svg: "",
-        symbolType: "circle",
-        viewGenerator: null,
+      color: '#d3d3d3',
+      fontColor: 'black',
+      fontSize: 10,
+      fontWeight: 'normal',
+      highlightColor: 'red',
+      highlightFontSize: 14,
+      highlightFontWeight: 'bold',
+      highlightStrokeColor: 'red',
+      highlightStrokeWidth: 1.5,
+      mouseCursor: 'crosshair',
+      opacity: 0.9,
+      renderLabel: true,
+      size: 200,
+      strokeColor: 'none',
+      strokeWidth: 1.5,
+      svg: '',
+      symbolType: 'circle',
+      viewGenerator: null
     },
     link: {
-        color: "lightgray",
-        highlightColor: "red",
-        mouseCursor: "pointer",
-        opacity: 1,
-        semanticStrokeWidth: true,
-        strokeWidth: 3,
-        type: "STRAIGHT",
+      color: 'lightgray',
+      highlightColor: 'red',
+      mouseCursor: 'pointer',
+      opacity: 1,
+      semanticStrokeWidth: true,
+      strokeWidth: 3,
+      type: 'STRAIGHT'
     }
   };
 
@@ -223,10 +107,12 @@ export default function GraphInterface(props) {
   const onClickNode = function (nodeId) {
     // setNodeObj({});
     // Grab object with state corresponding to node clicked
-    const currentObj = objectListState.objects.filter(obj => obj.objectName === nodeId);
+    const currentObj = objectListState.objects.filter(
+      obj => obj.objectName === nodeId
+    );
     console.log('current object:', currentObj);
     // Changes current node object in global state
-    currentObj[0] ? setNodeObj(currentObj[0]):null;
+    currentObj[0] ? setNodeObj(currentObj[0]) : null;
   };
 
   // const onDoubleClickNode = function (nodeId) {
@@ -289,7 +175,9 @@ export default function GraphInterface(props) {
     );
   } else {
     return (
-      <div>Get Started</div>
-    )
+      <div className='m-auto'>
+        <h2>Create your first object to get started.</h2>
+      </div>
+    );
   }
 }
