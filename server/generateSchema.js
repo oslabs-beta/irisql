@@ -1,27 +1,26 @@
 // define functions for generating a GraphQL schema
 const generateSchema = (input) => {
-  return createObjectType(input);
+  return requireGraphQL().concat(requireGraphQLProps(), createObjectType(input), createRootQuery(input), createMutation(input), createModuleExports()) 
 };
 
 // function to generate code for requiring the GraphQL module
 const requireGraphQL = () => {
-  return `const graphql = require('graphql')`;
+  return `const graphql = require('graphql')\n\n`;
 };
 
 // function to generate code for destructing GraphQLSchema and GraphQL types
 const requireGraphQLProps = () => {
-  return `\n
-  const { 
-    GraphQLSchema, 
-    GraphQLObjectType,
-    GraphQLID,
-    GraphQLString, 
-    GraphQLInt, 
-    GraphQLFloat, 
-    GraphQLBoolean,
-    GraphQLList,
-    GraphQLNonNull, 
-  } = graphql;`;
+  return `const { 
+  GraphQLSchema, 
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString, 
+  GraphQLInt, 
+  GraphQLFloat, 
+  GraphQLBoolean,
+  GraphQLList,
+  GraphQLNonNull, 
+} = graphql;\n\n`;
 };
 
 const createObjectType = (arrOfObj) => {
@@ -45,9 +44,6 @@ const createObjectType = (arrOfObj) => {
     
     acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
 
-    acc += `const ${curr.objectName}Type = new GraphQLObjectType({\n`;
-    acc += `  name: '${curr.objectName}',\n`;
-    acc += "  fields: () => ({\n";
 
     if (curr.fields[key].hasRelation === true) {
       acc += `,\n`;
@@ -210,10 +206,9 @@ const createModuleExports = () => {
 }
 
 
-}
-
 module.exports = { 
   generateSchema,
-  createObjectType
+  createObjectType,
+
 };
  
