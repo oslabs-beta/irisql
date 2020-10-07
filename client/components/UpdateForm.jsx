@@ -84,7 +84,6 @@ function UpdateForm() {
 
   return (
     <div className='object-form row justify-content-center'>
-      <div>{nodeObj.objectName}</div>
       <Form>
         <Form.Group>
           <Form.Row className='row justify-content-center'>

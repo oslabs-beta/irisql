@@ -44,7 +44,6 @@ const createObjectType = (arrOfObj) => {
     
     acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
 
-
     if (curr.fields[key].hasRelation === true) {
       acc += `,\n`;
       acc += `    ${curr.fields[key].relatedObjectName}: {\n`;
