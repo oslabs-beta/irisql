@@ -7,7 +7,7 @@ import UpdateForm from './UpdateForm';
 
 function ObjectTypeForm() {
   // Gives us access to global state
-  const [objectListState, setObjectList, nodeObj] = useContext(ObjectContext);
+  const [objectListState, setObjectList, nodeObj, setNodeObj, viewCode, setViewCode] = useContext(ObjectContext);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form

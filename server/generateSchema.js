@@ -210,7 +210,6 @@ const createModuleExports = () => {
 }
 
 
-}
 
 module.exports = { 
   generateSchema,
