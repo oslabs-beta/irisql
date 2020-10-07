@@ -45,10 +45,6 @@ const createObjectType = (arrOfObj) => {
     
     acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
 
-    acc += `const ${curr.objectName}Type = new GraphQLObjectType({\n`;
-    acc += `  name: '${curr.objectName}',\n`;
-    acc += "  fields: () => ({\n";
-
     if (curr.fields[key].hasRelation === true) {
       acc += `,\n`;
       acc += `    ${curr.fields[key].relatedObjectName}: {\n`;
@@ -208,7 +204,6 @@ const createModuleExports = () => {
 
   return string;
 }
-
 
 
 module.exports = { 
