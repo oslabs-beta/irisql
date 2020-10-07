@@ -6,9 +6,9 @@ import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/theme/neat.css';
 import { ObjectContext } from './ObjectContextProvider';
 import React, { useContext } from 'react';
-import {UnControlled as CodeMirror} from 'react-codemirror2';
+import { UnControlled as CodeMirror } from 'react-codemirror2';
 
-function CodeInterface () {
+function CodeInterface() {
 
   const [objectListState, setObjectList, nodeObj, setNodeObj, viewCode, setViewCode] = useContext(ObjectContext);
 
@@ -20,9 +20,7 @@ function CodeInterface () {
         theme: 'material',
         lineNumbers: true
       }}
-      onChange={(editor, value) => {
-      console.log('uncontrolled', {value});
-    }}/>
+    />
   )
 }
 
