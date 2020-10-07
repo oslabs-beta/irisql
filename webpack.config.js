@@ -38,6 +38,10 @@ module.exports = {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /.(png|jpg|woff|woff2|eot|ttf|svg|gif)$/,
         loader: "url-loader?limit=1024000",
       },
