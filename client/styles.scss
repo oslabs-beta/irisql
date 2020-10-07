@@ -7,6 +7,8 @@ $blue: #0e5679;
   display: inline-flex;
   background-color: darken($light-grey, 10%);
   height: 100%;
+  min-width: 300px;
+  justify-content: space-between;
 }
 
 .main-container {

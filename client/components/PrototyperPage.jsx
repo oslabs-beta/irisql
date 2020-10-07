@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ToolBar from './ToolBar';
-import { ObjectContextProvider } from './ObjectContextProvider';
+import { ObjectContext } from './ObjectContextProvider';
 import GraphInterface from './GraphInterface';
+import CodeInterface from './CodeInterface';
 
 export default function PrototyperPage() {
+
+  const [objectListState, setObjectList, nodeObj, setNodeObj, viewCode, setViewCode] = useContext(ObjectContext);
+  
   return (
-    <ObjectContextProvider>
       <div className='wrapper'>
         <ToolBar />
-        <GraphInterface />
+        {viewCode.displayCode ? <CodeInterface /> : <GraphInterface />}
       </div>
-    </ObjectContextProvider>
   );
 }

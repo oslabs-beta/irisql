@@ -6,35 +6,144 @@ export default function GraphInterface(props) {
   const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
   // graph payload (with minimalist structure)
   const data = {
-    nodes: objectListState.objects[0] ? getNodes() : []
-    // objectListState.objects
-    //   .map((objType) => {
-    //     objType.fields.map()
-    //     return { id: objType.objectName };
-    //   })
-      // .concat([{ id: 'Harry' }, { id: 'Greg' }, { id: 'Alice' }])
-      ,
-
+    nodes: objectListState.objects[0] ? getNodes() : [],
     links: objectListState.objects[0] ? getLinks() : []
-    // objectListState.objects[0].fields
-    //   .map((field) => {
-    //     return { source: objectListState.objects[0].objectName, target: field.fieldName };
-    //   }) : []
-      // .concat([
-      //   { source: 'Harry', target: 'Greg' },
-      //   { source: 'Harry', target: 'Alice' }
-      // ])
-
   };
-  // const data = {
-  //   nodes: [],
-  //   links: []
-  // }
+//   const data = {
+//     nodes: [{
+//       id: "Marvel",
+//       svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/marvel.png",
+//       size: 500,
+//       fontSize: 18
+//   },
+//   {
+//       id: "Heroes",
+//       symbolType: "circle",
+//       color: "red",
+//       size: 300
+//   },
+//   {
+//       id: "Villains",
+//       symbolType: "circle",
+//       color: "red",
+//       size: 300
+//   },
+//   {
+//       id: "Teams",
+//       symbolType: "circle",
+//       color: "red",
+//       size: 300
+//   },  
+//   {
+//     id: "Spider-Man",
+//     name: "Peter Benjamin Parker",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png",
+//     size: 400
+// },
+// {
+//     id: "CAPTAIN MARVEL",
+//     name: "Carol Danvers",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_captainmarvel.png",
+//     size: 400
+// },
+// {
+//     id: "HULK",
+//     name: "Robert Bruce Banner",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_hulk.png",
+//     size: 400
+// },
+// {
+//     id: "Black Widow",
+//     name: "Natasha Alianovna Romanova",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_blackwidow.png",
+//     size: 400
+// },
+// {
+//     id: "Daredevil",
+//     name: "Matthew Michael Murdock",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png",
+//     size: 400
+// },
+// {
+//     id: "Wolverine",
+//     name: "James Howlett",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_wolverine.png",
+//     size: 400
+// },
+// {
+//     id: "Captain America",
+//     name: "Steven Rogers",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_captainamerica.png",
+//     size: 400
+// },
+// {
+//     id: "Iron Man",
+//     name: "Tony Stark",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_ironman.png",
+//     size: 400
+// },
+// {
+//     id: "THOR",
+//     name: "Thor Odinson",
+//     svg: "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_thor.png",
+//     size: 400
+// }],
+//     links: [{
+//       source: "Marvel",
+//       target: "Heroes"
+//   },
+//   {
+//       source: "Marvel",
+//       target: "Villains"
+//   },
+//   {
+//       source: "Marvel",
+//       target: "Teams"
+//   },
+//   {
+//     source: "Heroes",
+//     target: "Spider-Man"
+// },
+// {
+//     source: "Heroes",
+//     target: "CAPTAIN MARVEL"
+// },
+// {
+//     source: "Heroes",
+//     target: "HULK"
+// },
+// {
+//     source: "Heroes",
+//     target: "Black Widow"
+// },
+// {
+//     source: "Heroes",
+//     target: "Daredevil"
+// },
+// {
+//     source: "Heroes",
+//     target: "Wolverine"
+// },
+// {
+//     source: "Heroes",
+//     target: "Captain America"
+// },
+// {
+//     source: "Heroes",
+//     target: "Iron Man"
+// },
+// {
+//     source: "Heroes",
+//     target: "THOR"
+// }]
+//   }
+  console.log("this is our data", data)
+
 
   function getNodes() {
     const nodes = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
-      nodes.push({id: objectListState.objects[i].objectName, size: 400, color: 'blue', symbolType: 'square'});
+      nodes.push({id: objectListState.objects[i].objectName});
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
         nodes.push({id: objectListState.objects[i].fields[j].fieldName})
       }
@@ -46,7 +155,7 @@ export default function GraphInterface(props) {
     const links = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        links.push({source: objectListState.objects[i].objectName, target: objectListState.objects[i].fields[j].fieldName})
+        links.push({source: objectListState.objects[i].objectName, target: objectListState.objects[i].fields[j].fieldName,})
       }
     }
     return links;
@@ -55,12 +164,10 @@ export default function GraphInterface(props) {
   // the graph configuration, you only need to pass down properties
   // that you want to override, otherwise default ones will be used
   const myConfig = {
+    directed: true,
     automaticRearrangeAfterDropNode: true,
     collapsible: true,
-    directed: true,
-    focusAnimationDuration: 0.75,
-    focusZoom: 1,
-    height: 500,
+    height: 400,
     highlightDegree: 2,
     highlightOpacity: 0.2,
     linkHighlightBehavior: true,
@@ -69,43 +176,41 @@ export default function GraphInterface(props) {
     nodeHighlightBehavior: true,
     panAndZoom: false,
     staticGraph: false,
-    staticGraphWithDragAndDrop: false,
-    width: 1200,
+    width: 800,
     d3: {
-      alphaTarget: 0.05,
-      gravity: -250,
-      linkLength: 120,
-      linkStrength: 2,
-      disableLinkForce: false
+        alphaTarget: 0.05,
+        gravity: -250,
+        linkLength: 120,
+        linkStrength: 2,
     },
     node: {
-      color: '#d3d3d3',
-      fontColor: 'black',
-      fontSize: 10,
-      fontWeight: 'normal',
-      highlightColor: 'red',
-      highlightFontSize: 14,
-      highlightFontWeight: 'bold',
-      highlightStrokeColor: 'red',
-      highlightStrokeWidth: 1.5,
-      mouseCursor: 'crosshair',
-      opacity: 0.9,
-      renderLabel: true,
-      size: 200,
-      strokeColor: 'none',
-      strokeWidth: 1.5,
-      svg: '',
-      symbolType: 'circle'
+        color: "#d3d3d3",
+        fontColor: "black",
+        fontSize: 10,
+        fontWeight: "normal",
+        highlightColor: "red",
+        highlightFontSize: 14,
+        highlightFontWeight: "bold",
+        highlightStrokeColor: "red",
+        highlightStrokeWidth: 1.5,
+        mouseCursor: "crosshair",
+        opacity: 0.9,
+        renderLabel: true,
+        size: 200,
+        strokeColor: "none",
+        strokeWidth: 1.5,
+        svg: "",
+        symbolType: "circle",
+        viewGenerator: null,
     },
     link: {
-      color: 'lightgray',
-      fontColor: 'black',
-      fontSize: 8,
-      fontWeight: 'normal',
-      highlightColor: 'red',
-      highlightFontSize: 8,
-      highlightFontWeight: 'normal',
-      labelProperty: 'label'
+        color: "lightgray",
+        highlightColor: "red",
+        mouseCursor: "pointer",
+        opacity: 1,
+        semanticStrokeWidth: true,
+        strokeWidth: 3,
+        type: "STRAIGHT",
     }
   };
 
@@ -121,7 +226,7 @@ export default function GraphInterface(props) {
     const currentObj = objectListState.objects.filter(obj => obj.objectName === nodeId);
     console.log('current object:', currentObj);
     // Changes current node object in global state
-    setNodeObj(currentObj[0]);
+    currentObj[0] ? setNodeObj(currentObj[0]):null;
   };
 
   // const onDoubleClickNode = function (nodeId) {
