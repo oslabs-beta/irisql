@@ -15,6 +15,7 @@ $blue: #0e5679;
   display: flex;
   flex-flow: column;
   height: 100vh;
+  overflow: hidden;
 }
 
 header {
@@ -45,5 +46,3 @@ main {
   overflow-y: auto;
   overflow-x: auto;
 }
-
-
