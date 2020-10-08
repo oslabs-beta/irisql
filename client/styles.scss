@@ -26,6 +26,13 @@ main {
   flex: 1 1 auto;
 }
 
+.landing-page {
+  height: 100%;
+  width: 100%;
+  background-image: url('../public/images/pexels-cosmos.jpg');
+  background-size: cover;
+}
+
 .wrapper {
   height: 100%;
   display: grid;
