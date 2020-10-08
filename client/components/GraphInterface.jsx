@@ -16,17 +16,23 @@ export default function GraphInterface(props) {
 
   function getNodes() {
     const nodes = [];
+    const blueNodes = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
       nodes.push({
         id: objectListState.objects[i].objectName,
         size: 400,
         color: '#0e5679'
       });
+      blueNodes.push(objectListState.objects[i].objectName);
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        nodes.push({
-          id: objectListState.objects[i].fields[j].fieldName,
-          color: '#ed938f'
-        });
+        if (
+          !blueNodes.includes(objectListState.objects[i].fields[j].fieldName)
+        ) {
+          nodes.push({
+            id: objectListState.objects[i].fields[j].fieldName,
+            color: '#ed938f'
+          });
+        }
       }
     }
     return nodes;
@@ -51,7 +57,8 @@ export default function GraphInterface(props) {
     directed: true,
     automaticRearrangeAfterDropNode: true,
     collapsible: false,
-    height: 400,
+    height: 0.94 * window.innerHeight,
+    width: 0.75 * window.innerWidth,
     highlightDegree: 2,
     highlightOpacity: 0.2,
     linkHighlightBehavior: true,
@@ -60,7 +67,6 @@ export default function GraphInterface(props) {
     nodeHighlightBehavior: true,
     panAndZoom: false,
     staticGraph: false,
-    width: 800,
     d3: {
       alphaTarget: 0.05,
       gravity: -250,
