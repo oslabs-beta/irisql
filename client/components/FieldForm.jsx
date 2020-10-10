@@ -4,14 +4,16 @@ import { ObjectContext } from './ObjectContextProvider';
 
 function FieldForm (props) {
 
-  const [newField, setNewField] = useState({
+  const defaultField = {
     fieldName:'',
     fieldType:'String', 
     hasRelation: false,
     relatedObjectName: null, 
     relatedObjectField: null,
     relatedReferenceType: null
-  }); 
+  } 
+
+  const [newField, setNewField] = useState(defaultField); 
 
   const [objectListState, setObjectList] = useContext(ObjectContext);
 
@@ -23,11 +25,13 @@ function FieldForm (props) {
   });
 
   // Create array of fields for chosen objectName
-  const fieldRelations = (objectListState.objects.length && newField.relatedObjectName) ? objectListState.objects.filter(obj => obj.objectName === newField.relatedObjectName)[0]
-    .fields.map(field => {
-      return <option value={field}>{field}</option>
-    }) : [<option value={null} disabled selected>Pick Field</option>]
-
+  const fieldRelations = objectListState.objects.length && newField.relatedObjectName ? 
+    objectListState.objects.filter(obj => obj.objectName === newField.relatedObjectName)[0].fields : [];
+  const fieldRelationsOptions = [<option value={null} disabled selected>Pick Field</option>];
+  fieldRelations.forEach(field => {
+      fieldRelationsOptions.push(<option value={field.fieldName}>{field.fieldName}</option>)
+  });
+  
   return (
     <Form>
       <Form.Row className="align-items-center">
@@ -62,13 +66,14 @@ function FieldForm (props) {
             type="checkbox" 
             label="Relation" 
             className="mb-2" 
+            checked={newField.hasRelation}
             onChange={(e) => setNewField({ ...newField, hasRelation: e.target.checked })} 
           />
         </Col>
         <Col xs="auto">
           <Button type="submit" className="mb-2" size="sm" onClick={(e) => {
             props.addField(newField, e)
-            setNewField({fieldName:'',fieldType:'String'})
+            setNewField({...defaultField})
             }}>
             +
           </Button>
@@ -94,10 +99,10 @@ function FieldForm (props) {
             className="mb-2"
             id="inlineFormCustomSelect"
             size="sm"
-            onChange={(e) => setNewField({...newField, relatedObjectName : e.target.value})}
+            onChange={(e) => setNewField({...newField, relatedObjectField : e.target.value})}
             custom
           >
-            {fieldRelations}
+            {fieldRelationsOptions}
           </Form.Control>
           </Col>
         </Form.Row>
