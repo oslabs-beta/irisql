@@ -1,6 +1,4 @@
 const graphql = require('graphql')
-const Movie= require('../models/movieSchema');
-const Director = require('../models/directorSchema')
 
 const { 
   GraphQLSchema, 
@@ -14,56 +12,27 @@ const {
   GraphQLNonNull, 
 } = graphql;
 
-const MovieType = new GraphQLObjectType({
-  name: 'Movie',
+const AlexType = new GraphQLObjectType({
+  name: 'Alex',
   fields: () => ({
-    id: { type: GraphQLString },
-    movieName: { type: GraphQLString },
-    DirectorId: { type: GraphQLID },
-    Director: {
-      type: DirectorType,
-      resolve(parent, args) {
-        return Director.findById(parent.DirectorId);
-      }
-    }
-  })  
-});
-
-const DirectorType = new GraphQLObjectType({
-  name: 'Director',
-  fields: () => ({
-    id: { type: GraphQLString },
-    DirectorName: { type: GraphQLString }
+    missionID: { type: String }
   })  
 });
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    everyMovie: {
-      type: new GraphQLList(MovieType),
+    everyAlex: {
+      type: new GraphQLList(AlexType),
       resolve() {
-        return Movie.find({});
+        return Alex.find({});
       }
     },
-    movie: {
-      type: MovieType,
-      args: { id: { type: GraphQLString }},
+    alex: {
+      type: AlexType,
+      args: { missionID: { type: String }},
       resolve(parent, args) {
-        return Movie.findById(args.id);
-      }
-    },
-    everyDirector: {
-      type: new GraphQLList(DirectorType),
-      resolve() {
-        return Director.find({});
-      }
-    },
-    Director: {
-      type: DirectorType,
-      args: { id: { type: GraphQLString }},
-      resolve(parent, args) {
-        return Director.findById(args.id);
+        return Alex.findById(args.missionID);
       }
     }
   }
@@ -72,66 +41,30 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    addMovie: {
-      type: MovieType,
+    addAlex: {
+      type: AlexType,
       args: {
-        id: { type: GraphQLString },
-        movieName: { type: GraphQLString },
-        DirectorId: { type: GraphQLID }
+        missionID: { type: String }
       },
       resolve(parent, args) {
-        const movie = new Movie({
-          id: args.id,
-          movieName: args.movieName,
-          DirectorId: args.DirectorId
-        });
-        return movie.save();
+        const alex = new Alex(args);
+        return alex.save();
       }
     },
-    updateMovie: {
-      type: MovieType,
+    updateAlex: {
+      type: AlexType,
       args: {
-        id: { type: GraphQLString },
-        movieName: { type: GraphQLString },
-        DirectorId: { type: GraphQLID }
+        missionID: { type: String }
       },
       resolve(parent, args) {
-        return Movie.findByIdAndUpdate(args.id, args);
+        return Alex.findByIdAndUpdate(args.id, args);
       }
     },
-    deleteMovie: {
-      type: MovieType,
-      args: { id: { type: GraphQLString }},
+    deleteAlex: {
+      type: AlexType,
+      args: { missionID: { type: String }},
       resolve(parent, args) {
-        return Movie.findByIdAndRemove(args.id);
-      }
-    },
-    addDirector: {
-      type: DirectorType,
-      args: {
-        id: { type: GraphQLString },
-        DirectorName: { type: GraphQLString }
-      },
-      resolve(parent, args) {
-        const Director = new Director(args);
-        return Director.save();
-      }
-    },
-    updateDirector: {
-      type: DirectorType,
-      args: {
-        id: { type: GraphQLString },
-        DirectorName: { type: GraphQLString }
-      },
-      resolve(parent, args) {
-        return Director.findByIdAndUpdate(args.id, args);
-      }
-    },
-    deleteDirector: {
-      type: DirectorType,
-      args: { id: { type: GraphQLString }},
-      resolve(parent, args) {
-        return Director.findByIdAndRemove(args.id);
+        return Alex.findByIdAndRemove(args.id);
       }
     }
   }
