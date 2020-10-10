@@ -73,7 +73,7 @@ function ObjectTypeForm() {
   // Check if user recently clicked a node on the graph
   if (!nodeObj.objectName) {
     return (
-      <div className='object-form row justify-content-center'>
+      <div className='object-form mx-2'>
         <Form>
           <Form.Group>
             <Form.Row className='row justify-content-center'>
@@ -81,22 +81,27 @@ function ObjectTypeForm() {
                 <h4>Create Object</h4>
               </Form.Label>
             </Form.Row>
-            <Form.Control
-              size='sm'
-              type='text'
-              placeholder='Name'
-              id='object-name'
-              style={{ width: 'auto' }}
-              value={objectName}
-              onChange={e => setObjectName(e.target.value)}
-            />
+            <Form.Row className='row justify-content-center'>
+              <Form.Control
+                className='row justify-content-center'
+                size='sm'
+                type='text'
+                placeholder='Name'
+                id='object-name'
+                style={{ width: 'auto' }}
+                value={objectName}
+                onChange={e => setObjectName(e.target.value)}
+              />
+            </Form.Row>
           </Form.Group>
         </Form>
         {fieldArray}
         <FieldForm addField={addField} />
-        <Button size='sm' variant='primary' type='submit' onClick={addObject}>
-          Create Object
-        </Button>
+        <div className='row justify-content-center'>
+          <Button size='sm' variant='primary' type='submit' onClick={addObject}>
+            Create Object
+          </Button>
+        </div>
       </div>
     );
   } else {

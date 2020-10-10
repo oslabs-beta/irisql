@@ -36,7 +36,7 @@ main {
 .wrapper {
   height: 100%;
   display: grid;
-  grid-template-columns: 2fr 7fr;
+  grid-template-columns: 3fr 8fr;
 }
 
 .navbar {
@@ -53,3 +53,4 @@ main {
   overflow-y: auto;
   overflow-x: auto;
 }
+
