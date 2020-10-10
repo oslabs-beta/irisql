@@ -3,40 +3,36 @@ import { Graph } from 'react-d3-graph';
 import { ObjectContext } from './ObjectContextProvider';
 
 export default function GraphInterface(props) {
-  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
+  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(
+    ObjectContext
+  );
   // graph payload (with minimalist structure)
   const data = {
-    nodes: objectListState.objects[0] ? getNodes() : []
-    // objectListState.objects
-    //   .map((objType) => {
-    //     objType.fields.map()
-    //     return { id: objType.objectName };
-    //   })
-      // .concat([{ id: 'Harry' }, { id: 'Greg' }, { id: 'Alice' }])
-      ,
-
+    nodes: objectListState.objects[0] ? getNodes() : [],
     links: objectListState.objects[0] ? getLinks() : []
-    // objectListState.objects[0].fields
-    //   .map((field) => {
-    //     return { source: objectListState.objects[0].objectName, target: field.fieldName };
-    //   }) : []
-      // .concat([
-      //   { source: 'Harry', target: 'Greg' },
-      //   { source: 'Harry', target: 'Alice' }
-      // ])
-
   };
-  // const data = {
-  //   nodes: [],
-  //   links: []
-  // }
+
+  // console.log("this is our data", data)
 
   function getNodes() {
     const nodes = [];
+    const blueNodes = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
-      nodes.push({id: objectListState.objects[i].objectName, size: 400, color: 'blue', symbolType: 'square'});
+      nodes.push({
+        id: objectListState.objects[i].objectName,
+        size: 400,
+        color: '#0e5679'
+      });
+      blueNodes.push(objectListState.objects[i].objectName);
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        nodes.push({id: objectListState.objects[i].fields[j].fieldName})
+        if (
+          !blueNodes.includes(objectListState.objects[i].fields[j].fieldName)
+        ) {
+          nodes.push({
+            id: objectListState.objects[i].fields[j].fieldName,
+            color: '#ed938f'
+          });
+        }
       }
     }
     return nodes;
@@ -46,7 +42,10 @@ export default function GraphInterface(props) {
     const links = [];
     for (let i = 0; i < objectListState.objects.length; i += 1) {
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        links.push({source: objectListState.objects[i].objectName, target: objectListState.objects[i].fields[j].fieldName})
+        links.push({
+          source: objectListState.objects[i].objectName,
+          target: objectListState.objects[i].fields[j].fieldName
+        });
       }
     }
     return links;
@@ -55,12 +54,11 @@ export default function GraphInterface(props) {
   // the graph configuration, you only need to pass down properties
   // that you want to override, otherwise default ones will be used
   const myConfig = {
-    automaticRearrangeAfterDropNode: true,
-    collapsible: true,
     directed: true,
-    focusAnimationDuration: 0.75,
-    focusZoom: 1,
-    height: 500,
+    automaticRearrangeAfterDropNode: true,
+    collapsible: false,
+    height: 0.94 * window.innerHeight,
+    width: 0.75 * window.innerWidth,
     highlightDegree: 2,
     highlightOpacity: 0.2,
     linkHighlightBehavior: true,
@@ -69,14 +67,11 @@ export default function GraphInterface(props) {
     nodeHighlightBehavior: true,
     panAndZoom: false,
     staticGraph: false,
-    staticGraphWithDragAndDrop: false,
-    width: 1200,
     d3: {
       alphaTarget: 0.05,
       gravity: -250,
       linkLength: 120,
-      linkStrength: 2,
-      disableLinkForce: false
+      linkStrength: 2
     },
     node: {
       color: '#d3d3d3',
@@ -95,17 +90,17 @@ export default function GraphInterface(props) {
       strokeColor: 'none',
       strokeWidth: 1.5,
       svg: '',
-      symbolType: 'circle'
+      symbolType: 'circle',
+      viewGenerator: null
     },
     link: {
       color: 'lightgray',
-      fontColor: 'black',
-      fontSize: 8,
-      fontWeight: 'normal',
       highlightColor: 'red',
-      highlightFontSize: 8,
-      highlightFontWeight: 'normal',
-      labelProperty: 'label'
+      mouseCursor: 'pointer',
+      opacity: 1,
+      semanticStrokeWidth: true,
+      strokeWidth: 3,
+      type: 'STRAIGHT'
     }
   };
 
@@ -118,10 +113,12 @@ export default function GraphInterface(props) {
   const onClickNode = function (nodeId) {
     // setNodeObj({});
     // Grab object with state corresponding to node clicked
-    const currentObj = objectListState.objects.filter(obj => obj.objectName === nodeId);
+    const currentObj = objectListState.objects.filter(
+      obj => obj.objectName === nodeId
+    );
     console.log('current object:', currentObj);
     // Changes current node object in global state
-    setNodeObj(currentObj[0]);
+    currentObj[0] ? setNodeObj(currentObj[0]) : null;
   };
 
   // const onDoubleClickNode = function (nodeId) {
@@ -184,7 +181,9 @@ export default function GraphInterface(props) {
     );
   } else {
     return (
-      <div>Get Started</div>
-    )
+      <div className='m-auto'>
+        <h2>Create your first object to get started.</h2>
+      </div>
+    );
   }
 }

@@ -7,13 +7,20 @@ import UpdateForm from './UpdateForm';
 
 function ObjectTypeForm() {
   // Gives us access to global state
-  const [objectListState, setObjectList, nodeObj] = useContext(ObjectContext);
+  const [
+    objectListState,
+    setObjectList,
+    nodeObj,
+    setNodeObj,
+    viewCode,
+    setViewCode
+  ] = useContext(ObjectContext);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form
   const [objectName, setObjectName] = useState('');
   // Adds new object to global state
-  const addObject = (e) => {
+  const addObject = e => {
     e.preventDefault();
     // Get object name from local state
     // Push new object to object list
@@ -23,9 +30,8 @@ function ObjectTypeForm() {
     setObjectList(stateObject);
     // Clear out local state fields
     setFields([]);
-    // clear out objectType input 
+    // clear out objectType input
     setObjectName('');
-    
   };
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
@@ -38,7 +44,7 @@ function ObjectTypeForm() {
     newFields[index].fieldType = inputType;
     setFields([...newFields]);
   };
-  
+
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
     setFields([...fields, fieldItemInput]);
@@ -51,8 +57,8 @@ function ObjectTypeForm() {
     e.preventDefault();
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
-  }
-  
+  };
+
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
     <FieldItem
@@ -71,7 +77,9 @@ function ObjectTypeForm() {
         <Form>
           <Form.Group>
             <Form.Row className='row justify-content-center'>
-              <Form.Label>Create Object</Form.Label>
+              <Form.Label>
+                <h4>Create Object</h4>
+              </Form.Label>
             </Form.Row>
             <Form.Control
               size='sm'
@@ -80,26 +88,19 @@ function ObjectTypeForm() {
               id='object-name'
               style={{ width: 'auto' }}
               value={objectName}
-              onChange={(e) => setObjectName(e.target.value)}
+              onChange={e => setObjectName(e.target.value)}
             />
           </Form.Group>
         </Form>
         {fieldArray}
         <FieldForm addField={addField} />
-        <Button
-          size='sm'
-          variant='primary'
-          type='submit'
-          onClick={addObject}
-        >
+        <Button size='sm' variant='primary' type='submit' onClick={addObject}>
           Create Object
         </Button>
       </div>
     );
   } else {
-    return (
-      <UpdateForm />
-    )
+    return <UpdateForm />;
   }
 }
 

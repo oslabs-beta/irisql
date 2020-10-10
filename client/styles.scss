@@ -7,12 +7,15 @@ $blue: #0e5679;
   display: inline-flex;
   background-color: darken($light-grey, 10%);
   height: 100%;
+  min-width: 310px;
+  justify-content: space-between;
 }
 
 .main-container {
   display: flex;
   flex-flow: column;
   height: 100vh;
+  overflow: hidden;
 }
 
 header {
@@ -23,10 +26,30 @@ main {
   flex: 1 1 auto;
 }
 
+.landing-page {
+  height: 100%;
+  width: 100%;
+  background-image: url('../public/images/pexels-cosmos.jpg');
+  background-size: cover;
+}
+
 .wrapper {
   height: 100%;
   display: grid;
   grid-template-columns: 2fr 7fr;
 }
 
+.navbar {
+  height: 6vh;
+  min-height: 40px;
+}
 
+.CodeMirror {
+  height: 94vh;
+}
+
+.CodeMirror-scroll {
+  // height: auto;
+  overflow-y: auto;
+  overflow-x: auto;
+}

@@ -6,7 +6,9 @@ import { ObjectContext } from './ObjectContextProvider';
 
 function UpdateForm() {
   // Gives us access to global state
-  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
+  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(
+    ObjectContext
+  );
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState(nodeObj.fields);
   // objectName keeps track of current object type name in form
@@ -18,7 +20,7 @@ function UpdateForm() {
   // }, [nodeObj]);
 
   // Update object in global state
-  const updateObject = (e) => {
+  const updateObject = e => {
     // Prevent the page from reloading
     e.preventDefault();
     // Initialize empty array to hold copy of state
@@ -29,7 +31,7 @@ function UpdateForm() {
         obj.objectName = objectName;
         obj.fields = fields;
         return obj;
-      } 
+      }
       // Else, push to the array
       return obj;
     });
@@ -38,11 +40,30 @@ function UpdateForm() {
     setObjectList(updatedListState);
     // Clear out local state fields
     setFields([]);
-    // clear out objectType input 
+    // clear out objectType input
     setObjectName('');
     // Reset current node object to change form back to objectTypeForm
     setNodeObj({});
   };
+
+  const deleteObject = e => {
+    // Prevent the page from reloading
+    e.preventDefault();
+    // Initialize empty array to hold copy of state
+    let updatedListState = {};
+    updatedListState.objects = objectListState.objects.filter(
+      obj => obj.objectName !== nodeObj.objectName
+    );
+    // Set global object list state to edited version
+    setObjectList(updatedListState);
+    // Clear out local state fields
+    setFields([]);
+    // clear out objectType input
+    setObjectName('');
+    // Reset current node object to change form back to objectTypeForm
+    setNodeObj({});
+  };
+
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
@@ -55,7 +76,7 @@ function UpdateForm() {
     newFields[index].fieldType = inputType;
     setFields([...newFields]);
   };
-  
+
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
     setFields([...fields, fieldItemInput]);
@@ -68,8 +89,8 @@ function UpdateForm() {
     e.preventDefault();
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
-  }
-  
+  };
+
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
     <FieldItem
@@ -84,11 +105,12 @@ function UpdateForm() {
 
   return (
     <div className='object-form row justify-content-center'>
-      <div>{nodeObj.objectName}</div>
       <Form>
         <Form.Group>
           <Form.Row className='row justify-content-center'>
-            <Form.Label>Update Object</Form.Label>
+            <Form.Label>
+              <h4>Update Object</h4>
+            </Form.Label>
           </Form.Row>
           <Form.Row>
             <Form.Control
@@ -98,7 +120,7 @@ function UpdateForm() {
               id='object-name'
               style={{ width: 'auto' }}
               value={objectName}
-              onChange={(e) => setObjectName(e.target.value)}
+              onChange={e => setObjectName(e.target.value)}
             />
           </Form.Row>
         </Form.Group>
@@ -110,23 +132,28 @@ function UpdateForm() {
           size='sm'
           variant='primary'
           type='submit'
-          onClick={updateObject}
-        >
+          onClick={updateObject}>
           Update Object
+        </Button>
+        <Button
+          size='sm'
+          variant='danger'
+          type='submit'
+          onClick={deleteObject}
+          className='ml-2'>
+          Delete Object
         </Button>
         <Button
           size='sm'
           variant='secondary'
           type='submit'
           onClick={() => setNodeObj({})}
-          className='ml-2'
-        >
+          className='ml-2'>
           Cancel
         </Button>
       </Form.Row>
     </div>
   );
-  
 }
 
 export default UpdateForm;
