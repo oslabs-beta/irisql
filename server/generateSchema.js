@@ -205,4 +205,9 @@ const createModuleExports = () => {
 }
 
 
-module.exports = { generateSchema }
+module.exports = { 
+  generateSchema,
+  createObjectType,
+
+};
+ 
