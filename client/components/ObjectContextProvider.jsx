@@ -28,14 +28,7 @@ export const ObjectContextProvider = (props) => {
       newObj.objectName = obj.objectName;
       newObj.fields = {};
       obj.fields.forEach((field, index) => {
-        newObj.fields[index] = {
-          fieldName: field.fieldName,
-          fieldType: field.fieldType,
-          hasRelation: false, //choose from yes or no
-          relatedObjectName: null, //choose from existing object types
-          relatedObjectField: null, //choose from existing fields of the chosen object type
-          relatedReferenceType: null //choose from "one to one", "one to many", "many to one"
-        };
+        newObj.fields[index] = field;
       });
       feed.push(newObj);
     });
