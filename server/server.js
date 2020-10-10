@@ -4,7 +4,16 @@ const app = express();
 const router = require("./routes");
 const { graphqlHTTP } = require("express-graphql");
 const testSchema = require("./schema/testSchema");
+const mongoose = require("mongoose");
 const PORT = 3000;
+
+//connect mongoDB database
+const url = "";
+mongoose
+  .connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
+  .then((data) => console.log("connected to database"))
+  .catch((err) => console.log("error: ", err));
+const db = mongoose.connection;
 
 app.use(
   "/graphql",
