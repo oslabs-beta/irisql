@@ -58,7 +58,7 @@ export default function GraphInterface(props) {
     automaticRearrangeAfterDropNode: true,
     collapsible: false,
     height: 0.94 * window.innerHeight,
-    width: 0.75 * window.innerWidth,
+    width: 0.7 * window.innerWidth,
     highlightDegree: 2,
     highlightOpacity: 0.2,
     linkHighlightBehavior: true,
