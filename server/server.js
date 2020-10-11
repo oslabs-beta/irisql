@@ -1,19 +1,11 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const router = require("./routes");
+const apiRouter = require("./routes/apiRouter");
+const testRouter = require("./routes/testRouter");
 const { graphqlHTTP } = require("express-graphql");
 const testSchema = require("./schema/testSchema");
-const mongoose = require("mongoose");
 const PORT = 3000;
-
-//connect mongoDB database
-const url = "";
-mongoose
-  .connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
-  .then((data) => console.log("connected to database"))
-  .catch((err) => console.log("error: ", err));
-const db = mongoose.connection;
 
 app.use(
   "/graphql",
@@ -27,7 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/build", express.static(path.join(__dirname, "../build")));
 
-app.use("/api", router);
+app.use("/api", apiRouter);
+
+app.use("/test", testRouter);
 
 // Serve index.html for our routes declared with react router
 app.use("/prototyper", (req, res) =>
