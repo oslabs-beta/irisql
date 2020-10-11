@@ -1,6 +1,4 @@
 const graphql = require('graphql')
-const Movie= require('../models/movieSchema');
-const Director = require('../models/directorSchema')
 
 const { 
   GraphQLSchema, 
@@ -19,21 +17,21 @@ const MovieType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLString },
     movieName: { type: GraphQLString },
-    DirectorId: { type: GraphQLID },
-    Director: {
-      type: DirectorType,
+    AutherID: { type: GraphQLID },
+    Author: {
+      type: AuthorType,
       resolve(parent, args) {
-        return Director.findById(parent.DirectorId);
+        return Author.findById(parent.AuthorID);
       }
     }
   })  
 });
 
-const DirectorType = new GraphQLObjectType({
-  name: 'Director',
+const AuthorType = new GraphQLObjectType({
+  name: 'Author',
   fields: () => ({
     id: { type: GraphQLString },
-    DirectorName: { type: GraphQLString }
+    AuthorName: { type: GraphQLString }
   })  
 });
 
@@ -53,17 +51,17 @@ const RootQuery = new GraphQLObjectType({
         return Movie.findById(args.id);
       }
     },
-    everyDirector: {
-      type: new GraphQLList(DirectorType),
+    everyAuthor: {
+      type: new GraphQLList(AuthorType),
       resolve() {
-        return Director.find({});
+        return Author.find({});
       }
     },
-    Director: {
-      type: DirectorType,
+    author: {
+      type: AuthorType,
       args: { id: { type: GraphQLString }},
       resolve(parent, args) {
-        return Director.findById(args.id);
+        return Author.findById(args.id);
       }
     }
   }
@@ -77,14 +75,10 @@ const Mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
         movieName: { type: GraphQLString },
-        DirectorId: { type: GraphQLID }
+        AutherID: { type: GraphQLID }
       },
       resolve(parent, args) {
-        const movie = new Movie({
-          id: args.id,
-          movieName: args.movieName,
-          DirectorId: args.DirectorId
-        });
+        const movie = new Movie(args);
         return movie.save();
       }
     },
@@ -93,7 +87,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
         movieName: { type: GraphQLString },
-        DirectorId: { type: GraphQLID }
+        AutherID: { type: GraphQLID }
       },
       resolve(parent, args) {
         return Movie.findByIdAndUpdate(args.id, args);
@@ -106,32 +100,32 @@ const Mutation = new GraphQLObjectType({
         return Movie.findByIdAndRemove(args.id);
       }
     },
-    addDirector: {
-      type: DirectorType,
+    addAuthor: {
+      type: AuthorType,
       args: {
         id: { type: GraphQLString },
-        DirectorName: { type: GraphQLString }
+        AuthorName: { type: GraphQLString }
       },
       resolve(parent, args) {
-        const Director = new Director(args);
-        return Director.save();
+        const author = new Author(args);
+        return author.save();
       }
     },
-    updateDirector: {
-      type: DirectorType,
+    updateAuthor: {
+      type: AuthorType,
       args: {
         id: { type: GraphQLString },
-        DirectorName: { type: GraphQLString }
+        AuthorName: { type: GraphQLString }
       },
       resolve(parent, args) {
-        return Director.findByIdAndUpdate(args.id, args);
+        return Author.findByIdAndUpdate(args.id, args);
       }
     },
-    deleteDirector: {
-      type: DirectorType,
+    deleteAuthor: {
+      type: AuthorType,
       args: { id: { type: GraphQLString }},
       resolve(parent, args) {
-        return Director.findByIdAndRemove(args.id);
+        return Author.findByIdAndRemove(args.id);
       }
     }
   }
