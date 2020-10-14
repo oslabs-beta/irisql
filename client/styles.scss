@@ -7,7 +7,7 @@ $blue: #0e5679;
   display: inline-flex;
   background-color: darken($light-grey, 10%);
   height: 100%;
-  min-width: 310px;
+  min-width: 400px;
   justify-content: space-between;
 }
 
@@ -27,7 +27,7 @@ main {
 }
 
 .landing-page {
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background-image: url('../public/images/pexels-cosmos.jpg');
   background-size: cover;
