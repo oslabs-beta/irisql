@@ -12,27 +12,56 @@ const {
   GraphQLNonNull, 
 } = graphql;
 
-const AlexType = new GraphQLObjectType({
-  name: 'Alex',
+const MovieType = new GraphQLObjectType({
+  name: 'Movie',
   fields: () => ({
-    missionID: { type: String }
+    id: { type: GraphQLString },
+    movieName: { type: GraphQLString },
+    AutherID: { type: GraphQLID },
+    Author: {
+      type: AuthorType,
+      resolve(parent, args) {
+        return Author.findById(parent.AuthorID);
+      }
+    }
+  })  
+});
+
+const AuthorType = new GraphQLObjectType({
+  name: 'Author',
+  fields: () => ({
+    id: { type: GraphQLString },
+    AuthorName: { type: GraphQLString }
   })  
 });
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    everyAlex: {
-      type: new GraphQLList(AlexType),
+    everyMovie: {
+      type: new GraphQLList(MovieType),
       resolve() {
-        return Alex.find({});
+        return Movie.find({});
       }
     },
-    alex: {
-      type: AlexType,
-      args: { missionID: { type: String }},
+    movie: {
+      type: MovieType,
+      args: { id: { type: GraphQLString }},
       resolve(parent, args) {
-        return Alex.findById(args.missionID);
+        return Movie.findById(args.id);
+      }
+    },
+    everyAuthor: {
+      type: new GraphQLList(AuthorType),
+      resolve() {
+        return Author.find({});
+      }
+    },
+    author: {
+      type: AuthorType,
+      args: { id: { type: GraphQLString }},
+      resolve(parent, args) {
+        return Author.findById(args.id);
       }
     }
   }
@@ -41,30 +70,62 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    addAlex: {
-      type: AlexType,
+    addMovie: {
+      type: MovieType,
       args: {
-        missionID: { type: String }
+        id: { type: GraphQLString },
+        movieName: { type: GraphQLString },
+        AutherID: { type: GraphQLID }
       },
       resolve(parent, args) {
-        const alex = new Alex(args);
-        return alex.save();
+        const movie = new Movie(args);
+        return movie.save();
       }
     },
-    updateAlex: {
-      type: AlexType,
+    updateMovie: {
+      type: MovieType,
       args: {
-        missionID: { type: String }
+        id: { type: GraphQLString },
+        movieName: { type: GraphQLString },
+        AutherID: { type: GraphQLID }
       },
       resolve(parent, args) {
-        return Alex.findByIdAndUpdate(args.id, args);
+        return Movie.findByIdAndUpdate(args.id, args);
       }
     },
-    deleteAlex: {
-      type: AlexType,
-      args: { missionID: { type: String }},
+    deleteMovie: {
+      type: MovieType,
+      args: { id: { type: GraphQLString }},
       resolve(parent, args) {
-        return Alex.findByIdAndRemove(args.id);
+        return Movie.findByIdAndRemove(args.id);
+      }
+    },
+    addAuthor: {
+      type: AuthorType,
+      args: {
+        id: { type: GraphQLString },
+        AuthorName: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        const author = new Author(args);
+        return author.save();
+      }
+    },
+    updateAuthor: {
+      type: AuthorType,
+      args: {
+        id: { type: GraphQLString },
+        AuthorName: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return Author.findByIdAndUpdate(args.id, args);
+      }
+    },
+    deleteAuthor: {
+      type: AuthorType,
+      args: { id: { type: GraphQLString }},
+      resolve(parent, args) {
+        return Author.findByIdAndRemove(args.id);
       }
     }
   }
