@@ -17,7 +17,7 @@ const FieldItem  = (props) => {
   });
 
   // Create array of fields for chosen objectName
-  const fieldRelations = objectListState.objects.length ? 
+  const fieldRelations = objectListState.objects.length && props.info.relatedObjectName ? 
     objectListState.objects.filter(obj => obj.objectName === props.info.relatedObjectName)[0].fields : [];
   const fieldRelationsOptions = [];
   fieldRelations.forEach(field => {
@@ -68,7 +68,7 @@ const FieldItem  = (props) => {
             id="inlineFormCustomSelect"
             size="sm"
             defaultValue={props.info.relatedObjectName}
-            //onChange={(e) => setNewField({...newField, relatedObjectName : e.target.value})}
+            onChange={(e) => props.updateObjectRelation(e.target.value, props.ind)}
             custom
           >
             {objectRelationOptions}
@@ -81,7 +81,7 @@ const FieldItem  = (props) => {
             id="inlineFormCustomSelect"
             size="sm"
             defaultValue={props.info.relatedObjectField}
-            //onChange={(e) => setNewField({...newField, relatedObjectField : e.target.value})}
+            onChange={(e) => props.updateFieldRelation(e.target.value, props.ind)}
             custom
           >
             {fieldRelationsOptions}

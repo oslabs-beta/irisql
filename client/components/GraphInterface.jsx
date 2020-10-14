@@ -46,6 +46,14 @@ export default function GraphInterface(props) {
           source: objectListState.objects[i].objectName,
           target: objectListState.objects[i].fields[j].fieldName
         });
+        // links generated between objects types using relationships
+        if(objectListState.objects[i].fields[j].hasRelation){
+          links.push({
+            source: objectListState.objects[i].objectName, 
+            target: objectListState.objects[i].fields[j].relatedObjectName,
+            color: '#fad163'
+          })
+        }
       }
     }
     return links;
@@ -54,7 +62,7 @@ export default function GraphInterface(props) {
   // the graph configuration, you only need to pass down properties
   // that you want to override, otherwise default ones will be used
   const myConfig = {
-    directed: true,
+    directed:true,
     automaticRearrangeAfterDropNode: true,
     collapsible: false,
     height: 0.94 * window.innerHeight,

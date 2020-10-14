@@ -20,7 +20,7 @@ module.exports = {
   devServer: {
     publicPath: "/build/",
     // watchContentBase: true,
-    // contentBase: path.resolve(__dirname, './client'),
+    //contentBase: path.resolve(__dirname, 'build'),
     // redirect 404s to /index.html.
     // historyApiFallback: true,
     hot: true,
