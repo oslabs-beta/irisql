@@ -21,23 +21,11 @@ export const ObjectContextProvider = (props) => {
 
   // useEffect gets invoked when state changes
   useEffect(() => {
-    // Creating an array of objects for query creation
-    const feed = [];
-    objectListState.objects.forEach((obj) => {
-      const newObj = {};
-      newObj.objectName = obj.objectName;
-      newObj.fields = {};
-      obj.fields.forEach((field, index) => {
-        newObj.fields[index] = field;
-      });
-      feed.push(newObj);
-    });
-    console.log('Context feed:', feed);
 
     fetch('/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(feed)
+      body: JSON.stringify(objectListState.objects)
     })
       .then((res) => res.json())
       .then((data) => {

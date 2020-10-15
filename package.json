@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development concurrently \"nodemon server/server.js\" \"webpack-dev-server --open --hot\"",
+    "dev": "NODE_ENV=development concurrently \"nodemon server/server.js\" \"webpack-dev-server --open --hot \"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
