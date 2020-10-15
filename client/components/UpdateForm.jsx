@@ -14,11 +14,6 @@ function UpdateForm() {
   // objectName keeps track of current object type name in form
   const [objectName, setObjectName] = useState(nodeObj.objectName);
 
-  // useEffect(() => {
-  //   useState(nodeObj.fields);
-  //   useState(nodeObj.objectName);
-  // }, [nodeObj]);
-
   // Update object in global state
   const updateObject = e => {
     // Prevent the page from reloading
@@ -90,7 +85,7 @@ function UpdateForm() {
     setFields([...newFields]);
   };
 
-  const updateHasRelation = (inputRelation,index) => {
+  const updateHasRelation = (inputRelation, index) => {
     let newFields = [...fields];
     newFields[index].hasRelation = inputRelation;
     setFields([...newFields]);
