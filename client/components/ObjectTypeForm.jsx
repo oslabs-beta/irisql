@@ -19,10 +19,20 @@ function ObjectTypeForm() {
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form
   const [objectName, setObjectName] = useState('');
+  // usedDuplicateFields notifies user if they tried to use an existing field or objectName
+  const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
   // Adds new object to global state
   const addObject = e => {
     e.preventDefault();
-    // Get object name from local state
+    // Check if duplicate object name was used
+    setUsedDuplicateFields(false);
+    // Iterate through all fields and objects to ensure duplicate objectName isnt added
+    let duplicateObject = checkDuplicates(objectName);
+    // If the object is a duplicate, prevent global state from being updated
+    if (duplicateObject) {
+      setUsedDuplicateFields(true)
+      return;
+    } 
     // Push new object to object list
     const newObjectList = [...objectListState.objects, { objectName, fields }];
     // Add new object list to the objects property of our object list global state
@@ -65,7 +75,11 @@ function ObjectTypeForm() {
 
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
-    setFields([...fields, fieldItemInput]);
+    setUsedDuplicateFields(false);
+    // Iterate through all fields to ensure duplicate fieldName isnt added
+    let duplicateField = checkDuplicates(fieldItemInput.fieldName);
+    // If the field isn't a duplicate, set the field in local state
+    duplicateField ? setUsedDuplicateFields(true)  : setFields([...fields, fieldItemInput]);
     e.preventDefault();
     //e.target.value = '';
   };
@@ -76,6 +90,22 @@ function ObjectTypeForm() {
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
   };
+
+  // Checks for duplicates in fields and objects
+  const checkDuplicates = (itemName) => {
+    for (let i = 0; i < objectListState.objects.length; i += 1) {
+      if (objectListState.objects[i].objectName === itemName) {
+        return true;
+      }
+      for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
+        if (objectListState.objects[i].fields[j].fieldName === itemName) {
+          return true;
+        }
+      }
+    }
+    // If no duplicate names found, return false
+    return false;
+  }
 
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
@@ -117,7 +147,7 @@ function ObjectTypeForm() {
           </Form.Group>
         </Form>
         {fieldArray}
-        <FieldForm addField={addField} />
+        <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
         <div className='row justify-content-center'>
           <Button size='sm' variant='primary' type='submit' onClick={addObject}>
             Create Object

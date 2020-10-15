@@ -33,7 +33,7 @@ export const ObjectContextProvider = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('this is the server response',data)
+        // console.log('this is the server response',data)
         setViewCode({...viewCode,responseCode:data})})
       .catch((err) => console.log(err));
   }, [objectListState]);

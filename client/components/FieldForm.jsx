@@ -79,6 +79,13 @@ function FieldForm (props) {
           </Button>
         </Col>
       </Form.Row>
+      {/* If user attempts to enter field with same name as objectType or other field */}
+      {props.usedDuplicateFields && 
+        <Form.Text className='duplicate-fields-warning text-danger mb-2'>
+          Duplicate field or object name used. Try another one.
+        </Form.Text>
+      }
+      {/* If the user checks the has relation box */}
       {newField.hasRelation && 
         <Form.Row className="align-items-center">
           <Col xs="auto">
