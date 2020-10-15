@@ -39,23 +39,23 @@ const createObjectType = (arrOfObj) => {
     acc += `  name: '${curr.objectName}',\n`;
     acc += `  fields: () => ({\n`;
 
-    for (let key in curr.fields) {
+    for (let i = 0; i < curr.fields.length; i++) {
       // name related object
       const relatedObjectNamewithType =
-        curr.fields[key].relatedObjectName + "Type";
+        curr.fields[i].relatedObjectName + "Type";
 
-      if (key !== Object.keys(curr.fields)[0]) {
+      if (i !== 0) {
         acc += `,\n`;
       }
 
-      acc += `    ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
+      acc += `    ${curr.fields[i].fieldName}: { type: ${curr.fields[i].fieldType} }`;
 
-      if (curr.fields[key].hasRelation === true) {
+      if (curr.fields[i].hasRelation === true) {
         acc += `,\n`;
-        acc += `    ${curr.fields[key].relatedObjectName}: {\n`;
-        acc += `      type: ${curr.fields[key].relatedObjectName}Type,\n`;
+        acc += `    ${curr.fields[i].relatedObjectName}: {\n`;
+        acc += `      type: ${curr.fields[i].relatedObjectName}Type,\n`;
         acc += "      resolve(parent, args) {\n";
-        acc += `        return ${curr.fields[key].relatedObjectName}.findById(parent.${curr.fields[key].relatedObjectField});\n`;
+        acc += `        return ${curr.fields[i].relatedObjectName}.findById(parent.${curr.fields[i].relatedObjectField});\n`;
         acc += `      }`;
         acc += `\n    }`;
       }
@@ -137,12 +137,12 @@ const createMutation = (arrOfObj) => {
     acc += `      type: ${objectNameWithType},\n`;
     acc += `      args: {\n`;
 
-    for (let key in curr.fields) {
-      if (key !== Object.keys(curr.fields)[0]) {
+    for (let i = 0; i < curr.fields.length; i++) {
+      if (i !== 0) {
         acc += `,\n`;
       }
 
-      acc += `        ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
+      acc += `        ${curr.fields[i].fieldName}: { type: ${curr.fields[i].fieldType} }`;
     }
 
     acc += `\n      },\n`;
@@ -157,12 +157,12 @@ const createMutation = (arrOfObj) => {
     acc += `      type: ${objectNameWithType},\n`;
     acc += `      args: {\n`;
 
-    for (let key in curr.fields) {
-      if (key !== Object.keys(curr.fields)[0]) {
+    for (let i = 0; i < curr.fields.length; i++) {
+      if (i !== 0) {
         acc += `,\n`;
       }
 
-      acc += `        ${curr.fields[key].fieldName}: { type: ${curr.fields[key].fieldType} }`;
+      acc += `        ${curr.fields[i].fieldName}: { type: ${curr.fields[i].fieldType} }`;
     }
 
     acc += `\n      },\n`;
