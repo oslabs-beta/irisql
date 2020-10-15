@@ -10,14 +10,17 @@ module.exports = {
     // allows you to specify the base path for all the assets within our application
     publicPath: "/",
   },
-  plugins: [new HtmlWebpackPlugin({
+  plugins: 
+    [new HtmlWebpackPlugin({
     // Prevents us from having to serve favicon in the server file
-    favicon: "./public/images/favicon.png"
-  })],
+    favicon: path.resolve(__dirname, "./public/images/logo-16x16-no-bg.png"),
+    template: './client/index.html'
+      })
+    ],
   devServer: {
     publicPath: "/build/",
     // watchContentBase: true,
-    // contentBase: path.resolve(__dirname, './client'),
+    //contentBase: path.resolve(__dirname, 'build'),
     // redirect 404s to /index.html.
     // historyApiFallback: true,
     hot: true,
