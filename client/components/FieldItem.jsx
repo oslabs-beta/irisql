@@ -11,17 +11,17 @@ const FieldItem  = (props) => {
 
   // Create array of objectNames for relation dropdown menu
   const objectRelations = objectListState.objects.map(obj => obj.objectName);
-  const objectRelationOptions = [<option value={null} disabled selected>Pick Object</option>];
-  objectRelations.forEach(obj => {
-    objectRelationOptions.push(<option value={obj}>{obj}</option>)
+  const objectRelationOptions = [<option value={null} key={'obj-' + 0} disabled selected>Pick Object</option>];
+  objectRelations.forEach((obj,index) => {
+    objectRelationOptions.push(<option value={obj} key={'obj-' + index+1}>{obj}</option>)
   });
 
   // Create array of fields for chosen objectName
   const fieldRelations = objectListState.objects.length && props.info.relatedObjectName ? 
     objectListState.objects.filter(obj => obj.objectName === props.info.relatedObjectName)[0].fields : [];
-  const fieldRelationsOptions = [<option value={null} disabled selected>Pick Field</option>];
-  fieldRelations.forEach(field => {
-      fieldRelationsOptions.push(<option value={field.fieldName}>{field.fieldName}</option>)
+  const fieldRelationsOptions = [<option value={null} key={'field-' + 0} disabled selected>Pick Field</option>];
+  fieldRelations.forEach((field,index) => {
+      fieldRelationsOptions.push(<option value={field.fieldName} key={'field-' + index + 1}>{field.fieldName}</option>)
   });
 
   return (

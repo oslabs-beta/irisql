@@ -13,7 +13,7 @@ module.exports = {
   plugins: 
     [new HtmlWebpackPlugin({
     // Prevents us from having to serve favicon in the server file
-    favicon: path.resolve(__dirname, "./public/images/favicon.png"),
+    favicon: path.resolve(__dirname, "./public/images/logo-16x16-no-bg.png"),
     template: './client/index.html'
       })
     ],

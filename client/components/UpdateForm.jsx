@@ -125,7 +125,7 @@ function UpdateForm() {
   ));
 
   return (
-    <div className='object-form row justify-content-center'>
+    <div className='object-form mx-2'>
       <Form>
         <Form.Group>
           <Form.Row className='row justify-content-center'>
@@ -133,8 +133,9 @@ function UpdateForm() {
               <h4>Update Object</h4>
             </Form.Label>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='row justify-content-center' >
             <Form.Control
+              className='row justify-content-center'
               size='sm'
               type='text'
               placeholder='Name'
@@ -148,7 +149,7 @@ function UpdateForm() {
       </Form>
       {fieldArray}
       <FieldForm addField={addField} />
-      <Form.Row>
+      <Form.Row className='row justify-content-center'>
         <Button
           size='sm'
           variant='primary'

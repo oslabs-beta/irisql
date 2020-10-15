@@ -47,7 +47,13 @@ export default function GraphInterface(props) {
           target: objectListState.objects[i].fields[j].fieldName
         });
         // links generated between objects types using relationships
-        if(objectListState.objects[i].fields[j].hasRelation){
+        if(
+          objectListState.objects[i].fields[j].hasRelation 
+          && 
+          objectListState.objects[i].fields[j].relatedObjectName 
+          &&
+          objectListState.objects[i].fields[j].relatedObjectField
+           ){
           links.push({
             source: objectListState.objects[i].objectName, 
             target: objectListState.objects[i].fields[j].relatedObjectName,
