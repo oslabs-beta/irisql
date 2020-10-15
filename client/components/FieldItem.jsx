@@ -11,7 +11,7 @@ const FieldItem  = (props) => {
 
   // Create array of objectNames for relation dropdown menu
   const objectRelations = objectListState.objects.map(obj => obj.objectName);
-  const objectRelationOptions = [];
+  const objectRelationOptions = [<option value={null} disabled selected>Pick Object</option>];
   objectRelations.forEach(obj => {
     objectRelationOptions.push(<option value={obj}>{obj}</option>)
   });
@@ -19,13 +19,13 @@ const FieldItem  = (props) => {
   // Create array of fields for chosen objectName
   const fieldRelations = objectListState.objects.length && props.info.relatedObjectName ? 
     objectListState.objects.filter(obj => obj.objectName === props.info.relatedObjectName)[0].fields : [];
-  const fieldRelationsOptions = [];
+  const fieldRelationsOptions = [<option value={null} disabled selected>Pick Field</option>];
   fieldRelations.forEach(field => {
       fieldRelationsOptions.push(<option value={field.fieldName}>{field.fieldName}</option>)
   });
 
   return (
-    <Form>
+    <Form className="field-item">
   <Form.Row className="align-items-center">
     <Col xs="auto">
       <Form.Control
@@ -52,6 +52,15 @@ const FieldItem  = (props) => {
         <option value="GraphQLInt">Integer</option>
         <option value="GraphQLID">ID</option>
       </Form.Control>
+    </Col>
+    <Col xs="auto">
+      <Form.Check 
+        type="checkbox" 
+        label="Relation" 
+        className="mb-2" 
+        checked={props.info.hasRelation}
+        onChange={(e) => props.updateHasRelation(e.target.checked, props.ind)} 
+      />
     </Col>
     <Col xs="auto">
       <Button type="submit" className="mb-2 btn-danger" size="sm" onClick={(e) => props.deleteField(props.ind, e)}>

@@ -54,3 +54,11 @@ main {
   overflow-x: auto;
 }
 
+.field-item{
+  border: 1px solid darken($light-grey,25%);
+  border-radius: 5px;
+  padding: .2rem 0rem 0rem .2rem;
+  margin-bottom: .65rem;
+  box-shadow: 2.5px 5px 4px rgb(188, 188, 188);
+}
+

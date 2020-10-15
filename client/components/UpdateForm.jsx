@@ -88,14 +88,18 @@ function UpdateForm() {
     let newFields = [...fields];
     newFields[index].relatedObjectName = inputObjType;
     setFields([...newFields]);
-    console.log("ObjectRelations:", fields)
   };
+
+  const updateHasRelation = (inputRelation,index) => {
+    let newFields = [...fields];
+    newFields[index].hasRelation = inputRelation;
+    setFields([...newFields]);
+  }
 
   const updateFieldRelation = (inputFieldType, index) => {
     let newFields = [...fields];
     newFields[index].relatedObjectField = inputFieldType;
     setFields([...newFields]);
-    console.log("fieldsRelations:", fields)
   };
 
   // Allows users to delete fields
@@ -116,7 +120,7 @@ function UpdateForm() {
       deleteField={deleteField}
       updateFieldRelation={updateFieldRelation}
       updateObjectRelation={updateObjectRelation}
-
+      updateHasRelation={updateHasRelation}
     />
   ));
 
