@@ -47,7 +47,10 @@ function ObjectTypeForm() {
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
     newFields[index].fieldName = inputValue;
-    setFields([...newFields]);
+    // Checks to ensure updated field name isn't a duplicate
+    setUsedDuplicateFields(false);
+    let duplicateField = checkDuplicates(inputValue);
+    duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
   };
   const updateFieldType = (inputType, index) => {
     let newFields = [...fields];
@@ -93,6 +96,7 @@ function ObjectTypeForm() {
 
   // Checks for duplicates in fields and objects
   const checkDuplicates = (itemName) => {
+    // Check duplicates in global state
     for (let i = 0; i < objectListState.objects.length; i += 1) {
       if (objectListState.objects[i].objectName === itemName) {
         return true;
@@ -141,7 +145,10 @@ function ObjectTypeForm() {
                 id='object-name'
                 style={{ width: 'auto' }}
                 value={objectName}
-                onChange={e => setObjectName(e.target.value)}
+                onChange={e => {
+                setObjectName(e.target.value);
+                setUsedDuplicateFields(false);
+              }}
               />
             </Form.Row>
           </Form.Group>
@@ -149,7 +156,7 @@ function ObjectTypeForm() {
         {fieldArray}
         <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
         <div className='row justify-content-center'>
-          <Button size='sm' variant='primary' type='submit' onClick={addObject}>
+          <Button size='sm' variant='primary' type='submit' disabled={usedDuplicateFields} onClick={addObject}>
             Create Object
           </Button>
         </div>

@@ -30,7 +30,7 @@ function UpdateForm() {
     let duplicateObject = checkDuplicates(objectName);
     // If the object is a duplicate, prevent global state from being updated
     if (duplicateObject) {
-      setUsedDuplicateFields(true)
+      setUsedDuplicateFields(true);
       return;
     } 
     // Initialize empty array to hold copy of state
@@ -78,7 +78,10 @@ function UpdateForm() {
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
     newFields[index].fieldName = inputValue;
-    setFields([...newFields]);
+    // Checks to ensure updated field name isn't a duplicate
+    setUsedDuplicateFields(false);
+    let duplicateField = checkDuplicates(inputValue);
+    duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
   };
 
   const updateFieldType = (inputType, index) => {
@@ -123,14 +126,18 @@ function UpdateForm() {
     setFields([...newFields]);
   };
 
-  // Checks for duplicates in fields and objects
+  // Checks for duplicates in fields and objects except for the current object type (and fields)
   const checkDuplicates = (itemName) => {
-    for (let i = 0; i < objectListState.objects.length; i += 1) {
-      if (objectListState.objects[i].objectName === itemName) {
+    // Filter out objectListState to not include currently updated object
+    const updatedListState = objectListState.objects.filter(obj => {
+      return obj.objectName !== nodeObj.objectName
+    });
+    for (let i = 0; i < updatedListState.length; i += 1) {
+      if (updatedListState[i].objectName === itemName) {
         return true;
       }
-      for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        if (objectListState.objects[i].fields[j].fieldName === itemName) {
+      for (let j = 0; j < updatedListState[i].fields.length; j += 1) {
+        if (updatedListState[i].fields[j].fieldName === itemName) {
           return true;
         }
       }
@@ -172,7 +179,10 @@ function UpdateForm() {
               id='object-name'
               style={{ width: 'auto' }}
               value={objectName}
-              onChange={e => setObjectName(e.target.value)}
+              onChange={e => {
+                setObjectName(e.target.value);
+                setUsedDuplicateFields(false);
+              }}
             />
           </Form.Row>
         </Form.Group>
@@ -184,6 +194,7 @@ function UpdateForm() {
           size='sm'
           variant='primary'
           type='submit'
+          disabled={usedDuplicateFields}
           onClick={updateObject}>
           Update Object
         </Button>
