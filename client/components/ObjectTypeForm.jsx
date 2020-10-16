@@ -15,14 +15,25 @@ function ObjectTypeForm() {
     viewCode,
     setViewCode
   ] = useContext(ObjectContext);
+  // console.log("Last clicked node: ", nodeObj.objectName);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form
   const [objectName, setObjectName] = useState('');
+  // usedDuplicateFields notifies user if they tried to use an existing field or objectName
+  const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
   // Adds new object to global state
   const addObject = e => {
     e.preventDefault();
-    // Get object name from local state
+    // Check if duplicate object name was used
+    setUsedDuplicateFields(false);
+    // Iterate through all fields and objects to ensure duplicate objectName isnt added
+    let duplicateObject = checkDuplicates(objectName);
+    // If the object is a duplicate, prevent global state from being updated
+    if (duplicateObject) {
+      setUsedDuplicateFields(true)
+      return;
+    } 
     // Push new object to object list
     const newObjectList = [...objectListState.objects, { objectName, fields }];
     // Add new object list to the objects property of our object list global state
@@ -37,7 +48,10 @@ function ObjectTypeForm() {
   const updateFieldName = (inputValue, index) => {
     let newFields = [...fields];
     newFields[index].fieldName = inputValue;
-    setFields([...newFields]);
+    // Checks to ensure updated field name isn't a duplicate
+    setUsedDuplicateFields(false);
+    let duplicateField = checkDuplicates(inputValue);
+    duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
   };
   const updateFieldType = (inputType, index) => {
     let newFields = [...fields];
@@ -65,7 +79,11 @@ function ObjectTypeForm() {
 
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
-    setFields([...fields, fieldItemInput]);
+    setUsedDuplicateFields(false);
+    // Iterate through all fields to ensure duplicate fieldName isnt added
+    let duplicateField = checkDuplicates(fieldItemInput.fieldName);
+    // If the field isn't a duplicate, set the field in local state
+    duplicateField ? setUsedDuplicateFields(true)  : setFields([...fields, fieldItemInput]);
     e.preventDefault();
     //e.target.value = '';
   };
@@ -76,6 +94,29 @@ function ObjectTypeForm() {
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
   };
+
+  // Checks for duplicates in fields and objects
+  const checkDuplicates = (itemName) => {
+    // Check duplicates in global state
+    for (let i = 0; i < objectListState.objects.length; i += 1) {
+      if (objectListState.objects[i].objectName === itemName) {
+        return true;
+      }
+      for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
+        if (objectListState.objects[i].fields[j].fieldName === itemName) {
+          return true;
+        }
+      }
+    }
+    // Check for duplicate fields in specific object type form
+    for (let w = 0; w < fields.length; w += 1) {
+      if (fields[w].fieldName === itemName) {
+        return true;
+      }
+    }
+    // If no duplicate names found, return false
+    return false;
+  }
 
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
@@ -92,7 +133,7 @@ function ObjectTypeForm() {
     />
   ));
   // Check if user recently clicked a node on the graph
-  if (!nodeObj.objectName) {
+  if (!nodeObj.objectName && nodeObj.objectName !== '') {
     return (
       <div className='object-form mx-2'>
         <Form>
@@ -101,6 +142,18 @@ function ObjectTypeForm() {
               <Form.Label>
                 <h4>Create Object</h4>
               </Form.Label>
+              <Form.Check 
+                type="switch"
+                id="custom-switch"
+                className='ml-auto mr-1'
+                label={objectListState.databaseChoice}
+                checked={objectListState.databaseChoice === "MongoDB"}
+                onChange={
+                  e => e.target.checked ? 
+                    setObjectList({...objectListState, databaseChoice: "MongoDB"}) :
+                    setObjectList({...objectListState, databaseChoice: "PostgreSQL"})
+                }
+              />
             </Form.Row>
             <Form.Row className='row justify-content-center'>
               <Form.Control
@@ -111,15 +164,18 @@ function ObjectTypeForm() {
                 id='object-name'
                 style={{ width: 'auto' }}
                 value={objectName}
-                onChange={e => setObjectName(e.target.value)}
+                onChange={e => {
+                setObjectName(e.target.value);
+                setUsedDuplicateFields(false);
+              }}
               />
             </Form.Row>
           </Form.Group>
         </Form>
         {fieldArray}
-        <FieldForm addField={addField} />
+        <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
         <div className='row justify-content-center'>
-          <Button size='sm' variant='primary' type='submit' onClick={addObject}>
+          <Button size='sm' variant='primary' type='submit' disabled={usedDuplicateFields} onClick={addObject}>
             Create Object
           </Button>
         </div>
