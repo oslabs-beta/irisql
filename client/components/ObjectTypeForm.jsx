@@ -107,6 +107,12 @@ function ObjectTypeForm() {
         }
       }
     }
+    // Check for duplicate fields in specific object type form
+    for (let w = 0; w < fields.length; w += 1) {
+      if (fields[w].fieldName === itemName) {
+        return true;
+      }
+    }
     // If no duplicate names found, return false
     return false;
   }

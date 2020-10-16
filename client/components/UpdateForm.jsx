@@ -81,6 +81,14 @@ function UpdateForm() {
     // Checks to ensure updated field name isn't a duplicate
     setUsedDuplicateFields(false);
     let duplicateField = checkDuplicates(inputValue);
+    // Check if updated field name is a duplicate of another field in the same form (local state)
+    let otherFields = [...fields];
+    otherFields.splice(index, 1);
+    // Otherfields is the fields array with all but the current field
+    otherFields.forEach(field => {
+      if (field.fieldName === inputValue) duplicateField = true;
+    })
+    // If updated field is duplicate, change state to show warning
     duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
   };
 
