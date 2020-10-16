@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import HeaderNav from "./HeaderNav";
 import LandingPage from "./LandingPage";
 import PrototyperPage from "./PrototyperPage";
-import {ObjectContextProvider} from "./ObjectContextProvider";
+import { ObjectContextProvider } from "./ObjectContextProvider";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import "../styles.scss";
 

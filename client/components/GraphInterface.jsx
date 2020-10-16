@@ -12,8 +12,6 @@ export default function GraphInterface(props) {
     links: objectListState.objects[0] ? getLinks() : []
   };
 
-  // console.log("this is our data", data)
-
   function getNodes() {
     const nodes = [];
     const blueNodes = [];
@@ -47,15 +45,11 @@ export default function GraphInterface(props) {
           target: objectListState.objects[i].fields[j].fieldName
         });
         // links generated between objects types using relationships
-        if(
-          objectListState.objects[i].fields[j].hasRelation 
-          && 
-          objectListState.objects[i].fields[j].relatedObjectName 
-          &&
-          objectListState.objects[i].fields[j].relatedObjectField
-           ){
+        if (objectListState.objects[i].fields[j].hasRelation &&
+          objectListState.objects[i].fields[j].relatedObjectName &&
+          objectListState.objects[i].fields[j].relatedObjectField) {
           links.push({
-            source: objectListState.objects[i].objectName, 
+            source: objectListState.objects[i].objectName,
             target: objectListState.objects[i].fields[j].relatedObjectName,
             color: '#fad163'
           })
@@ -68,10 +62,10 @@ export default function GraphInterface(props) {
   // the graph configuration, you only need to pass down properties
   // that you want to override, otherwise default ones will be used
   const myConfig = {
-    directed:true,
+    directed: true,
     automaticRearrangeAfterDropNode: true,
     collapsible: false,
-    height: 0.94 * window.innerHeight,
+    height: 0.9 * window.innerHeight,
     width: 0.7 * window.innerWidth,
     highlightDegree: 2,
     highlightOpacity: 0.2,
