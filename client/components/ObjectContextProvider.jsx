@@ -7,6 +7,7 @@ export const ObjectContext = createContext();
 export const ObjectContextProvider = (props) => {
   // Default state for objectList
   const defaultObjectList = {
+    databaseChoice: 'MongoDB', //the other choice is "PostgreSQL"
     objects: []
   };
   // objectList will include list of objects with objectNames and a fields array
@@ -28,9 +29,8 @@ export const ObjectContextProvider = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('this is the server response', data)
-        setViewCode({ ...viewCode, responseCode: data })
-      })
+        // console.log('this is the server response',data)
+        setViewCode({...viewCode,responseCode:data})})
       .catch((err) => console.log(err));
   }, [objectListState]);
 
