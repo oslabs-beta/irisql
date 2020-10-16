@@ -125,13 +125,13 @@ function UpdateForm() {
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
   };
-
   // Checks for duplicates in fields and objects except for the current object type (and fields)
   const checkDuplicates = (itemName) => {
     // Filter out objectListState to not include currently updated object
     const updatedListState = objectListState.objects.filter(obj => {
       return obj.objectName !== nodeObj.objectName
     });
+    // Iterate over updated list state, which is a list not including the current node obj
     for (let i = 0; i < updatedListState.length; i += 1) {
       if (updatedListState[i].objectName === itemName) {
         return true;
