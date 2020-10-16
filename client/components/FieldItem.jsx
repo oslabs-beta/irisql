@@ -26,79 +26,79 @@ const FieldItem  = (props) => {
 
   return (
     <Form className="field-item">
-  <Form.Row className="align-items-center">
-    <Col xs="auto">
-      <Form.Control
-        className="mb-2"
-        id="inlineFormInput"
-        placeholder="Field Name"
-        size="sm"
-        value={props.info.fieldName}
-        onChange={(e) => {props.updateFieldName(e.target.value, props.ind)}}
-      />
-    </Col>
-    <Col xs="auto" >
-      <Form.Control
-        as="select"
-        className="mb-2"
-        id="inlineFormCustomSelect"
-        size="sm"
-        value={props.info.fieldType}
-        onChange={(e) => {props.updateFieldType(e.target.value, props.ind)}}
-        custom
-      >
-        <option value="GraphQLString">String</option>
-        <option value="GraphQLBoolean">Boolean</option>
-        <option value="GraphQLInt">Integer</option>
-        <option value="GraphQLID">ID</option>
-      </Form.Control>
-    </Col>
-    <Col xs="auto">
-      <Form.Check 
-        type="checkbox" 
-        label="Relation" 
-        className="mb-2" 
-        checked={props.info.hasRelation}
-        onChange={(e) => props.updateHasRelation(e.target.checked, props.ind)} 
-      />
-    </Col>
-    <Col xs="auto">
-      <Button type="submit" className="mb-2 btn-danger" size="sm" onClick={(e) => props.deleteField(props.ind, e)}>
-        - 
+      <Form.Row className="align-items-center">
+        <Col xs="auto">
+          <Form.Control
+            className="mb-2"
+            id="inlineFormInput"
+            placeholder="Field Name"
+            size="sm"
+            value={props.info.fieldName}
+            onChange={(e) => { props.updateFieldName(e.target.value, props.ind) }}
+          />
+        </Col>
+        <Col xs="auto" >
+          <Form.Control
+            as="select"
+            className="mb-2"
+            id="inlineFormCustomSelect"
+            size="sm"
+            value={props.info.fieldType}
+            onChange={(e) => { props.updateFieldType(e.target.value, props.ind) }}
+            custom
+          >
+            <option value="GraphQLString">String</option>
+            <option value="GraphQLBoolean">Boolean</option>
+            <option value="GraphQLInt">Integer</option>
+            <option value="GraphQLID">ID</option>
+          </Form.Control>
+        </Col>
+        <Col xs="auto">
+          <Form.Check
+            type="checkbox"
+            label="Relation"
+            className="mb-2"
+            checked={props.info.hasRelation}
+            onChange={(e) => props.updateHasRelation(e.target.checked, props.ind)}
+          />
+        </Col>
+        <Col xs="auto">
+          <Button type="submit" className="mb-2 btn-danger" size="sm" onClick={(e) => props.deleteField(props.ind, e)}>
+            -
       </Button>
-    </Col>
-  </Form.Row>
-  {props.info.hasRelation && 
+        </Col>
+      </Form.Row>
+      {props.info.hasRelation &&
         <Form.Row className="align-items-center">
           <Col xs="auto">
-          <Form.Control
-            as="select"
-            className="mb-2"
-            id="inlineFormCustomSelect"
-            size="sm"
-            defaultValue={props.info.relatedObjectName}
-            onChange={(e) => props.updateObjectRelation(e.target.value, props.ind)}
-            custom
-          >
-            {objectRelationOptions}
-          </Form.Control>
+            <Form.Control
+              as="select"
+              className="mb-2"
+              id="inlineFormCustomSelect"
+              size="sm"
+              defaultValue={props.info.relatedObjectName}
+              onChange={(e) => props.updateObjectRelation(e.target.value, props.ind)}
+              custom
+            >
+              {objectRelationOptions}
+            </Form.Control>
           </Col>
           <Col xs="auto">
-          <Form.Control
-            as="select"
-            className="mb-2"
-            id="inlineFormCustomSelect"
-            size="sm"
-            defaultValue={props.info.relatedObjectField}
-            onChange={(e) => props.updateFieldRelation(e.target.value, props.ind)}
-            custom
-          >
-            {fieldRelationsOptions}
-          </Form.Control>
+            <Form.Control
+              as="select"
+              className="mb-2"
+              id="inlineFormCustomSelect"
+              size="sm"
+              defaultValue={props.info.relatedObjectField}
+              onChange={(e) => props.updateFieldRelation(e.target.value, props.ind)}
+              custom
+            >
+              {fieldRelationsOptions}
+            </Form.Control>
           </Col>
         </Form.Row>
       }
-</Form>
+    </Form>
   );
 }
  

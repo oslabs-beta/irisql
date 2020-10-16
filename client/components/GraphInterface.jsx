@@ -124,7 +124,7 @@ export default function GraphInterface(props) {
     const currentObj = objectListState.objects.filter(
       obj => obj.objectName === nodeId
     );
-    console.log('current object:', currentObj);
+    // console.log('current object:', currentObj);
     // Changes current node object in global state
     currentObj[0] ? setNodeObj(currentObj[0]) : null;
   };
