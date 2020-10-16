@@ -15,6 +15,7 @@ function ObjectTypeForm() {
     viewCode,
     setViewCode
   ] = useContext(ObjectContext);
+  console.log("Last clicked node: ", nodeObj.objectName);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form

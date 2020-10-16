@@ -4,7 +4,7 @@ import FieldForm from './FieldForm';
 import FieldItem from './FieldItem';
 import { ObjectContext } from './ObjectContextProvider';
 
-function UpdateForm() {
+function UpdateForm(props) {
   // Gives us access to global state
   const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(
     ObjectContext
@@ -15,11 +15,6 @@ function UpdateForm() {
   const [objectName, setObjectName] = useState(nodeObj.objectName);
   // usedDuplicateFields notifies user if they tried to use an existing field or objectName
   const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
-  // useEffect(() => {
-  //   useState(nodeObj.fields);
-  //   useState(nodeObj.objectName);
-  // }, [nodeObj]);
-
   // Update object in global state
   const updateObject = e => {
     // Prevent automatic page reload
@@ -45,7 +40,7 @@ function UpdateForm() {
       // Else, push to the array
       return obj;
     });
-    console.log('updated list state:', updatedListState);
+    // console.log('updated list state:', updatedListState);
     // Set global object list state to edited version
     setObjectList(updatedListState);
     // Clear out local state fields
@@ -155,7 +150,7 @@ function UpdateForm() {
   }
 
   // Renders a number of field items
-  const fieldArray = fields.map((field, index) => (
+  const fieldArray = nodeObj.fields.map((field, index) => (
     <FieldItem
       key={index}
       ind={index}
@@ -186,7 +181,7 @@ function UpdateForm() {
               placeholder='Name'
               id='object-name'
               style={{ width: 'auto' }}
-              value={objectName}
+              value={nodeObj.objectName}
               onChange={e => {
                 setObjectName(e.target.value);
                 setUsedDuplicateFields(false);
