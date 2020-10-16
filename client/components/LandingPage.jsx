@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import Typewriter from 'typewriter-effect';
 import FeatureSection from './FeatureSection';
+import DemoSection from './DemoSection';
 
 
 export default function LandingPage() {
@@ -31,7 +32,7 @@ export default function LandingPage() {
         <FeatureSection />
       </div>
       <div>
-
+        <DemoSection />      
       </div>
     </div>
   );
