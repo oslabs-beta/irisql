@@ -15,7 +15,7 @@ function ObjectTypeForm() {
     viewCode,
     setViewCode
   ] = useContext(ObjectContext);
-  console.log("Last clicked node: ", nodeObj.objectName);
+  // console.log("Last clicked node: ", nodeObj.objectName);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form
@@ -142,6 +142,18 @@ function ObjectTypeForm() {
               <Form.Label>
                 <h4>Create Object</h4>
               </Form.Label>
+              <Form.Check 
+                type="switch"
+                id="custom-switch"
+                className='ml-auto mr-1'
+                label={objectListState.databaseChoice}
+                checked={objectListState.databaseChoice === "MongoDB"}
+                onChange={
+                  e => e.target.checked ? 
+                    setObjectList({...objectListState, databaseChoice: "MongoDB"}) :
+                    setObjectList({...objectListState, databaseChoice: "PostgreSQL"})
+                }
+              />
             </Form.Row>
             <Form.Row className='row justify-content-center'>
               <Form.Control

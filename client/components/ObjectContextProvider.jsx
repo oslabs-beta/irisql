@@ -7,11 +7,8 @@ export const ObjectContext = createContext();
 export const ObjectContextProvider = (props) => {
   // Default state for objectList
   const defaultObjectList = {
-    objects: [
-      // {
-      //   databaseChoice: 'MongoDB', //the other choice is "PostgreSQL"
-      // }
-    ]
+    databaseChoice: 'MongoDB', //the other choice is "PostgreSQL"
+    objects: []
   };
   // objectList will include list of objects with objectNames and a fields array
   const [objectListState, setObjectList] = useState(defaultObjectList);
