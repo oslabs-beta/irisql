@@ -71,20 +71,25 @@ function UpdateForm(props) {
 
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
-    let newFields = [...fields];
+    let newFields = [...nodeObj.fields];
     newFields[index].fieldName = inputValue;
     // Checks to ensure updated field name isn't a duplicate
     setUsedDuplicateFields(false);
     let duplicateField = checkDuplicates(inputValue);
     // Check if updated field name is a duplicate of another field in the same form (local state)
-    let otherFields = [...fields];
+    let otherFields = [...nodeObj.fields];
     otherFields.splice(index, 1);
     // Otherfields is the fields array with all but the current field
     otherFields.forEach(field => {
       if (field.fieldName === inputValue) duplicateField = true;
     })
     // If updated field is duplicate, change state to show warning
-    duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
+    if (duplicateField) {
+      setUsedDuplicateFields(true);
+    } else {
+      setNodeObj({...nodeObj, fields: [...newFields]});
+      setFields([...newFields]);
+    } 
   };
 
   const updateFieldType = (inputType, index) => {
@@ -184,6 +189,7 @@ function UpdateForm(props) {
               value={nodeObj.objectName}
               onChange={e => {
                 setObjectName(e.target.value);
+                setNodeObj({...nodeObj, objectName: e.target.value})
                 setUsedDuplicateFields(false);
               }}
             />

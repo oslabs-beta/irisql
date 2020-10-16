@@ -133,7 +133,7 @@ function ObjectTypeForm() {
     />
   ));
   // Check if user recently clicked a node on the graph
-  if (!nodeObj.objectName) {
+  if (!nodeObj.objectName && nodeObj.objectName !== '') {
     return (
       <div className='object-form mx-2'>
         <Form>
