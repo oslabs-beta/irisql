@@ -16,13 +16,12 @@ export const ObjectContextProvider = (props) => {
   const [nodeObj, setNodeObj] = useState({});
   // This state controls if codemirror editor is rendered or not
   const [viewCode, setViewCode] = useState({
-    displayCode:false,
+    displayCode: false,
     responseCode: ''
   });
 
   // useEffect gets invoked when state changes
   useEffect(() => {
-
     fetch('/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
