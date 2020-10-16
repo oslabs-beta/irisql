@@ -15,34 +15,22 @@ export const ObjectContextProvider = (props) => {
   const [nodeObj, setNodeObj] = useState({});
   // This state controls if codemirror editor is rendered or not
   const [viewCode, setViewCode] = useState({
-    displayCode:false,
+    displayCode: false,
     responseCode: ''
   });
 
   // useEffect gets invoked when state changes
   useEffect(() => {
-    // Creating an array of objects for query creation
-    const feed = [];
-    objectListState.objects.forEach((obj) => {
-      const newObj = {};
-      newObj.objectName = obj.objectName;
-      newObj.fields = {};
-      obj.fields.forEach((field, index) => {
-        newObj.fields[index] = field;
-      });
-      feed.push(newObj);
-    });
-    console.log('Context feed:', feed);
-
     fetch('/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(feed)
+      body: JSON.stringify(objectListState.objects)
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('this is the server response',data)
-        setViewCode({...viewCode,responseCode:data})})
+        console.log('this is the server response', data)
+        setViewCode({ ...viewCode, responseCode: data })
+      })
       .catch((err) => console.log(err));
   }, [objectListState]);
 

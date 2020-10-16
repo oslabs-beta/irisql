@@ -6,7 +6,7 @@ function FieldForm (props) {
 
   const defaultField = {
     fieldName:'',
-    fieldType:'String', 
+    fieldType:'GraphQLString', 
     hasRelation: false,
     relatedObjectName: null, 
     relatedObjectField: null,
@@ -55,10 +55,10 @@ function FieldForm (props) {
             onChange={(e) => setNewField({...newField,fieldType:e.target.value})}
             custom
           >
-            <option value="String">String</option>
-            <option value="Boolean">Boolean</option>
-            <option value="Integer">Integer</option>
-            <option value="ID">ID</option>
+            <option value="GraphQLString">String</option>
+            <option value="GraphQLBoolean">Boolean</option>
+            <option value="GraphQLInt">Integer</option>
+            <option value="GraphQLID">ID</option>
           </Form.Control>
         </Col>
         <Col xs="auto">

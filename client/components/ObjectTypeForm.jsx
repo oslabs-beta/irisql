@@ -45,6 +45,24 @@ function ObjectTypeForm() {
     setFields([...newFields]);
   };
 
+  const updateObjectRelation = (inputObjType, index) => {
+    let newFields = [...fields];
+    newFields[index].relatedObjectName = inputObjType;
+    setFields([...newFields]);
+  };
+
+  const updateHasRelation = (inputRelation,index) => {
+    let newFields = [...fields];
+    newFields[index].hasRelation = inputRelation;
+    setFields([...newFields]);
+  }
+
+  const updateFieldRelation = (inputFieldType, index) => {
+    let newFields = [...fields];
+    newFields[index].relatedObjectField = inputFieldType;
+    setFields([...newFields]);
+  };
+
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
     setFields([...fields, fieldItemInput]);
@@ -68,6 +86,9 @@ function ObjectTypeForm() {
       updateFieldName={updateFieldName}
       updateFieldType={updateFieldType}
       deleteField={deleteField}
+      updateFieldRelation={updateFieldRelation}
+      updateObjectRelation={updateObjectRelation}
+      updateHasRelation={updateHasRelation}
     />
   ));
   // Check if user recently clicked a node on the graph

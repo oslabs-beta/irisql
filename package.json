@@ -34,7 +34,8 @@
     "react-graph-vis": "^1.0.5",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-vis": "^1.11.7"
+    "react-vis": "^1.11.7",
+    "typewriter-effect": "^2.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

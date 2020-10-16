@@ -14,11 +14,6 @@ function UpdateForm() {
   // objectName keeps track of current object type name in form
   const [objectName, setObjectName] = useState(nodeObj.objectName);
 
-  // useEffect(() => {
-  //   useState(nodeObj.fields);
-  //   useState(nodeObj.objectName);
-  // }, [nodeObj]);
-
   // Update object in global state
   const updateObject = e => {
     // Prevent the page from reloading
@@ -84,6 +79,24 @@ function UpdateForm() {
     //e.target.value = '';
   };
 
+  const updateObjectRelation = (inputObjType, index) => {
+    let newFields = [...fields];
+    newFields[index].relatedObjectName = inputObjType;
+    setFields([...newFields]);
+  };
+
+  const updateHasRelation = (inputRelation, index) => {
+    let newFields = [...fields];
+    newFields[index].hasRelation = inputRelation;
+    setFields([...newFields]);
+  }
+
+  const updateFieldRelation = (inputFieldType, index) => {
+    let newFields = [...fields];
+    newFields[index].relatedObjectField = inputFieldType;
+    setFields([...newFields]);
+  };
+
   // Allows users to delete fields
   const deleteField = (fieldIndex, e) => {
     e.preventDefault();
@@ -100,11 +113,14 @@ function UpdateForm() {
       updateFieldName={updateFieldName}
       updateFieldType={updateFieldType}
       deleteField={deleteField}
+      updateFieldRelation={updateFieldRelation}
+      updateObjectRelation={updateObjectRelation}
+      updateHasRelation={updateHasRelation}
     />
   ));
 
   return (
-    <div className='object-form row justify-content-center'>
+    <div className='object-form mx-2'>
       <Form>
         <Form.Group>
           <Form.Row className='row justify-content-center'>
@@ -112,8 +128,9 @@ function UpdateForm() {
               <h4>Update Object</h4>
             </Form.Label>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='row justify-content-center' >
             <Form.Control
+              className='row justify-content-center'
               size='sm'
               type='text'
               placeholder='Name'
@@ -127,7 +144,7 @@ function UpdateForm() {
       </Form>
       {fieldArray}
       <FieldForm addField={addField} />
-      <Form.Row>
+      <Form.Row className='row justify-content-center'>
         <Button
           size='sm'
           variant='primary'
