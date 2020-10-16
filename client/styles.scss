@@ -24,11 +24,11 @@ header {
 
 main {
   flex: 1 1 auto;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .landing-page {
-  height: 100%;
+  height: 94vh;
   width: 100%;
   background-image: url('../public/images/pexels-cosmos.jpg');
   background-size: cover;
@@ -69,3 +69,19 @@ main {
   font-size: 2.5rem;
 }
 
+.card-deck {
+  padding: 1rem;
+  // background-color: #29274c;
+}
+
+.features-heading {
+  color: #29274c;
+  padding: 3rem 1rem 1rem 1rem;
+  // background-color: #29274c;
+}
+
+hr {
+  width: 250px;
+  border-top: 1px solid #29274c;
+  margin: auto 20px;
+}
