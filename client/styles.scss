@@ -72,13 +72,34 @@ main {
 .card-deck {
   padding: 1rem;
   // background-color: #29274c;
+  margin-bottom: 2rem;
 }
 
-.features-heading {
+.section-headings {
   color: #29274c;
   padding: 3rem 1rem 1rem 1rem;
   // background-color: #29274c;
 }
+
+.demo-section {
+  color: white;
+  background-color: #29274c;
+}
+
+.feature-icons {
+  padding: 1rem;
+}
+
+.demo-video {
+  padding: 2rem;
+  background-color: #29274c;
+}
+
+.demo-hr{
+  width: 250px;
+  border-top: 1px solid white;
+}
+
 
 hr {
   width: 250px;
