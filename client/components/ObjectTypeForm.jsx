@@ -139,14 +139,15 @@ function ObjectTypeForm() {
       <div className="object-form mx-2">
         <Form>
           <Form.Group>
-            <Form.Row className="row justify-content-center">
+            <Form.Row className="row justify-content-between">
+              <div className="item-invisible">Invisible</div>
               <Form.Label>
                 <h4>Create Object</h4>
               </Form.Label>
               <Form.Check
                 type="switch"
                 id="custom-switch"
-                className="ml-auto mr-1"
+                className="ml-auto mr-1 mt-1"
                 label={objectListState.databaseChoice}
                 checked={objectListState.databaseChoice === 'MongoDB'}
                 onChange={
