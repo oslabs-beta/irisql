@@ -1,14 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Form, Button, Col } from 'react-bootstrap';
+/* eslint-disable no-use-before-define */
+import React, { useState, useContext } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import FieldForm from './FieldForm';
 import FieldItem from './FieldItem';
 import { ObjectContext } from './ObjectContextProvider';
 
-function UpdateForm(props) {
+function UpdateForm() {
   // Gives us access to global state
-  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(
-    ObjectContext
-  );
+  const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
   // Fields is an array of objects with fieldName and fieldType properties
   // const [fields, setFields] = useState(nodeObj.fields);
   // // objectName keeps track of current object type name in form
@@ -16,22 +15,25 @@ function UpdateForm(props) {
   // usedDuplicateFields notifies user if they tried to use an existing field or objectName
   const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
   // Update object in global state
-  const updateObject = e => {
+  const updateObject = (e) => {
     // Prevent automatic page reload
     e.preventDefault();
     // Check if duplicate object name was used
     setUsedDuplicateFields(false);
     // Iterate through all fields and objects to ensure duplicate objectName isnt added
-    let duplicateObject = checkDuplicates(nodeObj.objectName);
+    const duplicateObject = checkDuplicates(nodeObj.objectName);
     // If the object is a duplicate, prevent global state from being updated
     if (duplicateObject) {
       setUsedDuplicateFields(true);
       return;
-    } 
+    }
     // Initialize empty array to hold copy of state
-    let updatedListState = {};
-    updatedListState.objects = objectListState.objects.map(obj => {
-      // If we reach the object we edited create new object with local state and push that to the array
+    const updatedListState = {};
+    updatedListState.objects = objectListState.objects.map((obj) => {
+      /* If we reach the object we edited
+      create new object with local state
+      and push that to the array
+      */
       if (obj.objectName === nodeObj.objectName) {
         obj.objectName = nodeObj.objectName;
         obj.fields = nodeObj.fields;
@@ -51,14 +53,14 @@ function UpdateForm(props) {
     setNodeObj({});
   };
 
-  const deleteObject = e => {
+  const deleteObject = (e) => {
     // Prevent the page from reloading
     e.preventDefault();
     setUsedDuplicateFields(false);
     // Initialize empty array to hold copy of state
-    let updatedListState = {};
+    const updatedListState = {};
     updatedListState.objects = objectListState.objects.filter(
-      obj => obj.objectName !== nodeObj.objectName
+      (obj) => obj.objectName !== nodeObj.objectName,
     );
     // Set global object list state to edited version
     setObjectList(updatedListState);
@@ -72,65 +74,65 @@ function UpdateForm(props) {
 
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
-    let newFields = [...nodeObj.fields];
+    const newFields = [...nodeObj.fields];
     newFields[index].fieldName = inputValue;
     // Checks to ensure updated field name isn't a duplicate
     setUsedDuplicateFields(false);
     let duplicateField = checkDuplicates(inputValue);
     // Check if updated field name is a duplicate of another field in the same form (local state)
-    let otherFields = [...nodeObj.fields];
+    const otherFields = [...nodeObj.fields];
     otherFields.splice(index, 1);
     // Otherfields is the fields array with all but the current field
-    console.log('otherfields: ', otherFields)
-    otherFields.forEach(field => {
+    console.log('otherfields: ', otherFields);
+    otherFields.forEach((field) => {
       if (field.fieldName === inputValue) duplicateField = true;
-    })
+    });
     // If updated field is duplicate, change state to show warning
     if (duplicateField) {
       setUsedDuplicateFields(true);
     } else {
-      setNodeObj({...nodeObj, fields: [...newFields]});
+      setNodeObj({ ...nodeObj, fields: [...newFields] });
       // setFields([...newFields]);
-    } 
+    }
   };
 
   const updateFieldType = (inputType, index) => {
-    let newFields = [...nodeObj.fields];
+    const newFields = [...nodeObj.fields];
     newFields[index].fieldType = inputType;
     // setFields([...newFields]);
-    setNodeObj({...nodeObj, fields: [...newFields]});
+    setNodeObj({ ...nodeObj, fields: [...newFields] });
   };
 
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
     setUsedDuplicateFields(false);
     // Iterate through all fields to ensure duplicate fieldName isnt added
-    let duplicateField = checkDuplicates(fieldItemInput.fieldName);
+    const duplicateField = checkDuplicates(fieldItemInput.fieldName);
     // If the field isn't a duplicate, set the field in local state
-    duplicateField ? setUsedDuplicateFields(true)  : setNodeObj({...nodeObj, fields: [...nodeObj.fields, fieldItemInput]});
+    duplicateField ? setUsedDuplicateFields(true) : setNodeObj({ ...nodeObj, fields: [...nodeObj.fields, fieldItemInput] });
     e.preventDefault();
-    //e.target.value = '';
+    // e.target.value = '';
   };
 
   const updateObjectRelation = (inputObjType, index) => {
-    let newFields = [...nodeObj.fields];
+    const newFields = [...nodeObj.fields];
     newFields[index].relatedObjectName = inputObjType;
     // setFields([...newFields]);
-    setNodeObj({...nodeObj, fields: [...newFields]});
+    setNodeObj({ ...nodeObj, fields: [...newFields] });
   };
 
-  const updateHasRelation = (inputRelation,index) => {
-    let newFields = [...nodeObj.fields];
+  const updateHasRelation = (inputRelation, index) => {
+    const newFields = [...nodeObj.fields];
     newFields[index].hasRelation = inputRelation;
     // setFields([...newFields]);
-    setNodeObj({...nodeObj, fields: [...newFields]});
-  }
+    setNodeObj({ ...nodeObj, fields: [...newFields] });
+  };
 
   const updateFieldRelation = (inputFieldType, index) => {
-    let newFields = [...nodeObj.fields];
+    const newFields = [...nodeObj.fields];
     newFields[index].relatedObjectField = inputFieldType;
     // setFields([...newFields]);
-    setNodeObj({...nodeObj, fields: [...newFields]});
+    setNodeObj({ ...nodeObj, fields: [...newFields] });
   };
 
   // Allows users to delete fields
@@ -140,14 +142,13 @@ function UpdateForm(props) {
     setUsedDuplicateFields(false);
     const newFields = nodeObj.fields.filter((field, index) => index !== fieldIndex);
     // setFields([...newFields]);
-    setNodeObj({...nodeObj, fields: [...newFields]});
+    setNodeObj({ ...nodeObj, fields: [...newFields] });
   };
   // Checks for duplicates in fields and objects except for the current object type (and fields)
   const checkDuplicates = (itemName) => {
     // Filter out objectListState to not include currently updated object
-    const updatedListState = objectListState.objects.filter(obj => {
-      return obj.objectName !== nodeObj.objectName
-    });
+    const updatedListState = objectListState.objects
+      .filter((obj) => obj.objectName !== nodeObj.objectName);
     // Iterate over updated list state, which is a list not including the current node obj
     for (let i = 0; i < updatedListState.length; i += 1) {
       if (updatedListState[i].objectName === itemName) {
@@ -161,7 +162,7 @@ function UpdateForm(props) {
     }
     // If no duplicate names found, return false
     return false;
-  }
+  };
 
   // Renders a number of field items
   const fieldArray = nodeObj.fields.map((field, index) => (
@@ -179,26 +180,26 @@ function UpdateForm(props) {
   ));
 
   return (
-    <div className='object-form mx-2'>
+    <div className="object-form mx-2">
       <Form>
         <Form.Group>
-          <Form.Row className='row justify-content-center'>
+          <Form.Row className="row justify-content-center">
             <Form.Label>
               <h4>Update Object</h4>
             </Form.Label>
           </Form.Row>
-          <Form.Row className='row justify-content-center' >
+          <Form.Row className="row justify-content-center">
             <Form.Control
-              className='row justify-content-center'
-              size='sm'
-              type='text'
-              placeholder='Name'
-              id='object-name'
+              className="row justify-content-center"
+              size="sm"
+              type="text"
+              placeholder="Name"
+              id="object-name"
               style={{ width: 'auto' }}
               value={nodeObj.objectName}
-              onChange={e => {
+              onChange={(e) => {
                 // setObjectName(e.target.value);
-                setNodeObj({...nodeObj, objectName: e.target.value})
+                setNodeObj({ ...nodeObj, objectName: e.target.value });
                 setUsedDuplicateFields(false);
               }}
             />
@@ -207,29 +208,32 @@ function UpdateForm(props) {
       </Form>
       {fieldArray}
       <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
-      <Form.Row className='row justify-content-center'>
+      <Form.Row className="row justify-content-center">
         <Button
-          size='sm'
-          variant='primary'
-          type='submit'
+          size="sm"
+          variant="primary"
+          type="submit"
           disabled={usedDuplicateFields}
-          onClick={updateObject}>
+          onClick={updateObject}
+        >
           Update Object
         </Button>
         <Button
-          size='sm'
-          variant='danger'
-          type='submit'
+          size="sm"
+          variant="danger"
+          type="submit"
           onClick={deleteObject}
-          className='ml-2'>
+          className="ml-2"
+        >
           Delete Object
         </Button>
         <Button
-          size='sm'
-          variant='secondary'
-          type='submit'
+          size="sm"
+          variant="secondary"
+          type="submit"
           onClick={() => setNodeObj({})}
-          className='ml-2'>
+          className="ml-2"
+        >
           Cancel
         </Button>
       </Form.Row>

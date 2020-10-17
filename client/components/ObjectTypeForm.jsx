@@ -1,5 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Form, Button, Col } from 'react-bootstrap';
+/* eslint-disable no-unused-vars */
+import React, { useState, useContext } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import FieldForm from './FieldForm';
 import FieldItem from './FieldItem';
 import { ObjectContext } from './ObjectContextProvider';
@@ -13,7 +14,7 @@ function ObjectTypeForm() {
     nodeObj,
     setNodeObj,
     viewCode,
-    setViewCode
+    setViewCode,
   ] = useContext(ObjectContext);
   // console.log("Last clicked node: ", nodeObj.objectName);
   // Fields is an array of objects with fieldName and fieldType properties
@@ -23,17 +24,17 @@ function ObjectTypeForm() {
   // usedDuplicateFields notifies user if they tried to use an existing field or objectName
   const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
   // Adds new object to global state
-  const addObject = e => {
+  const addObject = (e) => {
     e.preventDefault();
     // Check if duplicate object name was used
     setUsedDuplicateFields(false);
     // Iterate through all fields and objects to ensure duplicate objectName isnt added
-    let duplicateObject = checkDuplicates(objectName);
+    const duplicateObject = checkDuplicates(objectName);
     // If the object is a duplicate, prevent global state from being updated
     if (duplicateObject) {
-      setUsedDuplicateFields(true)
+      setUsedDuplicateFields(true);
       return;
-    } 
+    }
     // Push new object to object list
     const newObjectList = [...objectListState.objects, { objectName, fields }];
     // Add new object list to the objects property of our object list global state
@@ -46,33 +47,33 @@ function ObjectTypeForm() {
   };
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
-    let newFields = [...fields];
+    const newFields = [...fields];
     newFields[index].fieldName = inputValue;
     // Checks to ensure updated field name isn't a duplicate
     setUsedDuplicateFields(false);
-    let duplicateField = checkDuplicates(inputValue);
+    const duplicateField = checkDuplicates(inputValue);
     duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
   };
   const updateFieldType = (inputType, index) => {
-    let newFields = [...fields];
+    const newFields = [...fields];
     newFields[index].fieldType = inputType;
     setFields([...newFields]);
   };
 
   const updateObjectRelation = (inputObjType, index) => {
-    let newFields = [...fields];
+    const newFields = [...fields];
     newFields[index].relatedObjectName = inputObjType;
     setFields([...newFields]);
   };
 
-  const updateHasRelation = (inputRelation,index) => {
-    let newFields = [...fields];
+  const updateHasRelation = (inputRelation, index) => {
+    const newFields = [...fields];
     newFields[index].hasRelation = inputRelation;
     setFields([...newFields]);
-  }
+  };
 
   const updateFieldRelation = (inputFieldType, index) => {
-    let newFields = [...fields];
+    const newFields = [...fields];
     newFields[index].relatedObjectField = inputFieldType;
     setFields([...newFields]);
   };
@@ -81,11 +82,11 @@ function ObjectTypeForm() {
   const addField = (fieldItemInput, e) => {
     setUsedDuplicateFields(false);
     // Iterate through all fields to ensure duplicate fieldName isnt added
-    let duplicateField = checkDuplicates(fieldItemInput.fieldName);
+    const duplicateField = checkDuplicates(fieldItemInput.fieldName);
     // If the field isn't a duplicate, set the field in local state
-    duplicateField ? setUsedDuplicateFields(true)  : setFields([...fields, fieldItemInput]);
+    duplicateField ? setUsedDuplicateFields(true) : setFields([...fields, fieldItemInput]);
     e.preventDefault();
-    //e.target.value = '';
+    // e.target.value = '';
   };
 
   // Allows users to delete fields
@@ -116,12 +117,12 @@ function ObjectTypeForm() {
     }
     // If no duplicate names found, return false
     return false;
-  }
+  };
 
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
     <FieldItem
-      key={index}
+      key={field.fieldName}
       ind={index}
       info={field}
       updateFieldName={updateFieldName}
@@ -135,55 +136,54 @@ function ObjectTypeForm() {
   // Check if user recently clicked a node on the graph
   if (!nodeObj.objectName && nodeObj.objectName !== '') {
     return (
-      <div className='object-form mx-2'>
+      <div className="object-form mx-2">
         <Form>
           <Form.Group>
-            <Form.Row className='row justify-content-center'>
+            <Form.Row className="row justify-content-center">
               <Form.Label>
                 <h4>Create Object</h4>
               </Form.Label>
-              <Form.Check 
+              <Form.Check
                 type="switch"
                 id="custom-switch"
-                className='ml-auto mr-1'
+                className="ml-auto mr-1"
                 label={objectListState.databaseChoice}
-                checked={objectListState.databaseChoice === "MongoDB"}
+                checked={objectListState.databaseChoice === 'MongoDB'}
                 onChange={
-                  e => e.target.checked ? 
-                    setObjectList({...objectListState, databaseChoice: "MongoDB"}) :
-                    setObjectList({...objectListState, databaseChoice: "PostgreSQL"})
+                  (e) => (e.target.checked
+                    ? setObjectList({ ...objectListState, databaseChoice: 'MongoDB' })
+                    : setObjectList({ ...objectListState, databaseChoice: 'PostgreSQL' }))
                 }
               />
             </Form.Row>
-            <Form.Row className='row justify-content-center'>
+            <Form.Row className="row justify-content-center">
               <Form.Control
-                className='row justify-content-center'
-                size='sm'
-                type='text'
-                placeholder='Name'
-                id='object-name'
+                className="row justify-content-center"
+                size="sm"
+                type="text"
+                placeholder="Name"
+                id="object-name"
                 style={{ width: 'auto' }}
                 value={objectName}
-                onChange={e => {
-                setObjectName(e.target.value);
-                setUsedDuplicateFields(false);
-              }}
+                onChange={(e) => {
+                  setObjectName(e.target.value);
+                  setUsedDuplicateFields(false);
+                }}
               />
             </Form.Row>
           </Form.Group>
         </Form>
         {fieldArray}
         <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
-        <div className='row justify-content-center'>
-          <Button size='sm' variant='primary' type='submit' disabled={usedDuplicateFields} onClick={addObject}>
+        <div className="row justify-content-center">
+          <Button size="sm" variant="primary" type="submit" disabled={usedDuplicateFields} onClick={addObject}>
             Create Object
           </Button>
         </div>
       </div>
     );
-  } else {
-    return <UpdateForm />;
   }
+  return <UpdateForm />;
 }
 
 export default ObjectTypeForm;
