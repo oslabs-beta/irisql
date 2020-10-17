@@ -1,15 +1,15 @@
 const express = require('express');
-const controller = require('../controller.js');
+const apiController = require('../controllers/apiController');
 
 const apiRouter = express.Router();
 
-apiRouter.get('/', controller.getInfo, (req, res) => res.status(200).json(res.locals.info));
+apiRouter.get('/', apiController.getInfo, (req, res) => res.status(200).json(res.locals.info));
 
-apiRouter.post('/', controller.createNewSchema, (req, res) => {
+apiRouter.post('/', apiController.createNewSchema, (req, res) => {
   res.locals.newSchema,
-  (err) => {
-    if (err) throw err;
-  };
+    (err) => {
+      if (err) throw err;
+    };
   res.status(200).json(res.locals.newSchema);
 });
 
