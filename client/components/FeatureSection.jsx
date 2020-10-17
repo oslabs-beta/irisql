@@ -1,19 +1,19 @@
 import React from 'react';
 import { Card, CardDeck } from 'react-bootstrap';
-import * as Icon from 'react-bootstrap-icons'
+import * as Icon from 'react-bootstrap-icons';
 
 export default function FeatureSection() {
   return (
     <div>
-      <div className='section-headings d-flex justify-content-center'>
-        <hr></hr>
+      <div className="section-headings d-flex justify-content-center">
+        <hr />
         <h2>Features</h2>
-        <hr></hr>
+        <hr />
       </div>
       <CardDeck>
         <Card>
-          <div className='feature-icons d-flex justify-content-center'>
-            <Icon.BoundingBoxCircles  color="#29274c" size={50} />
+          <div className="feature-icons d-flex justify-content-center">
+            <Icon.BoundingBoxCircles color="#29274c" size={50} />
           </div>
           <Card.Body>
             <Card.Title>Build a Schema</Card.Title>
@@ -27,14 +27,15 @@ export default function FeatureSection() {
           </Card.Footer>
         </Card>
         <Card>
-          <div className='feature-icons d-flex justify-content-center'>
+          <div className="feature-icons d-flex justify-content-center">
             <Icon.CodeSquare color="#29274c" size={50} />
           </div>
           <Card.Body>
             <Card.Title>Auto Generated Code</Card.Title>
             <Card.Text>
               This card has supporting text below as a natural lead-in to additional
-        content.{' '}
+              content.
+              {' '}
             </Card.Text>
           </Card.Body>
           <Card.Footer>
@@ -42,8 +43,8 @@ export default function FeatureSection() {
           </Card.Footer>
         </Card>
         <Card>
-          <div className='feature-icons d-flex justify-content-center'>
-            <Icon.LayersFill  color="#29274c" size={50} />
+          <div className="feature-icons d-flex justify-content-center">
+            <Icon.LayersFill color="#29274c" size={50} />
           </div>
           <Card.Body>
             <Card.Title>Connect To A DataBase</Card.Title>
@@ -59,5 +60,5 @@ export default function FeatureSection() {
         </Card>
       </CardDeck>
     </div>
-  )
+  );
 }

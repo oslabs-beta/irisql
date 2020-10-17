@@ -2,14 +2,15 @@ import React, { useContext } from 'react';
 import { Graph } from 'react-d3-graph';
 import { ObjectContext } from './ObjectContextProvider';
 
-export default function GraphInterface(props) {
+export default function GraphInterface() {
+  // eslint-disable-next-line no-unused-vars
   const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(
-    ObjectContext
+    ObjectContext,
   );
   // graph payload (with minimalist structure)
   const data = {
     nodes: objectListState.objects[0] ? getNodes() : [],
-    links: objectListState.objects[0] ? getLinks() : []
+    links: objectListState.objects[0] ? getLinks() : [],
   };
 
   function getNodes() {
@@ -19,7 +20,7 @@ export default function GraphInterface(props) {
       nodes.push({
         id: objectListState.objects[i].objectName,
         size: 400,
-        color: '#0e5679'
+        color: '#0e5679',
       });
       blueNodes.push(objectListState.objects[i].objectName);
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
@@ -28,7 +29,7 @@ export default function GraphInterface(props) {
         ) {
           nodes.push({
             id: objectListState.objects[i].fields[j].fieldName,
-            color: '#ed938f'
+            color: '#ed938f',
           });
         }
       }
@@ -42,17 +43,17 @@ export default function GraphInterface(props) {
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
         links.push({
           source: objectListState.objects[i].objectName,
-          target: objectListState.objects[i].fields[j].fieldName
+          target: objectListState.objects[i].fields[j].fieldName,
         });
         // links generated between objects types using relationships
-        if (objectListState.objects[i].fields[j].hasRelation &&
-          objectListState.objects[i].fields[j].relatedObjectName &&
-          objectListState.objects[i].fields[j].relatedObjectField) {
+        if (objectListState.objects[i].fields[j].hasRelation
+          && objectListState.objects[i].fields[j].relatedObjectName
+          && objectListState.objects[i].fields[j].relatedObjectField) {
           links.push({
             source: objectListState.objects[i].objectName,
             target: objectListState.objects[i].fields[j].relatedObjectName,
-            color: '#fad163'
-          })
+            color: '#fad163',
+          });
         }
       }
     }
@@ -79,7 +80,7 @@ export default function GraphInterface(props) {
       alphaTarget: 0.05,
       gravity: -250,
       linkLength: 120,
-      linkStrength: 2
+      linkStrength: 2,
     },
     node: {
       color: '#d3d3d3',
@@ -99,7 +100,7 @@ export default function GraphInterface(props) {
       strokeWidth: 1.5,
       svg: '',
       symbolType: 'circle',
-      viewGenerator: null
+      viewGenerator: null,
     },
     link: {
       color: 'lightgray',
@@ -108,8 +109,8 @@ export default function GraphInterface(props) {
       opacity: 1,
       semanticStrokeWidth: true,
       strokeWidth: 3,
-      type: 'STRAIGHT'
-    }
+      type: 'STRAIGHT',
+    },
   };
 
   // // graph event callbacks
@@ -122,7 +123,7 @@ export default function GraphInterface(props) {
     // setNodeObj({});
     // Grab object with state corresponding to node clicked
     const currentObj = objectListState.objects.filter(
-      obj => obj.objectName === nodeId
+      (obj) => obj.objectName === nodeId,
     );
     // console.log('current object:', currentObj);
     // Changes current node object in global state
@@ -163,7 +164,7 @@ export default function GraphInterface(props) {
 
   const onNodePositionChange = function (nodeId, x, y) {
     console.log(
-      `Node ${nodeId} is moved to new position. New position is x= ${x} y= ${y}`
+      `Node ${nodeId} is moved to new position. New position is x= ${x} y= ${y}`,
     );
   };
 
@@ -171,7 +172,7 @@ export default function GraphInterface(props) {
   if (objectListState.objects[0]) {
     return (
       <Graph
-        id='graph-id' // id is mandatory, if no id is defined rd3g will throw an error
+        id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
         data={data}
         config={myConfig}
         onClickNode={onClickNode}
@@ -187,11 +188,10 @@ export default function GraphInterface(props) {
         onNodePositionChange={onNodePositionChange}
       />
     );
-  } else {
-    return (
-      <div className='m-auto'>
-        <h2>Create your first object to get started.</h2>
-      </div>
-    );
   }
+  return (
+    <div className="m-auto">
+      <h2>Create your first object to get started.</h2>
+    </div>
+  );
 }
