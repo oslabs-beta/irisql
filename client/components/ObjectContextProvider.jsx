@@ -7,16 +7,19 @@ export const ObjectContext = createContext();
 export const ObjectContextProvider = (props) => {
   // Default state for objectList
   const defaultObjectList = {
-    objects: []
+    databaseChoice: 'MongoDB', // the other choice is "PostgreSQL"
+    objects: [],
   };
   // objectList will include list of objects with objectNames and a fields array
   const [objectListState, setObjectList] = useState(defaultObjectList);
-  // This state only gets changed when a node is clicked, so we can keep track of the current node clicked
+  /* This state only gets changed when a node is clicked,
+   so we can keep track of the current node clicked
+   */
   const [nodeObj, setNodeObj] = useState({});
   // This state controls if codemirror editor is rendered or not
   const [viewCode, setViewCode] = useState({
     displayCode: false,
-    responseCode: ''
+    responseCode: '',
   });
 
   // useEffect gets invoked when state changes
@@ -24,18 +27,21 @@ export const ObjectContextProvider = (props) => {
     fetch('/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(objectListState.objects)
+      body: JSON.stringify(objectListState.objects),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('this is the server response', data)
-        setViewCode({ ...viewCode, responseCode: data })
+        // console.log('this is the server response',data)
+        setViewCode({ ...viewCode, responseCode: data });
       })
       .catch((err) => console.log(err));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objectListState]);
 
   return (
-    <ObjectContext.Provider value={[objectListState, setObjectList, nodeObj, setNodeObj, viewCode, setViewCode]}>
+    <ObjectContext.Provider
+      value={[objectListState, setObjectList, nodeObj, setNodeObj, viewCode, setViewCode]}
+    >
       {props.children}
     </ObjectContext.Provider>
   );
