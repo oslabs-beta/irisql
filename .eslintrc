@@ -1,0 +1,28 @@
+{
+  "extends": ["airbnb", "airbnb/hooks"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "commonjs": true
+  },
+  "rules": {
+    "import/extensions" : [0,
+      "error", 
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/destructuring-assignment": [0,
+      "error", 
+      "never", 
+    {
+      "ignoreClassFields": true
+    }
+    ],
+    "react/prop-types": [0]
+  }
+}

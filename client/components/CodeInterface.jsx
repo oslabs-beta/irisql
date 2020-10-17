@@ -1,14 +1,20 @@
+/* eslint-disable no-unused-vars */
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
-import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/javascript/javascript';
 import 'codemirror/theme/neat.css';
-import { ObjectContext } from './ObjectContextProvider';
 import React, { useContext } from 'react';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
+import { ObjectContext } from './ObjectContextProvider';
 
 function CodeInterface() {
-
-  const [objectListState, setObjectList, nodeObj, setNodeObj, viewCode, setViewCode] = useContext(ObjectContext);
+  const [
+    objectListState,
+    setObjectList,
+    nodeObj,
+    setNodeObj,
+    viewCode,
+    setViewCode] = useContext(ObjectContext);
 
   return (
     <CodeMirror
@@ -16,10 +22,10 @@ function CodeInterface() {
       options={{
         mode: 'javascript',
         theme: 'material',
-        lineNumbers: true
+        lineNumbers: true,
       }}
     />
-  )
+  );
 }
 
-export default CodeInterface; 
+export default CodeInterface;
