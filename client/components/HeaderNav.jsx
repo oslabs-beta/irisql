@@ -16,8 +16,6 @@ const HeaderNav = () => (
       <Nav.Link>Contact</Nav.Link>
     </Nav>
     <Nav className="ml-auto">
-      <Nav.Link href="/signup">Signup</Nav.Link>
-      <Nav.Link href="/login">Login</Nav.Link>
       <Navbar.Brand href="https://github.com/oslabs-beta/irisql" target="_blank"><img src={githubLogo} style={{ width: 20 }} alt="GitHub logo" /></Navbar.Brand>
     </Nav>
   </Navbar>
