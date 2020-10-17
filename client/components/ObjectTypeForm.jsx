@@ -38,7 +38,7 @@ function ObjectTypeForm() {
     // Push new object to object list
     const newObjectList = [...objectListState.objects, { objectName, fields }];
     // Add new object list to the objects property of our object list global state
-    const stateObject = { objects: newObjectList };
+    const stateObject = { ...objectListState, objects: newObjectList };
     setObjectList(stateObject);
     // Clear out local state fields
     setFields([]);
