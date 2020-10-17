@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import HeaderNav from './HeaderNav';
 import LandingPage from './LandingPage';
+import SignUpPage from './SignUpPage';
+import LoginPage from './LoginPage';
 import PrototyperPage from './PrototyperPage';
 import { ObjectContextProvider } from './ObjectContextProvider';
 import '../styles.scss';
@@ -22,6 +24,12 @@ export default function App() {
             <Switch>
               <Route exact path="/">
                 <LandingPage />
+              </Route>
+              <Route path="/signup">
+                <SignUpPage />
+              </Route>
+              <Route path="/login">
+                <LoginPage />
               </Route>
               <Route path="/prototyper">
                 <PrototyperPage />
