@@ -33,16 +33,27 @@ const createObjectType = (arrOfObj) => {
   // set up for MongoDB
   return arrOfObj.reduce((acc, curr) => {
     // name object
-    const objectNameWithType = curr.objectName + "Type";
+    const lowerCaseObjectName = curr.objectName.toLowerCase();
+    const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
+    const objectNameWithType = objectName + 'Type';
+
+    let lowerCaseRelatedObjectName = '';
+    let relatedObjectName = '';
+    let relatedObjectNamewithType = '';
 
     acc += `const ${objectNameWithType} = new GraphQLObjectType({\n`;
-    acc += `  name: '${curr.objectName}',\n`;
+    acc += `  name: '${objectName}',\n`;
     acc += `  fields: () => ({\n`;
 
     for (let i = 0; i < curr.fields.length; i++) {
       // name related object
-      const relatedObjectNamewithType =
-        curr.fields[i].relatedObjectName + "Type";
+      if (curr.fields[i].relatedObjectName !== null) {
+        lowerCaseRelatedObjectName = curr.fields[i].relatedObjectName.toLowerCase();
+        relatedObjectName =
+          lowerCaseRelatedObjectName.slice(0, 1).toUpperCase() +
+          lowerCaseRelatedObjectName.slice(1);
+        relatedObjectNamewithType = relatedObjectName + 'Type';
+      }
 
       if (i !== 0) {
         acc += `,\n`;
@@ -53,9 +64,9 @@ const createObjectType = (arrOfObj) => {
       if (curr.fields[i].hasRelation === true) {
         acc += `,\n`;
         acc += `    ${curr.fields[i].relatedObjectName}: {\n`;
-        acc += `      type: ${curr.fields[i].relatedObjectName}Type,\n`;
-        acc += "      resolve(parent, args) {\n";
-        acc += `        return ${curr.fields[i].relatedObjectName}.findById(parent.${curr.fields[i].relatedObjectField});\n`;
+        acc += `      type: ${relatedObjectNamewithType},\n`;
+        acc += '      resolve(parent, args) {\n';
+        acc += `        return ${relatedObjectName}.findById(parent.${curr.fields[i].relatedObjectField});\n`;
         acc += `      }`;
         acc += `\n    }`;
       }
@@ -64,12 +75,12 @@ const createObjectType = (arrOfObj) => {
     acc += `  \n});\n\n`;
 
     return acc;
-  }, "");
+  }, '');
 };
 
 // function to generate code for root query
 const createRootQuery = (arrOfObj) => {
-  let string = "";
+  let string = '';
   string += `const RootQuery = new GraphQLObjectType({\n`;
   string += `  name: 'RootQueryType',\n`;
   string += `  fields: {\n`;
@@ -77,11 +88,12 @@ const createRootQuery = (arrOfObj) => {
   string += arrOfObj.reduce((acc, curr, index) => {
     // name query
     const queryName = curr.objectName.toLowerCase();
-    const queryNameCap =
-      queryName.slice(0, 1).toUpperCase() + queryName.slice(1);
+    const queryNameCap = queryName.slice(0, 1).toUpperCase() + queryName.slice(1);
 
     // name object
-    const objectNameWithType = curr.objectName + "Type";
+    const lowerCaseObjectName = curr.objectName.toLowerCase();
+    const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
+    const objectNameWithType = objectName + 'Type';
 
     if (index !== 0) {
       acc += `,\n`;
@@ -90,7 +102,7 @@ const createRootQuery = (arrOfObj) => {
     acc += `    every${queryNameCap}: {\n`;
     acc += `      type: new GraphQLList(${objectNameWithType}),\n`;
     acc += `      resolve() {\n`;
-    acc += `        return ${curr.objectName}.find({});`;
+    acc += `        return ${objectName}.find({});`;
     acc += `\n      }`;
     acc += `\n    }`;
     acc += `,\n`;
@@ -99,12 +111,12 @@ const createRootQuery = (arrOfObj) => {
     acc += `      type: ${objectNameWithType},\n`;
     acc += `      args: { ${curr.fields[0].fieldName}: { type: ${curr.fields[0].fieldType} }},\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        return ${curr.objectName}.findById(args.${curr.fields[0].fieldName});`;
+    acc += `        return ${objectName}.findById(args.${curr.fields[0].fieldName});`;
     acc += `\n      }`;
     acc += `\n    }`;
 
     return acc;
-  }, "");
+  }, '');
 
   string += `\n  }`;
   string += `\n});\n\n`;
@@ -114,7 +126,7 @@ const createRootQuery = (arrOfObj) => {
 
 // function to generate code for mutation
 const createMutation = (arrOfObj) => {
-  let string = "";
+  let string = '';
   string += `const Mutation = new GraphQLObjectType({\n`;
   string += `  name: 'Mutation',\n`;
   string += `  fields: {\n`;
@@ -122,11 +134,12 @@ const createMutation = (arrOfObj) => {
   string += arrOfObj.reduce((acc, curr, index) => {
     // name query
     const queryName = curr.objectName.toLowerCase();
-    const queryNameCap =
-      queryName.slice(0, 1).toUpperCase() + queryName.slice(1);
+    const queryNameCap = queryName.slice(0, 1).toUpperCase() + queryName.slice(1);
 
     // name object
-    const objectNameWithType = curr.objectName + "Type";
+    const lowerCaseObjectName = curr.objectName.toLowerCase();
+    const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
+    const objectNameWithType = objectName + 'Type';
 
     if (index !== 0) {
       acc += `,\n`;
@@ -181,7 +194,7 @@ const createMutation = (arrOfObj) => {
     acc += `\n    }`;
 
     return acc;
-  }, "");
+  }, '');
 
   string += `\n  }`;
   string += `\n});\n\n`;
@@ -191,7 +204,7 @@ const createMutation = (arrOfObj) => {
 
 // function to generate code for module exports
 const createModuleExports = () => {
-  let string = "";
+  let string = '';
 
   string += `module.exports = new GraphQLSchema({\n`;
   string += `  query: RootQuery,\n`;
