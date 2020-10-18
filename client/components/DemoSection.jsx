@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 export default function DemoSection() {
   const viewControls = true;
   return (
-    <div>
+    <div id="demo">
       <div className="section-headings demo-section d-flex justify-content-center">
         <hr className="demo-hr" />
         <h2>Watch A Demo</h2>

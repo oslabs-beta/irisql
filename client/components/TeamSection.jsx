@@ -5,7 +5,7 @@ import LinkedinLogo from '../../public/images/linkedin-black.svg';
 
 export default function TeamSection() {
   return (
-    <div className="mb-4">
+    <div className="mb-4" id="team">
       <div className="section-headings d-flex justify-content-center">
         <hr />
         <h2>Meet The Team</h2>

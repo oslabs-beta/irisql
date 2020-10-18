@@ -37,6 +37,7 @@
     "react-player": "^2.6.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-router-hash-link": "^2.2.2",
     "react-vis": "^1.11.7",
     "typewriter-effect": "^2.13.1"
   },

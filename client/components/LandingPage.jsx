@@ -8,7 +8,7 @@ import TeamSection from './TeamSection';
 
 export default function LandingPage() {
   return (
-    <div>
+    <div id="home">
       <div className="landing-page d-flex flex-column justify-content-around align-items-center">
         <div>
           <Typewriter

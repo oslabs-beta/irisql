@@ -4,7 +4,7 @@ import * as Icon from 'react-bootstrap-icons';
 
 export default function FeatureSection() {
   return (
-    <div>
+    <div id="features">
       <div className="section-headings d-flex justify-content-center">
         <hr />
         <h2>Features</h2>

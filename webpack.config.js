@@ -19,7 +19,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    publicPath: '/build/',
+    publicPath: '/',
     // watchContentBase: true,
     // contentBase: path.resolve(__dirname, 'build'),
     // redirect 404s to /index.html.
