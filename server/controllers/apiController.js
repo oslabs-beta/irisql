@@ -1,10 +1,6 @@
-const apiController = {};
-const { generateSchema } = require('../generateSchema.js');
+const { generateSchema } = require('../schema/generateSchema');
 
-apiController.getInfo = (req, res, next) => {
-  res.locals.info = 'hello';
-  return next();
-};
+const apiController = {};
 
 apiController.createNewSchema = (req, res, next) => {
   res.locals.newSchema = generateSchema(req.body);
