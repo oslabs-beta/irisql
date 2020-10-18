@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/oslabs-beta/irisql.git"
   },
-  "author": "Alex Kim, Binish Ali, Liam McBride, Ronnie Zhang, Stefan Pougatchev",
+  "author": "Alexander Kim, Binish Ali, Liam McBride, Ronnie Zhang, Stefan Pougatchev",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/irisql/issues"

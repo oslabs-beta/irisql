@@ -19,8 +19,8 @@ export default function FeatureSection() {
             <Card.Body>
               <Card.Title>Build a Visualized Schema</Card.Title>
               <Card.Text>
-                This is a wider card with supporting text below as a natural lead-in to
-                additional content. This content is a little bit longer.
+                Prototype your GraphQL schema with an intuitive and interactive GUI.
+                Assemble your graph using object types as building blocks.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -31,8 +31,7 @@ export default function FeatureSection() {
             <Card.Body>
               <Card.Title>Auto Generated Code</Card.Title>
               <Card.Text>
-                This card has supporting text below as a natural lead-in to additional
-                content.
+                Generate GraphQL API with user-defined object types, relationships, and database.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -43,9 +42,8 @@ export default function FeatureSection() {
             <Card.Body>
               <Card.Title>Connect To A DataBase</Card.Title>
               <Card.Text>
-                This is a wider card with supporting text below as a natural lead-in to
-                additional content. This card has even longer content than the first to
-                show that equal height action.
+                In development. Choose either a relational (PostgreSQL) or non-relational (MongoDB) 
+                database to query from.
               </Card.Text>
             </Card.Body>
           </Card>

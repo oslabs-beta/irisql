@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import logoImg from '../../public/images/logo-no-bg-white-horizontal.svg';
+import logoImg from '../../public/images/logo.svg';
 import githubLogo from '../../public/images/github.svg';
 
 const HeaderNav = () => (
@@ -13,10 +13,11 @@ const HeaderNav = () => (
     </Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link>Features</Nav.Link>
-      <Nav.Link>Contact</Nav.Link>
+      <Nav.Link>Demo</Nav.Link>
+      <Nav.Link>Team</Nav.Link>
     </Nav>
     <Nav className="ml-auto">
-      <Navbar.Brand href="https://github.com/oslabs-beta/irisql" target="_blank"><img src={githubLogo} style={{ width: 20 }} alt="GitHub logo" /></Navbar.Brand>
+      <Navbar.Brand href="https://github.com/oslabs-beta/irisql" target="_blank"><img src={githubLogo} style={{ width: 25 }} alt="GitHub logo" /></Navbar.Brand>
     </Nav>
   </Navbar>
 );
