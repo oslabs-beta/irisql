@@ -66,7 +66,7 @@ const createObjectType = (arrOfObj) => {
         acc += `    ${curr.fields[i].relatedObjectName}: {\n`;
         acc += `      type: ${relatedObjectNamewithType},\n`;
         acc += '      resolve(parent, args) {\n';
-        acc += `        return ${relatedObjectName}.findById(parent.${curr.fields[i].relatedObjectField});\n`;
+        acc += `        return ${relatedObjectName}.findById(parent.${curr.fields[i].fieldName});\n`;
         acc += `      }`;
         acc += `\n    }`;
       }
