@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { configure, shallow, mount } from 'enzyme';
+import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import App from '../client/components/App';
@@ -15,9 +14,7 @@ describe('React unit tests', () => {
     wrapper = shallow(<App />);
   });
 
-  it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(wrapper, div);
-    ReactDOM.unmountComponentAtNode(div);
+  it('renders a header', () => {
+    expect(wrapper.find('header').text()).toEqual('<HeaderNav />');
   });
 });
