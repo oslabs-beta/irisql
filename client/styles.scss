@@ -15,7 +15,6 @@ $blue: #0e5679;
   display: flex;
   flex-flow: column;
   height: 100vh;
-  // overflow: hidden;
 }
 
 .item-invisible {
@@ -58,8 +57,6 @@ main {
 
 .CodeMirror-scroll {
   overflow: auto;
-  // overflow-y: auto;
-  // overflow-x: auto;
 }
 
 .field-item {
@@ -84,7 +81,6 @@ main {
 .section-headings {
   color: #29274c;
   padding: 3rem 1rem 1rem 1rem;
-  // background-color: #29274c;
 }
 
 .demo-section {
