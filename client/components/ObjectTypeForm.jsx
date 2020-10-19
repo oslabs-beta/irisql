@@ -23,6 +23,17 @@ function ObjectTypeForm() {
   const [objectName, setObjectName] = useState('');
   // usedDuplicateFields notifies user if they tried to use an existing field or objectName
   const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
+  // State that keeps track of new field in fieldForm
+  const defaultField = {
+    fieldName: '',
+    fieldType: 'GraphQLString',
+    hasRelation: false,
+    relatedObjectName: null,
+    relatedObjectField: null,
+    relatedReferenceType: null,
+  };
+  const [newField, setNewField] = useState(defaultField);
+
   // Adds new object to global state
   const addObject = (e) => {
     e.preventDefault();
@@ -44,6 +55,8 @@ function ObjectTypeForm() {
     setFields([]);
     // clear out objectType input
     setObjectName('');
+    // Clear out new field in case user forgets to press plus
+    setNewField({ ...defaultField });
   };
   // Allows users to update current fieldName or type
   const updateFieldName = (inputValue, index) => {
@@ -175,7 +188,13 @@ function ObjectTypeForm() {
           </Form.Group>
         </Form>
         {fieldArray}
-        <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
+        <FieldForm
+          addField={addField}
+          usedDuplicateFields={usedDuplicateFields}
+          newField={newField}
+          setNewField={setNewField}
+          defaultField={defaultField}
+        />
         <div className="row justify-content-center">
           <Button size="sm" variant="primary" type="submit" disabled={usedDuplicateFields} onClick={addObject}>
             Create Object
