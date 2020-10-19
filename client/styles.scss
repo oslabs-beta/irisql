@@ -18,6 +18,12 @@ $blue: #0e5679;
   // overflow: hidden;
 }
 
+.item-invisible {
+  flex: 0 1 auto;
+  width: 33%;
+  visibility: hidden;
+}
+
 header {
   flex: 0 1 auto;
 }

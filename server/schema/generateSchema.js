@@ -1,3 +1,4 @@
+// set up for MongoDB
 // define functions for generating a GraphQL schema
 const generateSchema = (input) => {
   return requireGraphQL().concat(
@@ -30,7 +31,6 @@ const requireGraphQLProps = () => {
 };
 
 const createObjectType = (arrOfObj) => {
-  // set up for MongoDB
   return arrOfObj.reduce((acc, curr) => {
     // name object
     const lowerCaseObjectName = curr.objectName.toLowerCase();
@@ -62,11 +62,24 @@ const createObjectType = (arrOfObj) => {
       acc += `    ${curr.fields[i].fieldName}: { type: ${curr.fields[i].fieldType} }`;
 
       if (curr.fields[i].hasRelation === true) {
+        let findMethod = '';
+        let findMethodArgs = '';
+        if (curr.fields[i].relatedObjectField === 'id') {
+          findMethod = 'findById';
+          findMethodArgs = `(parent.${curr.fields[i].fieldName})`;
+        } else if (curr.fields[i].relatedReferenceType === 'one to one') {
+          findMethod = 'findOne';
+          findMethodArgs = `({ ${curr.fields[i].relatedObjectField}: parent.${curr.fields[i].fieldName} })`;
+        } else {
+          findMethod = 'find';
+          findMethodArgs = `({ ${curr.fields[i].relatedObjectField}: parent.${curr.fields[i].fieldName} })`;
+        }
+
         acc += `,\n`;
         acc += `    ${curr.fields[i].relatedObjectName}: {\n`;
         acc += `      type: ${relatedObjectNamewithType},\n`;
         acc += '      resolve(parent, args) {\n';
-        acc += `        return ${relatedObjectName}.findById(parent.${curr.fields[i].relatedObjectField});\n`;
+        acc += `        return ${relatedObjectName}.${findMethod}${findMethodArgs};\n`;
         acc += `      }`;
         acc += `\n    }`;
       }
