@@ -15,7 +15,12 @@ $blue: #0e5679;
   display: flex;
   flex-flow: column;
   height: 100vh;
-  // overflow: hidden;
+}
+
+.item-invisible {
+  flex: 0 1 auto;
+  width: 33%;
+  visibility: hidden;
 }
 
 header {
@@ -52,15 +57,13 @@ main {
 
 .CodeMirror-scroll {
   overflow: auto;
-  // overflow-y: auto;
-  // overflow-x: auto;
 }
 
-.field-item{
-  border: 1px solid darken($light-grey,25%);
+.field-item {
+  border: 1px solid darken($light-grey, 25%);
   border-radius: 5px;
-  padding: .2rem 0rem 0rem .2rem;
-  margin-bottom: .65rem;
+  padding: 0.2rem 0rem 0rem 0.2rem;
+  margin-bottom: 0.65rem;
   box-shadow: 2.5px 5px 4px rgb(188, 188, 188);
 }
 
@@ -71,14 +74,13 @@ main {
 
 .card-deck {
   padding: 1rem;
-  // background-color: #29274c;
-  margin-bottom: 2rem;
+  max-width: 1000px;
+  margin-bottom: 3rem;
 }
 
 .section-headings {
   color: #29274c;
   padding: 3rem 1rem 1rem 1rem;
-  // background-color: #29274c;
 }
 
 .demo-section {
@@ -95,27 +97,12 @@ main {
   background-color: #29274c;
 }
 
-.demo-hr{
-  width: 250px;
+.demo-hr {
   border-top: 1px solid white;
 }
-
 
 hr {
   width: 250px;
   border-top: 1px solid #29274c;
   margin: auto 20px;
-}
-
-.auth-container {
-  height: 94vh;
-  width: 100%;
-}
-
-.auth-form {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
