@@ -17,6 +17,15 @@
   "bugs": {
     "url": "https://github.com/oslabs-beta/irisql/issues"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|scss|sass)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "\\.(jpg|jpeg|png|svg)$": "<rootDir>/fileTransformer.js",
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
   "homepage": "https://github.com/oslabs-beta/irisql#readme",
   "dependencies": {
     "bootstrap": "^4.5.2",
@@ -59,8 +68,10 @@
     "eslint-plugin-react": "^7.21.4",
     "eslint-plugin-react-hooks": "^4.0.0",
     "html-webpack-plugin": "^4.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.5.3",
     "nodemon": "^2.0.4",
+    "react-test-renderer": "^16.14.0",
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
     "style-loader": "^1.2.1",
