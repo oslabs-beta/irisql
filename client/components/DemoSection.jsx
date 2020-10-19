@@ -12,7 +12,7 @@ export default function DemoSection() {
       </div>
       <div className="demo-video d-flex justify-content-center">
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=hY7m5jjJ9mM"
+          url="https://youtu.be/7HgK7Pnk8ms"
           controls={viewControls}
         />
       </div>
