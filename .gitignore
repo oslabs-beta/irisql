@@ -3,3 +3,5 @@ package-lock.json
 .DS_Store
 # Excluding webpack build folder
 build
+# Exclude Jest log files
+false
