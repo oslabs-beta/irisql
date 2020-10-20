@@ -19,7 +19,7 @@ module.exports = {
   ],
   devServer: {
     // match the output 'publicPath'
-    publicPath: '/',
+    publicPath: '/build/',
     // watchContentBase: true,
     // contentBase: path.resolve(__dirname, 'build'),
     // enable HMR on the devServer

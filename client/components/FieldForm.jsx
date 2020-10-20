@@ -1,19 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Form, Col, Button } from 'react-bootstrap';
 import { ObjectContext } from './ObjectContextProvider';
 
 function FieldForm(props) {
-  const defaultField = {
-    fieldName: '',
-    fieldType: 'GraphQLString',
-    hasRelation: false,
-    relatedObjectName: null,
-    relatedObjectField: null,
-    relatedReferenceType: null,
-  };
-
-  const [newField, setNewField] = useState(defaultField);
-
   // eslint-disable-next-line no-unused-vars
   const [objectListState, setObjectList] = useContext(ObjectContext);
 
@@ -25,9 +14,9 @@ function FieldForm(props) {
   });
 
   // Create array of fields for chosen objectName
-  const fieldRelations = objectListState.objects.length && newField.relatedObjectName
+  const fieldRelations = objectListState.objects.length && props.newField.relatedObjectName
     ? objectListState.objects
-      .filter((obj) => obj.objectName === newField.relatedObjectName)[0].fields : [];
+      .filter((obj) => obj.objectName === props.newField.relatedObjectName)[0].fields : [];
   const fieldRelationsOptions = [<option value={null} disabled selected>Pick Field</option>];
   fieldRelations.forEach((field) => {
     fieldRelationsOptions.push(<option value={field.fieldName}>{field.fieldName}</option>);
@@ -42,8 +31,8 @@ function FieldForm(props) {
             id="inlineFormInput"
             placeholder="Field Name"
             size="sm"
-            value={newField.fieldName}
-            onChange={(e) => setNewField({ ...newField, fieldName: e.target.value })}
+            value={props.newField.fieldName}
+            onChange={(e) => props.setNewField({ ...props.newField, fieldName: e.target.value })}
           />
         </Col>
         <Col xs="auto">
@@ -52,8 +41,8 @@ function FieldForm(props) {
             className="mb-2"
             id="inlineFormCustomSelect"
             size="sm"
-            value={newField.fieldType}
-            onChange={(e) => setNewField({ ...newField, fieldType: e.target.value })}
+            value={props.newField.fieldType}
+            onChange={(e) => props.setNewField({ ...props.newField, fieldType: e.target.value })}
             custom
           >
             <option value="GraphQLString">String</option>
@@ -67,8 +56,11 @@ function FieldForm(props) {
             type="checkbox"
             label="Relation"
             className="mb-2"
-            checked={newField.hasRelation}
-            onChange={(e) => setNewField({ ...newField, hasRelation: e.target.checked })}
+            checked={props.newField.hasRelation}
+            onChange={(e) => props.setNewField({
+              ...props.newField,
+              hasRelation: e.target.checked,
+            })}
           />
         </Col>
         <Col xs="auto">
@@ -77,8 +69,8 @@ function FieldForm(props) {
             className="mb-2"
             size="sm"
             onClick={(e) => {
-              props.addField(newField, e);
-              setNewField({ ...defaultField });
+              props.addField(props.newField, e);
+              props.setNewField({ ...props.defaultField });
             }}
           >
             +
@@ -93,7 +85,7 @@ function FieldForm(props) {
         </Form.Text>
         )}
       {/* If the user checks the has relation box */}
-      {newField.hasRelation
+      {props.newField.hasRelation
         && (
         <Form.Row className="align-items-center">
           <Col xs="auto">
@@ -102,7 +94,10 @@ function FieldForm(props) {
               className="mb-2"
               id="inlineFormCustomSelect"
               size="sm"
-              onChange={(e) => setNewField({ ...newField, relatedObjectName: e.target.value })}
+              onChange={(e) => props.setNewField({
+                ...props.newField,
+                relatedObjectName: e.target.value,
+              })}
               custom
             >
               {objectRelationOptions}
@@ -114,7 +109,10 @@ function FieldForm(props) {
               className="mb-2"
               id="inlineFormCustomSelect"
               size="sm"
-              onChange={(e) => setNewField({ ...newField, relatedObjectField: e.target.value })}
+              onChange={(e) => props.setNewField({
+                ...props.newField,
+                relatedObjectField: e.target.value,
+              })}
               custom
             >
               {fieldRelationsOptions}
