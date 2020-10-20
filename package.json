@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/oslabs-beta/irisql.git"
   },
-  "author": "Alex Kim, Binish Ali, Liam McBride, Ronnie Zhang, Stefan Pougatchev",
+  "author": "Alexander Kim, Binish Ali, Liam McBride, Ronnie Zhang, Stefan Pougatchev",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/irisql/issues"
@@ -48,7 +48,9 @@
     "react-player": "^2.6.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-router-hash-link": "^2.2.2",
     "react-vis": "^1.11.7",
+    "supertest": "^5.0.0",
     "typewriter-effect": "^2.13.1"
   },
   "devDependencies": {
