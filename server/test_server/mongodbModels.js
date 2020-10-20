@@ -21,7 +21,4 @@ const Schema = mongoose.Schema;
 // create a model for each collection that will be part of the export
 
 // export models
-module.exports = {
-  Movie,
-  Director,
-};
+module.exports = {};
