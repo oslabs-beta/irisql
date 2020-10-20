@@ -14,6 +14,17 @@ function UpdateForm() {
   // const [objectName, setObjectName] = useState(nodeObj.objectName);
   // usedDuplicateFields notifies user if they tried to use an existing field or objectName
   const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
+  // State that keeps track of new field in fieldForm
+  const defaultField = {
+    fieldName: '',
+    fieldType: 'GraphQLString',
+    hasRelation: false,
+    relatedObjectName: null,
+    relatedObjectField: null,
+    relatedReferenceType: null,
+  };
+  const [newField, setNewField] = useState(defaultField);
+
   // Update object in global state
   const updateObject = (e) => {
     // Prevent automatic page reload
@@ -51,6 +62,8 @@ function UpdateForm() {
     // setObjectName('');
     // Reset current node object to change form back to objectTypeForm
     setNodeObj({});
+
+    setNewField({ ...defaultField });
   };
 
   const deleteObject = (e) => {
@@ -207,7 +220,13 @@ function UpdateForm() {
         </Form.Group>
       </Form>
       {fieldArray}
-      <FieldForm addField={addField} usedDuplicateFields={usedDuplicateFields} />
+      <FieldForm
+        addField={addField}
+        usedDuplicateFields={usedDuplicateFields}
+        newField={newField}
+        setNewField={setNewField}
+        defaultField={defaultField}
+      />
       <Form.Row className="row justify-content-center">
         <Button
           size="sm"
