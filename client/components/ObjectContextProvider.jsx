@@ -1,8 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 export const ObjectContext = createContext();
-// Default value for global state
-// objectTypes.objects
 
 export const ObjectContextProvider = (props) => {
   // Default state for objectList
@@ -27,7 +25,10 @@ export const ObjectContextProvider = (props) => {
     fetch('/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(objectListState.objects),
+      body: JSON.stringify([
+        { databaseChoice: objectListState.databaseChoice },
+        ...objectListState.objects,
+      ]),
     })
       .then((res) => res.json())
       .then((data) => {
