@@ -16,7 +16,6 @@ function ObjectTypeForm() {
     viewCode,
     setViewCode,
   ] = useContext(ObjectContext);
-  // console.log("Last clicked node: ", nodeObj.objectName);
   // Fields is an array of objects with fieldName and fieldType properties
   const [fields, setFields] = useState([]);
   // objectName keeps track of current object type name in form
@@ -99,7 +98,6 @@ function ObjectTypeForm() {
     // If the field isn't a duplicate, set the field in local state
     duplicateField ? setUsedDuplicateFields(true) : setFields([...fields, fieldItemInput]);
     e.preventDefault();
-    // e.target.value = '';
   };
 
   // Allows users to delete fields

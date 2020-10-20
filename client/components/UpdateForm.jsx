@@ -8,10 +8,6 @@ import { ObjectContext } from './ObjectContextProvider';
 function UpdateForm() {
   // Gives us access to global state
   const [objectListState, setObjectList, nodeObj, setNodeObj] = useContext(ObjectContext);
-  // Fields is an array of objects with fieldName and fieldType properties
-  // const [fields, setFields] = useState(nodeObj.fields);
-  // // objectName keeps track of current object type name in form
-  // const [objectName, setObjectName] = useState(nodeObj.objectName);
   // usedDuplicateFields notifies user if they tried to use an existing field or objectName
   const [usedDuplicateFields, setUsedDuplicateFields] = useState(false);
   // State that keeps track of new field in fieldForm
@@ -73,10 +69,6 @@ function UpdateForm() {
     );
     // Set global object list state to edited version
     setObjectList(updatedListState);
-    // Clear out local state fields
-    // setFields([]);
-    // clear out objectType input
-    // setObjectName('');
     // Reset current node object to change form back to objectTypeForm
     setNodeObj({});
   };
@@ -92,7 +84,6 @@ function UpdateForm() {
     const otherFields = [...nodeObj.fields];
     otherFields.splice(index, 1);
     // Otherfields is the fields array with all but the current field
-    console.log('otherfields: ', otherFields);
     otherFields.forEach((field) => {
       if (field.fieldName === inputValue) duplicateField = true;
     });

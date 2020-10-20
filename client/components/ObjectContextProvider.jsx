@@ -1,8 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 export const ObjectContext = createContext();
-// Default value for global state
-// objectTypes.objects
 
 export const ObjectContextProvider = (props) => {
   // Default state for objectList
