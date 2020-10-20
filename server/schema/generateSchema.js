@@ -134,7 +134,16 @@ const createRootQuery = (arrOfObj) => {
     acc += `    every${queryNameCap}: {\n`;
     acc += `      type: new GraphQLList(${objectNameWithType}),\n`;
     acc += `      resolve() {\n`;
-    acc += `        return ${objectName}.find({});`;
+
+    // print resolver specific for MongoDB and PostgreSQL
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${objectName}.find({});`;
+    } else {
+      acc += `        const sql = \'SELECT * FROM ${objectName}';\n`;
+      acc += `        return pool.query(sql)\n`;
+      acc += `          .then((res) => res.rows)\n`;
+      acc += `          .catch((err) => console.log('Error: ', err))`;
+    }
     acc += `\n      }`;
     acc += `\n    }`;
     acc += `,\n`;
@@ -144,7 +153,16 @@ const createRootQuery = (arrOfObj) => {
     acc += `      args: { ${curr.fields[0].fieldName}: { type: ${curr.fields[0].fieldType} }},\n`;
     acc += `      resolve(parent, args) {\n`;
 
-    acc += `        return ${objectName}.findById(args.${curr.fields[0].fieldName});`;
+    // print resolver specific for MongoDB and PostgreSQL
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${objectName}.findById(args.${curr.fields[0].fieldName});`;
+    } else {
+      acc += `        const sql = \'SELECT * FROM ${objectName} WHERE id = \$1';\n`;
+      acc += `        const value = [args.${curr.fields[0].fieldName}];\n`;
+      acc += `        return pool.query(sql, value)\n`;
+      acc += `          .then((res) => res.rows[0])\n`;
+      acc += `          .catch((err) => console.log('Error: ', err))`;
+    }
     acc += `\n      }`;
     acc += `\n    }`;
 
