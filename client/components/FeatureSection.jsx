@@ -42,7 +42,7 @@ export default function FeatureSection() {
             <Card.Body>
               <Card.Title>Connect To A DataBase</Card.Title>
               <Card.Text>
-                In development. Choose either a relational (PostgreSQL) or non-relational (MongoDB) 
+                In development. Choose either a relational (PostgreSQL) or non-relational (MongoDB)
                 database to query from.
               </Card.Text>
             </Card.Body>
