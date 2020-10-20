@@ -27,7 +27,10 @@ export const ObjectContextProvider = (props) => {
     fetch('/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(objectListState.objects),
+      body: JSON.stringify([
+        { databaseChoice: objectListState.databaseChoice },
+        ...objectListState.objects,
+      ]),
     })
       .then((res) => res.json())
       .then((data) => {

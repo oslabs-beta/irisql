@@ -53,16 +53,12 @@ function UpdateForm() {
       // Else, push to the array
       return obj;
     });
-    // console.log('updated list state:', updatedListState);
+    updatedListState.databaseChoice = objectListState.databaseChoice;
     // Set global object list state to edited version
     setObjectList(updatedListState);
-    // Clear out local state fields
-    // setFields([]);
-    // clear out objectType input
-    // setObjectName('');
     // Reset current node object to change form back to objectTypeForm
     setNodeObj({});
-
+    // Reset newField state to the default
     setNewField({ ...defaultField });
   };
 
