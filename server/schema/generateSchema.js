@@ -88,7 +88,7 @@ const createObjectType = (arrOfObj) => {
         if (dbChoice === 'MongoDB') {
           acc += `        return ${relatedObjectName}.${findMethod}${findMethodArgs};\n`;
         } else {
-          acc += `        const sql = \'SELECT * FROM ${curr.fields[i].relatedObjectName} WHERE id = \$1'\n`;
+          acc += `        const sql = \'SELECT * FROM ${curr.fields[i].relatedObjectName} WHERE id = \$1\'\n`;
           acc += `        const value = [parent.${curr.fields[i].fieldName}];\n`;
           acc += `        return pool.query(sql)\n`;
           acc += `          .then((res) => res.rows[0])\n`;
@@ -157,7 +157,7 @@ const createRootQuery = (arrOfObj) => {
     if (dbChoice === 'MongoDB') {
       acc += `        return ${objectName}.findById(args.${curr.fields[0].fieldName});`;
     } else {
-      acc += `        const sql = \'SELECT * FROM ${objectName} WHERE id = \$1';\n`;
+      acc += `        const sql = \'SELECT * FROM ${objectName} WHERE id = \$1\';\n`;
       acc += `        const value = [args.${curr.fields[0].fieldName}];\n`;
       acc += `        return pool.query(sql, value)\n`;
       acc += `          .then((res) => res.rows[0])\n`;
@@ -193,6 +193,9 @@ const createMutation = (arrOfObj) => {
     const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
     const objectNameWithType = objectName + 'Type';
 
+    // read user's choice of database
+    const dbChoice = arrOfObj[0].databaseChoice;
+
     if (index !== 0) {
       acc += `,\n`;
     }
@@ -212,8 +215,27 @@ const createMutation = (arrOfObj) => {
 
     acc += `\n      },\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        const ${queryName} = new ${queryNameCap}(args);\n`;
-    acc += `        return ${queryName}.save();`;
+
+    if (dbChoice === 'MongoDB') {
+      acc += `        const ${queryName} = new ${queryNameCap}(args);\n`;
+      acc += `        return ${queryName}.save();`;
+    } else {
+      acc += `        const columns = Object.keys(args).map(el => \`\"\${el}\"\`)\n`;
+      acc += `        const values = Object.values(args).map(el => \`\"\${el}\"\`)\n`;
+      acc += `        const sql = \'INSERT INTO ${objectName} (\${columns}) VALUES (\${values}) RETURNING *\'\n`;
+      acc += `        return pool.connect()\n`;
+      acc += `          .then(client => {\n`;
+      acc += `            return client.query(sql)\n`;
+      acc += `              .then(res => {\n`;
+      acc += `                client.release();\n`;
+      acc += `                return res.rows[0];\n`;
+      acc += `              })\n`;
+      acc += `              .catch(err => {\n`;
+      acc += `                client.release();\n`;
+      acc += `                console.log('Error: ', err);\n`;
+      acc += `              })\n`;
+      acc += `          })`;
+    }
     acc += `\n      }`;
     acc += `\n    },\n`;
 
@@ -232,7 +254,10 @@ const createMutation = (arrOfObj) => {
 
     acc += `\n      },\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        return ${queryNameCap}.findByIdAndUpdate(args.id, args);`;
+
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${queryNameCap}.findByIdAndUpdate(args.id, args);`;
+    }
     acc += `\n      }`;
     acc += `\n    },\n`;
 
@@ -241,7 +266,10 @@ const createMutation = (arrOfObj) => {
     acc += `      type: ${objectNameWithType},\n`;
     acc += `      args: { ${curr.fields[0].fieldName}: { type: ${curr.fields[0].fieldType} }},\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        return ${queryNameCap}.findByIdAndRemove(args.id);`;
+
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${queryNameCap}.findByIdAndRemove(args.id);`;
+    }
     acc += `\n      }`;
     acc += `\n    }`;
 
