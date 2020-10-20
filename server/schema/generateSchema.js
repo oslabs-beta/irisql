@@ -1,4 +1,3 @@
-// set up for MongoDB
 // define functions for generating a GraphQL schema
 const generateSchema = (input) => {
   return requireGraphQL().concat(
@@ -31,8 +30,9 @@ const requireGraphQLProps = () => {
 };
 
 const createObjectType = (arrOfObj) => {
-  return arrOfObj.reduce((acc, curr) => {
-    // name object
+  const arrOfObjCopy = arrOfObj.slice(1);
+  return arrOfObjCopy.reduce((acc, curr) => {
+    // name object (rules: capitalized object name, capitalized object type)
     const lowerCaseObjectName = curr.objectName.toLowerCase();
     const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
     const objectNameWithType = objectName + 'Type';
@@ -41,12 +41,16 @@ const createObjectType = (arrOfObj) => {
     let relatedObjectName = '';
     let relatedObjectNamewithType = '';
 
+    // read user's choice of database
+    const dbChoice = arrOfObj[0].databaseChoice;
+
     acc += `const ${objectNameWithType} = new GraphQLObjectType({\n`;
     acc += `  name: '${objectName}',\n`;
     acc += `  fields: () => ({\n`;
 
+    // print object's name and fields key
     for (let i = 0; i < curr.fields.length; i++) {
-      // name related object
+      // name related object (rules: capitalized object name, capitalized object type)
       if (curr.fields[i].relatedObjectName !== null) {
         lowerCaseRelatedObjectName = curr.fields[i].relatedObjectName.toLowerCase();
         relatedObjectName =
@@ -54,13 +58,13 @@ const createObjectType = (arrOfObj) => {
           lowerCaseRelatedObjectName.slice(1);
         relatedObjectNamewithType = relatedObjectName + 'Type';
       }
-
+      // print a line break before printing each field except the first field
       if (i !== 0) {
         acc += `,\n`;
       }
-
+      // print the field name and its type
       acc += `    ${curr.fields[i].fieldName}: { type: ${curr.fields[i].fieldType} }`;
-
+      // if the field has a relation, print its related object, type, and the resolver function
       if (curr.fields[i].hasRelation === true) {
         let findMethod = '';
         let findMethodArgs = '';
@@ -78,8 +82,19 @@ const createObjectType = (arrOfObj) => {
         acc += `,\n`;
         acc += `    ${curr.fields[i].relatedObjectName}: {\n`;
         acc += `      type: ${relatedObjectNamewithType},\n`;
-        acc += '      resolve(parent, args) {\n';
-        acc += `        return ${relatedObjectName}.${findMethod}${findMethodArgs};\n`;
+        acc += `      resolve(parent, args) {\n`;
+
+        // print resolver specific for MongoDB and PostgreSQL
+        if (dbChoice === 'MongoDB') {
+          acc += `        return ${relatedObjectName}.${findMethod}${findMethodArgs};\n`;
+        } else {
+          acc += `        const sql = \'SELECT * FROM ${curr.fields[i].relatedObjectName} WHERE id = \$1\'\n`;
+          acc += `        const value = [parent.${curr.fields[i].fieldName}];\n`;
+          acc += `        return pool.query(sql)\n`;
+          acc += `          .then((res) => res.rows[0])\n`;
+          acc += `          .catch((err) => console.log('Error: ', err))\n`;
+        }
+
         acc += `      }`;
         acc += `\n    }`;
       }
@@ -93,12 +108,13 @@ const createObjectType = (arrOfObj) => {
 
 // function to generate code for root query
 const createRootQuery = (arrOfObj) => {
+  const arrOfObjCopy = arrOfObj.slice(1);
   let string = '';
   string += `const RootQuery = new GraphQLObjectType({\n`;
   string += `  name: 'RootQueryType',\n`;
   string += `  fields: {\n`;
 
-  string += arrOfObj.reduce((acc, curr, index) => {
+  string += arrOfObjCopy.reduce((acc, curr, index) => {
     // name query
     const queryName = curr.objectName.toLowerCase();
     const queryNameCap = queryName.slice(0, 1).toUpperCase() + queryName.slice(1);
@@ -108,6 +124,9 @@ const createRootQuery = (arrOfObj) => {
     const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
     const objectNameWithType = objectName + 'Type';
 
+    // read user's choice of database
+    const dbChoice = arrOfObj[0].databaseChoice;
+
     if (index !== 0) {
       acc += `,\n`;
     }
@@ -115,7 +134,16 @@ const createRootQuery = (arrOfObj) => {
     acc += `    every${queryNameCap}: {\n`;
     acc += `      type: new GraphQLList(${objectNameWithType}),\n`;
     acc += `      resolve() {\n`;
-    acc += `        return ${objectName}.find({});`;
+
+    // print resolver specific for MongoDB and PostgreSQL
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${objectName}.find({});`;
+    } else {
+      acc += `        const sql = \'SELECT * FROM ${objectName}';\n`;
+      acc += `        return pool.query(sql)\n`;
+      acc += `          .then((res) => res.rows)\n`;
+      acc += `          .catch((err) => console.log('Error: ', err))`;
+    }
     acc += `\n      }`;
     acc += `\n    }`;
     acc += `,\n`;
@@ -124,7 +152,17 @@ const createRootQuery = (arrOfObj) => {
     acc += `      type: ${objectNameWithType},\n`;
     acc += `      args: { ${curr.fields[0].fieldName}: { type: ${curr.fields[0].fieldType} }},\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        return ${objectName}.findById(args.${curr.fields[0].fieldName});`;
+
+    // print resolver specific for MongoDB and PostgreSQL
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${objectName}.findById(args.${curr.fields[0].fieldName});`;
+    } else {
+      acc += `        const sql = \'SELECT * FROM ${objectName} WHERE id = \$1\';\n`;
+      acc += `        const value = [args.${curr.fields[0].fieldName}];\n`;
+      acc += `        return pool.query(sql, value)\n`;
+      acc += `          .then((res) => res.rows[0])\n`;
+      acc += `          .catch((err) => console.log('Error: ', err))`;
+    }
     acc += `\n      }`;
     acc += `\n    }`;
 
@@ -139,12 +177,13 @@ const createRootQuery = (arrOfObj) => {
 
 // function to generate code for mutation
 const createMutation = (arrOfObj) => {
+  const arrOfObjCopy = arrOfObj.slice(1);
   let string = '';
   string += `const Mutation = new GraphQLObjectType({\n`;
   string += `  name: 'Mutation',\n`;
   string += `  fields: {\n`;
 
-  string += arrOfObj.reduce((acc, curr, index) => {
+  string += arrOfObjCopy.reduce((acc, curr, index) => {
     // name query
     const queryName = curr.objectName.toLowerCase();
     const queryNameCap = queryName.slice(0, 1).toUpperCase() + queryName.slice(1);
@@ -153,6 +192,9 @@ const createMutation = (arrOfObj) => {
     const lowerCaseObjectName = curr.objectName.toLowerCase();
     const objectName = lowerCaseObjectName.slice(0, 1).toUpperCase() + lowerCaseObjectName.slice(1);
     const objectNameWithType = objectName + 'Type';
+
+    // read user's choice of database
+    const dbChoice = arrOfObj[0].databaseChoice;
 
     if (index !== 0) {
       acc += `,\n`;
@@ -173,8 +215,27 @@ const createMutation = (arrOfObj) => {
 
     acc += `\n      },\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        const ${queryName} = new ${queryNameCap}(args);\n`;
-    acc += `        return ${queryName}.save();`;
+
+    if (dbChoice === 'MongoDB') {
+      acc += `        const ${queryName} = new ${queryNameCap}(args);\n`;
+      acc += `        return ${queryName}.save();`;
+    } else {
+      acc += `        const columns = Object.keys(args).map(el => \`\"\${el}\"\`)\n`;
+      acc += `        const values = Object.values(args).map(el => \`\"\${el}\"\`)\n`;
+      acc += `        const sql = \'INSERT INTO ${objectName} (\${columns}) VALUES (\${values}) RETURNING *\'\n`;
+      acc += `        return pool.connect()\n`;
+      acc += `          .then(client => {\n`;
+      acc += `            return client.query(sql)\n`;
+      acc += `              .then(res => {\n`;
+      acc += `                client.release();\n`;
+      acc += `                return res.rows[0];\n`;
+      acc += `              })\n`;
+      acc += `              .catch(err => {\n`;
+      acc += `                client.release();\n`;
+      acc += `                console.log('Error: ', err);\n`;
+      acc += `              })\n`;
+      acc += `          })`;
+    }
     acc += `\n      }`;
     acc += `\n    },\n`;
 
@@ -193,7 +254,10 @@ const createMutation = (arrOfObj) => {
 
     acc += `\n      },\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        return ${queryNameCap}.findByIdAndUpdate(args.id, args);`;
+
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${queryNameCap}.findByIdAndUpdate(args.id, args);`;
+    }
     acc += `\n      }`;
     acc += `\n    },\n`;
 
@@ -202,7 +266,10 @@ const createMutation = (arrOfObj) => {
     acc += `      type: ${objectNameWithType},\n`;
     acc += `      args: { ${curr.fields[0].fieldName}: { type: ${curr.fields[0].fieldType} }},\n`;
     acc += `      resolve(parent, args) {\n`;
-    acc += `        return ${queryNameCap}.findByIdAndRemove(args.id);`;
+
+    if (dbChoice === 'MongoDB') {
+      acc += `        return ${queryNameCap}.findByIdAndRemove(args.id);`;
+    }
     acc += `\n      }`;
     acc += `\n    }`;
 
