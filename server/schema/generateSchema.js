@@ -83,7 +83,18 @@ const createObjectType = (arrOfObj) => {
         acc += `    ${curr.fields[i].relatedObjectName}: {\n`;
         acc += `      type: ${relatedObjectNamewithType},\n`;
         acc += `      resolve(parent, args) {\n`;
-        acc += `        return ${relatedObjectName}.${findMethod}${findMethodArgs};\n`;
+
+        // print resolver specific for MongoDB and PostgreSQL
+        if (dbChoice === 'MongoDB') {
+          acc += `        return ${relatedObjectName}.${findMethod}${findMethodArgs};\n`;
+        } else {
+          acc += `        const sql = \'SELECT * FROM ${curr.fields[i].relatedObjectName} WHERE id = \$1'\n`;
+          acc += `        const value = [parent.${curr.fields[i].fieldName}];\n`;
+          acc += `        return pool.query(sql)\n`;
+          acc += `          .then((res) => res.rows[0])\n`;
+          acc += `          .catch((err) => console.log('Error: ', err))\n`;
+        }
+
         acc += `      }`;
         acc += `\n    }`;
       }
