@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
@@ -38,9 +39,9 @@ function ObjectTypeForm() {
     e.preventDefault();
     // Check if duplicate object name was used
     setUsedDuplicateFields(false);
-    // Iterate through all fields and objects to ensure duplicate objectName isnt added
-    const duplicateObject = checkDuplicates(objectName);
-    // If the object is a duplicate, prevent global state from being updated
+    // Check for duplicates after create is clicked
+    const duplicateObject = checkDuplicates({ objectName, fields });
+    // If there are duplicates, warn user
     if (duplicateObject) {
       setUsedDuplicateFields(true);
       return;
@@ -61,79 +62,76 @@ function ObjectTypeForm() {
   const updateFieldName = (inputValue, index) => {
     const newFields = [...fields];
     newFields[index].fieldName = inputValue;
-    // Checks to ensure updated field name isn't a duplicate
     setUsedDuplicateFields(false);
-    const duplicateField = checkDuplicates(inputValue);
-    duplicateField ? setUsedDuplicateFields(true) : setFields([...newFields]);
+    setFields([...newFields]);
   };
+  // Lets users change the graphQL type
   const updateFieldType = (inputType, index) => {
     const newFields = [...fields];
     newFields[index].fieldType = inputType;
     setFields([...newFields]);
   };
-
-  const updateObjectRelation = (inputObjType, index) => {
-    const newFields = [...fields];
-    newFields[index].relatedObjectName = inputObjType;
-    setFields([...newFields]);
-  };
-
+  // Lets users determine whether a field has relations
   const updateHasRelation = (inputRelation, index) => {
     const newFields = [...fields];
     newFields[index].hasRelation = inputRelation;
     setFields([...newFields]);
   };
-
+  // Lets users add relationships to other object types
+  const updateObjectRelation = (inputObjType, index) => {
+    const newFields = [...fields];
+    newFields[index].relatedObjectName = inputObjType;
+    setFields([...newFields]);
+  };
+  // Lets users specify the related field
   const updateFieldRelation = (inputFieldType, index) => {
     const newFields = [...fields];
     newFields[index].relatedObjectField = inputFieldType;
     setFields([...newFields]);
   };
-
   // Allows users to add new field
   const addField = (fieldItemInput, e) => {
-    setUsedDuplicateFields(false);
-    // Iterate through all fields to ensure duplicate fieldName isnt added
-    const duplicateField = checkDuplicates(fieldItemInput.fieldName);
-    // If the field isn't a duplicate, set the field in local state
-    duplicateField ? setUsedDuplicateFields(true) : setFields([...fields, fieldItemInput]);
+    setFields([...fields, fieldItemInput]);
     e.preventDefault();
   };
-
   // Allows users to delete fields
   const deleteField = (fieldIndex, e) => {
     e.preventDefault();
+    setUsedDuplicateFields(false);
     const newFields = fields.filter((field, index) => index !== fieldIndex);
     setFields([...newFields]);
   };
-
-  // Checks for duplicates in fields and objects
-  const checkDuplicates = (itemName) => {
+  // Function to check if newly added object has duplicate name or fields
+  const checkDuplicates = (newObject) => {
+    // Create object to store global object and field names
+    const names = {};
     // Check duplicates in global state
     for (let i = 0; i < objectListState.objects.length; i += 1) {
-      if (objectListState.objects[i].objectName === itemName) {
-        return true;
-      }
+      // if objectName not in names, put in names
+      names[objectListState.objects[i].objectName] = true;
       for (let j = 0; j < objectListState.objects[i].fields.length; j += 1) {
-        if (objectListState.objects[i].fields[j].fieldName === itemName) {
-          return true;
-        }
+        // if fieldName not in names, put in names
+        names[objectListState.objects[i].fields[j].fieldName] = true;
       }
     }
-    // Check for duplicate fields in specific object type form
-    for (let w = 0; w < fields.length; w += 1) {
-      if (fields[w].fieldName === itemName) {
-        return true;
-      }
+    // If the new object's object name is in global state, return true
+    if (names[newObject.objectName]) {
+      return true;
     }
-    // If no duplicate names found, return false
+    names[newObject.objectName] = true;
+    // If any of the fields are in global state, return true
+    for (let w = 0; w < newObject.fields.length; w += 1) {
+      if (names[newObject.fields[w].fieldName]) return true;
+      names[newObject.fields[w].fieldName] = true;
+    }
+    // Else return false
     return false;
   };
 
   // Renders a number of field items
   const fieldArray = fields.map((field, index) => (
     <FieldItem
-      key={field.fieldName}
+      key={index}
       ind={index}
       info={field}
       updateFieldName={updateFieldName}

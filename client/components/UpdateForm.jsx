@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-use-before-define */
 import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
@@ -67,6 +68,20 @@ function UpdateForm() {
     updatedListState.objects = objectListState.objects.filter(
       (obj) => obj.objectName !== nodeObj.objectName,
     );
+    updatedListState.databaseChoice = objectListState.databaseChoice;
+    // If object in updatedList state has relation to the recently deleted field,
+    // set its relation to null
+    updatedListState.objects.forEach((obj) => {
+      // Check fields of current obj
+      obj.fields.forEach((field) => {
+        // If the field has a relation to the deleted object, clear relation
+        if (field.relatedObjectName === nodeObj.objectName) {
+          field.hasRelation = false;
+          field.relatedObjectName = null;
+          field.relatedObjectField = null;
+        }
+      });
+    });
     // Set global object list state to edited version
     setObjectList(updatedListState);
     // Reset current node object to change form back to objectTypeForm
@@ -92,7 +107,6 @@ function UpdateForm() {
       setUsedDuplicateFields(true);
     } else {
       setNodeObj({ ...nodeObj, fields: [...newFields] });
-      // setFields([...newFields]);
     }
   };
 
@@ -109,9 +123,12 @@ function UpdateForm() {
     // Iterate through all fields to ensure duplicate fieldName isnt added
     const duplicateField = checkDuplicates(fieldItemInput.fieldName);
     // If the field isn't a duplicate, set the field in local state
-    duplicateField ? setUsedDuplicateFields(true) : setNodeObj({ ...nodeObj, fields: [...nodeObj.fields, fieldItemInput] });
+    if (duplicateField) {
+      setUsedDuplicateFields(true);
+    } else {
+      setNodeObj({ ...nodeObj, fields: [...nodeObj.fields, fieldItemInput] });
+    }
     e.preventDefault();
-    // e.target.value = '';
   };
 
   const updateObjectRelation = (inputObjType, index) => {
