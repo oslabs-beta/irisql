@@ -18,7 +18,7 @@ export default function ToolBar() {
       <Nav className="flex-column">
         <ObjectTypeForm />
       </Nav>
-      <div className="mx-auto mb-1">
+      <div className="mx-auto mb-4">
         <Button
           size="sm"
           variant="primary"
