@@ -10,6 +10,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
+// Serve favicon
+app.use('/favicon', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/images/favicon.ico'));
+});
+
 app.use('/api', apiRouter);
 
 app.use(
