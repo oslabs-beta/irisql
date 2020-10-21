@@ -107,7 +107,6 @@ function UpdateForm() {
       setUsedDuplicateFields(true);
     } else {
       setNodeObj({ ...nodeObj, fields: [...newFields] });
-      // setFields([...newFields]);
     }
   };
 
@@ -124,9 +123,12 @@ function UpdateForm() {
     // Iterate through all fields to ensure duplicate fieldName isnt added
     const duplicateField = checkDuplicates(fieldItemInput.fieldName);
     // If the field isn't a duplicate, set the field in local state
-    duplicateField ? setUsedDuplicateFields(true) : setNodeObj({ ...nodeObj, fields: [...nodeObj.fields, fieldItemInput] });
+    if (duplicateField) {
+      setUsedDuplicateFields(true);
+    } else {
+      setNodeObj({ ...nodeObj, fields: [...nodeObj.fields, fieldItemInput] });
+    }
     e.preventDefault();
-    // e.target.value = '';
   };
 
   const updateObjectRelation = (inputObjType, index) => {
