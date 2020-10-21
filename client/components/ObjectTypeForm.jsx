@@ -39,6 +39,12 @@ function ObjectTypeForm() {
     e.preventDefault();
     // Check if duplicate object name was used
     setUsedDuplicateFields(false);
+    // If user forgets to add fields, alert them
+    if (!fields[0]) {
+      // eslint-disable-next-line no-alert
+      alert(`Please enter at least one field in ${objectName}.`);
+      return;
+    }
     // Check for duplicates after create is clicked
     const duplicateObject = checkDuplicates({ objectName, fields });
     // If there are duplicates, warn user

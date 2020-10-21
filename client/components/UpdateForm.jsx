@@ -121,7 +121,13 @@ function UpdateForm() {
   const addField = (fieldItemInput, e) => {
     setUsedDuplicateFields(false);
     // Iterate through all fields to ensure duplicate fieldName isnt added
-    const duplicateField = checkDuplicates(fieldItemInput.fieldName);
+    let duplicateField = checkDuplicates(fieldItemInput.fieldName);
+    // If user tries to add field with same name as object name
+    if (fieldItemInput.fieldName === nodeObj.objectName) duplicateField = true;
+    // Checks if field is duplicate of a nodeObj field (excludes last/current field)
+    nodeObj.fields.forEach((field, ind) => {
+      if (field.fieldName === fieldItemInput.fieldName) duplicateField = true;
+    });
     // If the field isn't a duplicate, set the field in local state
     if (duplicateField) {
       setUsedDuplicateFields(true);
