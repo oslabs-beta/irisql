@@ -41,7 +41,7 @@ export default function TeamSection() {
             <a className="mx-3" href="https://github.com/ronzhan" target="_blank" rel="noreferrer">
               <img src={gitHubLogo} alt="GitHub logo" />
             </a>
-            <a href="https://www.linkedin.com/in/qi-ronnie-zhang/" target="_blank" rel="noreferrer">
+            <a href="https://www.linkedin.com/in/ronnie-zhang" target="_blank" rel="noreferrer">
               <img src={LinkedinLogo} alt="Linkedin logo" />
             </a>
           </div>
@@ -77,7 +77,7 @@ export default function TeamSection() {
             <a className="mx-3" href="https://github.com/BinishAli" target="_blank" rel="noreferrer">
               <img src={gitHubLogo} alt="GitHub logo" />
             </a>
-            <a href="https://www.linkedin.com/in/binish-ali-3826ba1ab/" target="_blank" rel="noreferrer">
+            <a href="https://www.linkedin.com/in/binishali/" target="_blank" rel="noreferrer">
               <img src={LinkedinLogo} alt="Linkedin logo" />
             </a>
           </div>
