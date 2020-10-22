@@ -22,13 +22,17 @@ IrisQL is a prototype tool that auto-generates a GraphQL schema which allows the
 
 ## Get Started
 
-Open our app on any browser - <a class="nav-link" href="irisQl.dev">www.lucidQL.com</a>
+Open our app on any browser - <a class="nav-link" href="https://www.irisql.dev/">www.irisql.dev</a>
 
 Click on the get started button on front page
 
-Creata your first GraphQL Object Type by giving the object a name and some fields
+Create your first GraphQL Object Type by giving the object a name and some fields
 
 ![Creating Object](https://media.giphy.com/media/tcPsbrtLmuz47oiORV/giphy.gif)
+
+Create another Object and make a realtionship between objects by adding related fields
+
+![Creating Realtions](https://media.giphy.com/media/bdbnKv7M1VQWMzYzIa/giphy.gif)
 
 
 ## Features/How to use
