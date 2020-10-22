@@ -1,7 +1,7 @@
 {
-  "name": "irisql",
-  "version": "1.0.0",
-  "description": "GraphQL Schema prototyping tool",
+  "name": "IrisQL",
+  "version": "1.8.3",
+  "description": "GraphQL Schema Prototyping Tool",
   "scripts": {
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
