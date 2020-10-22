@@ -7,7 +7,7 @@ $blue: #0e5679;
   display: inline-flex;
   background-color: darken($light-grey, 10%);
   height: 100%;
-  min-width: 410px;
+  min-width: 440px;
   justify-content: space-between;
 }
 
@@ -28,6 +28,7 @@ header {
 }
 
 main {
+  height: 100%;
   flex: 1 1 auto;
   overflow-x: hidden;
 }
