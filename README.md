@@ -24,7 +24,11 @@ Open our app - <a class="nav-link" href="https://www.irisql.dev/">https://www.ir
 
 - Click on nodes from the graph to update their name and fields. 
 
+![Update Object](https://media.giphy.com/media/c4j7zqsMtIKCcmW9r6/giphy.gif)
+
 - Toggle the database choice in the top right of the object type form between MongoDB(default) and PostgreSQL. This will be updated in your code.
+
+![Database Choice](https://media.giphy.com/media/qPtUGtZRUUBEXfdXHp/giphy.gif)
 
 - View your auto-generated code by clicking on the view code button on the bottom left. You will have a complete GraphQL schema generated for you. 
 
@@ -36,7 +40,7 @@ Open our app - <a class="nav-link" href="https://www.irisql.dev/">https://www.ir
 
 ![Use Test Server](https://media.giphy.com/media/7TfjnM5EQtGMPWWG60/giphy.gif)
 
-* It is worth noting that due to the limitations of our D3 visualization library, all field and object names must be unique. Our application will warn you if you try to enter duplicates. This is an area for improvement for our next major update. 
+\* It is worth noting that due to the limitations of our D3 visualization library, all field and object names must be unique. Our application will warn you if you try to enter duplicates. This is an area for improvement for our next major update. 
 
 
 ## Built With
@@ -74,16 +78,15 @@ We are extremely excited to make this available to the open-source community. Th
 
 #### Some ways you can contribute
 
-- Bug Fixes
-- Adding Features
-- Submitting or resolving any GitHub Issues
-- Help market our platform
-- Any way that can spread word or improve IrisQL!
+- Fix bugs
+- Add features
+- Submit GitHub issues
+- Spread the word!
 
 
 ## Authors
-- <a class="nav-link" href="https://www.linkedin.com/in/alexanderkim1/">Alex Kim</a>
-- <a class="nav-link" href="https://www.linkedin.com/in/binish-ali-3826ba1ab/">Binish Ali</a>
+- <a class="nav-link" href="https://www.linkedin.com/in/alexanderkim1/">Alexander Kim</a>
+- <a class="nav-link" href="https://www.linkedin.com/in/binishali/">Binish Ali</a>
 - <a class="nav-link" href="https://www.linkedin.com/in/liamemcbride/">Liam McBride</a>
-- <a class="nav-link" href="https://github.com/ronzhan">Ronnie Zhang</a>
+- <a class="nav-link" href="https://www.linkedin.com/in/ronnie-zhang">Ronnie Zhang</a>
 - <a class="nav-link" href="https://www.linkedin.com/in/stefanpougatchev/">Stefan Pougatchev</a>
