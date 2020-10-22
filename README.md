@@ -54,7 +54,26 @@ graphql schema testing
 
 ## Contributions
 
-welcome to report bugs
+The members of IrisQL would love to hear from you and are extremely excited to have this available to the open source community. If you would like to contribute please follow the steps below to run the app on your local machine and create PRs.
+
+1. Fork this repository into your own repository
+
+2. Clone the the repo onto your local machine 
+
+3. Open the directory and run  'npm isntall'
+
+4. Run the applicaiton with 'npm run dev'
+
+5. You will be able to view the app on 'localhost:3000'
+
+#### Some ways you can contribute
+
+- Bug Fixes
+- Adding Features
+- Submitting or resolving any GitHub Issues
+- Help market our platform
+- Any way that can spread word or improve IrisQL
+
 
 ## Authors
 - <a class="nav-link" href="https://www.linkedin.com/in/alexanderkim1/">Alex Kim</a>
