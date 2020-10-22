@@ -57,5 +57,10 @@ graphql schema testing
 welcome to report bugs
 
 ## Authors
+- Alex Kim
+- Binish Ali
+- Liam McBride,
+- Ronnie Zhang
+- Stefan Pougatchev  
 
 List of authors and github profiles
