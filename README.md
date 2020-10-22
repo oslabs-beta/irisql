@@ -60,11 +60,11 @@ The members of IrisQL would love to hear from you and are extremely excited to h
 
 2. Clone the the repo onto your local machine 
 
-3. Open the directory and run  'npm isntall'
+3. Open the directory and run  `npm isntall`
 
-4. Run the applicaiton with 'npm run dev'
+4. Run the applicaiton with `npm run dev`
 
-5. You will be able to view the app on 'localhost:3000'
+5. You will be able to view the app on `localhost:3000`
 
 #### Some ways you can contribute
 
