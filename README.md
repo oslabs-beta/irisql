@@ -1,14 +1,35 @@
 # IrisQL
 
+![Image of Logo](/public/logo.sv)
+
+## IrisQL
+
 This app prototypes GraphQL queries. It enables developers to set up GraphQL quickly.
 
-### To deploy container to Heroku
+## Built With
 
-Type the following commands in the terminal being in project folder
+tech stack
 
-- heroku login
-- heroku container:login
-- (only if you want to create a new app) heroku create
-- heroku container:push web -a [name of the app]
-- heroku container:release web -a [name of the app]
-- heroku open -a [name of the app]
+## Get Started
+
+how to install
+
+## Features/How to use
+
+- user inputs
+- visulizer
+- testing graphql schema
+
+## Application Architecture
+
+react hook
+containerization
+graphql schema testing
+
+## Contributions
+
+welcome to report bugs
+
+## Authors
+
+List of authors and github profiles
