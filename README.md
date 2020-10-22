@@ -1,6 +1,6 @@
 # IrisQL
 
-![Image of Logo](https://banner2.cleanpng.com/20180415/ptq/kisspng-graphql-query-language-representational-state-tran-github-5ad35d73740d43.7369115215238014594754.jpg)
+![Image of Logo](/public/images/IrisQL-Logo-4-Horizontal-big.png)
 
 ## IrisQL
 
